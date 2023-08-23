@@ -60,7 +60,7 @@ void main()
 				board[i][j] = '#';
 			}
 		}
-		cout << "select drawing (0 POINT 1 LINE 2 RECT)" << endl;
+		cout << "select drawing (0 POINT 1 LINE 2 RECT 3 CIRCLE)" << endl;
 		int drawType = 0;
 		cin >> drawType;
 		switch (drawType)
@@ -74,6 +74,11 @@ void main()
 			board[point.y][point.x] = 'q';
 			break;
 			//
+			// 4 cases
+			// x1>x2 y1>y2
+			// x1<x2 y1>y2
+			// x1>x2 y1<y2
+			// x1<x2 y1<y2
 			// for i
 			//  for j 
 			//  loop 
@@ -130,6 +135,10 @@ void main()
 				}
 			}
 			break;
+		// 4 cases
+		// i-j=x-y
+		// 
+
 		case ELINE:
 			Point point3;
 			cout << "x1 coord ";
@@ -147,7 +156,10 @@ void main()
 				{
 					for (int j = point3.y; j <= point4.y; j++)
 					{
-						board[j][i] = 'q';
+						if (i-j== point3.x-point3.y)
+						{
+							board[j][i] = 'q';
+						}
 					}
 				}
 			}
@@ -157,17 +169,23 @@ void main()
 				{
 					for (int j = point4.y; j <= point3.y; j++)
 					{
-						board[j][i] = 'q';
+						if (i - j == point3.x - point3.y)
+						{
+							board[j][i] = 'q';
+						}
 					}
 				}
 			}
-			else if (point3.x >= point2.x && point3.y <= point4.y)
+			else if (point3.x >= point4.x && point3.y <= point4.y)
 			{
 				for (int i = point4.x; i <= point3.x; i++)
 				{
 					for (int j = point3.y; j <= point4.y; j++)
 					{
-						board[j][i] = 'q';
+						if (i - j == point3.x - point3.y)
+						{
+							board[j][i] = 'q';
+						}
 					}
 				}
 			}
@@ -177,7 +195,10 @@ void main()
 				{
 					for (int j = point4.y; j <= point3.y; j++)
 					{
-						board[j][i] = 'q';
+						if (i - j == point3.x - point3.y)
+						{
+							board[j][i] = 'q';
+						}
 					}
 				}
 			}
