@@ -91,9 +91,6 @@ void main()
 		cout << endl;
 		num++;
 	}
-
-
-
 }
 //1. bingo
 //2. high low seven
