@@ -112,12 +112,13 @@ void main()
 	int currentArrow = 0;
 	while (pGold > 0&&num<48)
 	{
+		system("cls");
 		SetCursor(true);
 		Gotoxy(5, 1);
 		int cur[5];
 		for (int i = 0; i < 5; i++)
 		{
-			cur[i] = num;
+			cur[i] = cardArr[num];
 			num++;
 		}
 		cout << "current gold : " << pGold<<endl;
@@ -128,6 +129,8 @@ void main()
 		}
 		cout << endl;
 		Gotoxy(5, 3);
+		cout << "left cards : " << 52-num << endl;
+		Gotoxy(5, 4);
 		cout << "set betting gold : ";
 		int betting;
 		cin >> betting;
