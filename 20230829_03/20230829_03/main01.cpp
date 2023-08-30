@@ -20,4 +20,16 @@ void main()
 	// check loser
 	//
 	// check winner loser
+
+	MainGame mainGame;
+	mainGame.Init();
+
+	//false == mainGame.IsGameEnd()
+	while (!mainGame.IsGameEnd())
+	{
+		mainGame.Update();
+	}
+
+	mainGame.Release();
+
 }
