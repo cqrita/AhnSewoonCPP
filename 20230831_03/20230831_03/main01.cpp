@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "MainGame.h"
 void main()
 {
 	//MainGame Class
@@ -6,5 +7,14 @@ void main()
 	//Player Class
 	//hand 1 hand 2
 	//update
-	//
+	//select left right
+	//get winner
+	//end
+	MainGame* mainGame = new MainGame();
+	if (mainGame->IsGameEnd() == false)
+	{
+		mainGame->Update();
+	}
+	delete mainGame;
+	mainGame = nullptr;
 }
