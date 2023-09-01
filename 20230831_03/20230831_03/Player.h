@@ -12,7 +12,7 @@ enum HandState
 	PAPER,
 	END
 };
-void PrintHand(int x,int y,int hand);
+void PrintHand(int hand);
 
 class Player
 {
@@ -22,7 +22,7 @@ public:
 	int select;
 	int last;
 	void Init();
-	void Update(int x, int y, int turn);
+	void Update(int turn);
 	void Release();
 };
 

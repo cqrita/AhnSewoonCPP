@@ -38,13 +38,12 @@ void MainGame::Update()
 			cout << "│  ";
 			if (turn == 0)
 			{
-				cout << "input Right Hand";
+				cout << "input Left Hand";
 			}
 			else
 			{
-				cout << "input Left Hand";
+				cout << "input Right Hand";
 			}
-			cout << "|";
 			CustomConsole.GotoXY(5, y++);
 			cout << "│  ";
 			if (currentArrow == 0)
@@ -117,7 +116,11 @@ void MainGame::Update()
 						{
 							player->hand2 = ROCK;
 						}
-						turn++;
+						if (turn < 2)
+						{
+							turn++;
+						}
+
 						cout <<"You Have Selected ROCK" << endl;
 						system("pause");
 					}
@@ -132,7 +135,10 @@ void MainGame::Update()
 						{
 							player->hand2 = SCISSORS;
 						}
-						turn++;
+						if (turn < 2)
+						{
+							turn++;
+						}
 						cout << "You Have Selected SCISSORS" << endl;
 						system("pause");
 					}
@@ -147,8 +153,12 @@ void MainGame::Update()
 						{
 							player->hand2 = PAPER;
 						}
-						turn++;
-						cout << "You Have Selected PAPER" << endl;
+						if (turn < 2)
+						{
+							turn++;
+						}
+
+						cout << "You Have Selected PAPER" <<turn<< endl;
 						system("pause");
 					}
 					break;
@@ -156,33 +166,29 @@ void MainGame::Update()
 					break;
 				}
 			}
-
 		}
 		com->hand1 = rand() % 3;
 		com->hand2 = rand() % 3;
 		system("cls");
-		CustomConsole.GotoXY(0, 0);
-		cout << "player hand";
-		player->Update(0,2,turn);
-		CustomConsole.GotoXY(40, 0);
-		cout << "com hand";
-		com->Update(40,2,turn);
+		cout << "player hand" << endl;
+		player->Update(turn);
+		cout << "com hand" << endl;
+		com->Update(turn);
 	}
 	else
 	{
-		int y = 10;
+		int y = 0;
 		int currentArrow = 0;
 		CustomConsole.SetCursor(tvision::CURSOR_OFF);
 		while (turn<3)
 		{
-			y = 1;
+			y = 15;
 			//ㅂ 한자 3 ㅂ 한자 ─
 			CustomConsole.GotoXY(5, y++);
 			cout << "┌───────────────────────────────────────";
 			CustomConsole.GotoXY(5, y++);
 			cout << "│  ";
 			cout << "select Left Right";
-			cout << "|";
 			CustomConsole.GotoXY(5, y++);
 			cout << "│  ";
 			if (currentArrow == 0)
@@ -258,12 +264,10 @@ void MainGame::Update()
 		}
 		com->select = rand()%2;
 		system("cls");
-		CustomConsole.GotoXY(0, 0);
-		cout << "player hand";
-		player->Update(0, 2, turn);
-		CustomConsole.GotoXY(40, 0);
-		cout << "com hand";
-		com->Update(40, 2, turn);
+		cout << "player hand"<<endl;
+		player->Update(turn);
+		cout << "com hand" << endl;
+		com->Update(turn);
 		if ((player->last == ROCK && com->last == SCISSORS) || (player->last == SCISSORS && com->last == PAPER) || (player->last == PAPER && com->last == ROCK))
 		{
 			cout << "PLAYER WIN" << endl;

@@ -8,24 +8,24 @@ void Player::Init()
 	last = END;
 }
 
-void Player::Update(int x,int y,int turn)
+void Player::Update(int turn)
 {
 	if (turn <2)
 	{
-		PrintHand(x, y,hand1);
-		y = y + 20;
-		PrintHand(x, y + 80,hand2);
+		PrintHand(hand1);
+		cout << endl;
+		PrintHand(hand2);
 	}
 	else
 	{
 		if (select == RIGHT)
 		{
-			PrintHand(x, y,hand1);
+			PrintHand(hand1);
 			last = hand1;
 		}
 		else
 		{
-			PrintHand(x, y,hand2);
+			PrintHand(hand2);
 			last = hand2;
 		}
 	}
@@ -35,51 +35,33 @@ void Player::Release()
 {
 
 }
-void PrintHand(int x,int y,int hand)
+void PrintHand(int hand)
 {
 	switch (hand)
 	{
 	case ROCK:
-		CustomConsole.GotoXY(x, y++);
-		cout << "    _______" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "---'   ____)";
-		CustomConsole.GotoXY(x, y++);
-		cout << "      (_____)" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "      (_____)" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "      (____)" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "---.__(___)" ;
+		cout << "    _______       " <<endl;
+		cout << "---'   ____)      " << endl;
+		cout << "      (_____)     " << endl;
+		cout << "      (_____)     " << endl;
+		cout << "      (____)      " << endl;
+		cout << "---.__(___)       " << endl;
 		break;
 	case SCISSORS:
-		CustomConsole.GotoXY(x, y++);
-		cout << "	_______" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "---'   ____)___" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "		  ______)" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "	   __________)" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "	  (____)" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "---.__(___)" ;
+		cout << "	_______        " << endl;
+		cout << "---'   ____)___   " << endl;
+		cout << "		  ______)  " << endl;
+		cout << "	   __________) " << endl;
+		cout << "	  (____)       " << endl;
+		cout << "---.__(___)       " << endl;
 		break;
 	case PAPER:
-		CustomConsole.GotoXY(x, y++);
-		cout << "	_______" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "---'   ____)___" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "		  _______)" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "	   __________)" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "		 _______)" ;
-		CustomConsole.GotoXY(x, y++);
-		cout << "---.__________)" ;
+		cout << "	_______       " << endl;
+		cout << "---'   ____)___  " << endl;
+		cout << "		  _______)" << endl;
+		cout << "	   __________)" << endl;
+		cout << "		 _______) " << endl;
+		cout << "---.__________)  " << endl;
 		break;
 	}
 }

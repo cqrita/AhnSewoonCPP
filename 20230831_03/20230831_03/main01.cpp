@@ -11,7 +11,7 @@ void main()
 	//get winner
 	//end
 	MainGame* mainGame = new MainGame();
-	if (mainGame->IsGameEnd() == false)
+	while (mainGame->IsGameEnd() == false)
 	{
 		mainGame->Update();
 	}
