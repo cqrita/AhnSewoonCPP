@@ -171,9 +171,9 @@ void MainGame::Update()
 		com->hand2 = rand() % 3;
 		system("cls");
 		cout << "player hand" << endl;
-		player->Update(turn);
+		player->Update(turn-1);
 		cout << "com hand" << endl;
-		com->Update(turn);
+		com->Update(turn-1);
 	}
 	else
 	{
@@ -182,7 +182,7 @@ void MainGame::Update()
 		CustomConsole.SetCursor(tvision::CURSOR_OFF);
 		while (turn<3)
 		{
-			y = 15;
+			y = 30;
 			//ㅂ 한자 3 ㅂ 한자 ─
 			CustomConsole.GotoXY(5, y++);
 			cout << "┌───────────────────────────────────────";
