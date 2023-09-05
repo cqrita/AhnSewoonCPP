@@ -4,12 +4,12 @@
 void Character::Init()
 {
     _x = 10;
-    _y = 9; // Initial position adjusted for the floor
+    _y = 9; 
     _animationIndex = 0;
     _animationTime = 0;
     _isJumping = false;
     _isAir = false;
-    _jumpDuration = 30; // Set the jump duration (milliseconds)
+    _jumpDuration = 30;
     _jumpTimer = 0;
 }
 
@@ -60,9 +60,8 @@ void Character::Update(int deltaTime, char inputKey)
             _jumpTimer = 0;
         }
     }
-    // Character animation code
     _animationTime += deltaTime;
-    if (_animationTime >= 500) // Adjust this threshold if needed
+    if (_animationTime >= 500) 
     {
         _animationTime = 0;
         _animationIndex = _animationIndex % 3;
@@ -72,7 +71,6 @@ void Character::Update(int deltaTime, char inputKey)
 
 void Character::Render()
 {
-    // Render character based on animation index
     CustomConsole.GotoXY(_x * 2, _y);
     switch (_animationIndex)
     {

@@ -4,6 +4,7 @@
 
 void MainGame::Init()
 {
+	srand(time(NULL));
 	CustomConsole.SetCursor(tvision::CURSOR_OFF);
 	_isGameEnd = false;
 
@@ -23,8 +24,11 @@ void MainGame::Init()
 	CustomConsole.GotoXY(0, 10);	cout << "弛                                                  弛";
 	CustomConsole.GotoXY(0, 11);	cout << "弛                                                  弛";
 	CustomConsole.GotoXY(0, 12);	cout << "戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎";
-
-
+	_star._x = rand() % 23 + 1;
+	_star._y = rand() % 8 + 1;
+	CustomConsole.GotoXY(_star._x * 2, _star._y);
+	cout << "≠";
+	_score = 0;
 	_character->Render();
 }
 
@@ -34,13 +38,25 @@ void MainGame::Update(int deltaTime)
 	if (_kbhit())
 	{
 		input = _getch();
+		CustomConsole.GotoXY(_star._x * 2, _star._y);
+		cout << "≠";
+	}
+	if ((_character->_x == _star._x && _character->_y == _star._y) || (_character->_x + 1 >= _star._x && _character->_x <= _star._x && _character->_y + 1 <= _star._y && _character->_y + 2 >= _star._y))
+	{
+		_star._x = rand() % 23 + 1;
+		_star._y = rand() % 8 + 1;
+		_score++;
+		CustomConsole.ClearArea(_star._x * 2, _star._y, _star._x * 2, _star._y);
 	}
 	_character->Update(deltaTime, input);
+	
 
+	
+	CustomConsole.GotoXY(_star._x * 2, _star._y);
+	cout << "≠";
 	CustomConsole.GotoXY(0, 15);
-	cout << "DeltaTime : " << deltaTime << "                 ";
-
-
+	cout << "Score : " << _score << "                 ";
+	CustomConsole.GotoXY(0, 16);
 }
 
 void MainGame::Release()
