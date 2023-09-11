@@ -1,4 +1,5 @@
 #pragma once
+#include<vector>
 class Character;
 struct Star
 {
@@ -10,7 +11,11 @@ class MainGame
 public:
 	//포인터 => 주소값
 	Character* _character;
-	Star _star;
+	vector<Star> _stars;
+	int _starDuration;
+	int _starTimer;
+	int _moveDuration;
+	int _moveTimer;
 	int _score;
 	bool _isGameEnd;
 	void Init();

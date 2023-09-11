@@ -11,24 +11,37 @@ void MainGame::Init()
 	_character = new Character();
 	_character->Init();
 
-	CustomConsole.GotoXY(0, 0);	cout << "忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖";
-	CustomConsole.GotoXY(0, 1);	cout << "弛                                                  弛";
-	CustomConsole.GotoXY(0, 2);	cout << "弛                                                  弛";
-	CustomConsole.GotoXY(0, 3);	cout << "弛                                                  弛";
-	CustomConsole.GotoXY(0, 4);	cout << "弛                                                  弛";
-	CustomConsole.GotoXY(0, 5);	cout << "弛                                                  弛";
-	CustomConsole.GotoXY(0, 6);	cout << "弛                                                  弛";
-	CustomConsole.GotoXY(0, 7);	cout << "弛                                                  弛";
-	CustomConsole.GotoXY(0, 8);	cout << "弛                                                  弛";
-	CustomConsole.GotoXY(0, 9);	cout << "弛                                                  弛";
-	CustomConsole.GotoXY(0, 10);	cout << "弛                                                  弛";
-	CustomConsole.GotoXY(0, 11);	cout << "弛                                                  弛";
-	CustomConsole.GotoXY(0, 12);	cout << "戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎";
-	_star._x = rand() % 23 + 1;
-	_star._y = rand() % 8 + 1;
-	CustomConsole.GotoXY(_star._x * 2, _star._y);
-	cout << "≠";
+	CustomConsole.GotoXY(0, 0);	
+	cout << "忙";
+	for (int i = 0; i < 50; i++)
+	{
+		cout << "式";
+	}
+	cout << "忖";
+	for (int i = 1; i < 12; i++)
+	{
+		CustomConsole.GotoXY(0, i);
+		cout << "弛";
+		for(int j=0;j<50;j++)
+		{
+			cout << " ";
+		}
+		cout << "弛";
+	}
+	CustomConsole.GotoXY(0, 12);	
+	cout << "戌";
+	for (int i = 0; i < 50; i++)
+	{
+		cout << "式";
+	}
+	cout << "戎";
+
 	_score = 0;
+	_starDuration = 600;
+	_starTimer = 100;
+	_moveDuration = 200;
+	_moveTimer = 0;
+
 	_character->Render();
 }
 
@@ -38,24 +51,63 @@ void MainGame::Update(int deltaTime)
 	if (_kbhit())
 	{
 		input = _getch();
-		CustomConsole.GotoXY(_star._x * 2, _star._y);
-		cout << "≠";
 	}
-	if ((_character->_x == _star._x && _character->_y == _star._y) || (_character->_x + 1 >= _star._x && _character->_x <= _star._x && _character->_y + 1 <= _star._y && _character->_y + 2 >= _star._y))
+	_starTimer += deltaTime;
+	_moveTimer += deltaTime;
+	
+	for (int i = 0; i < _stars.size(); i++)
 	{
-		_star._x = rand() % 23 + 1;
-		_star._y = rand() % 8 + 1;
-		_score++;
-		CustomConsole.ClearArea(_star._x * 2, _star._y, _star._x * 2, _star._y);
+		Star _star = _stars[i];
+		if ((_character->_x == _star._x && _character->_y == _star._y) || (_character->_x + 1 >= _star._x && _character->_x <= _star._x && _character->_y + 1 <= _star._y && _character->_y + 2 >= _star._y))
+		{
+			_score++;
+			CustomConsole.ClearArea(_star._x * 2, _star._y, _star._x * 2, _star._y);
+			_stars.erase(_stars.begin() + i);
+		}
 	}
+
+	if (_starTimer > _starDuration)
+	{
+		if (_stars.size() < 10)
+		{
+			Star star;
+			star._x = 24;
+			star._y = rand() % 8 + 1;
+			_stars.push_back(star);
+		}
+		_starTimer = 0;
+	}
+
+	if (_moveTimer > _moveDuration)
+	{
+		for (int i = 0; i < _stars.size(); i++)
+		{
+			Star _star = _stars[i];
+			CustomConsole.ClearArea(_star._x * 2, _star._y, _star._x * 2, _star._y);
+			_stars[i]._x = _stars[i]._x - 1;
+			if (_star._x < 2)
+			{
+				_stars.erase(_stars.begin() + i);
+			}
+		}
+		_moveTimer = 0;
+	}
+
 	_character->Update(deltaTime, input);
 	
 
-	
-	CustomConsole.GotoXY(_star._x * 2, _star._y);
-	cout << "≠";
+	for (int i = 0; i < _stars.size(); i++)
+	{
+		Star _star = _stars[i];
+		CustomConsole.GotoXY(_star._x * 2, _star._y);
+		cout << "≠";
+	}
 	CustomConsole.GotoXY(0, 15);
 	cout << "Score : " << _score << "                 ";
+	if (_score > 30)
+	{
+		_isGameEnd = true;
+	}
 	CustomConsole.GotoXY(0, 16);
 }
 
