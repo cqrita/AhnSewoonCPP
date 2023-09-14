@@ -78,6 +78,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance, 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	vector<RECT> recs;
+	//rec vector
 	for (int i = 1; i < 4; i++)
 	{
 		for (int j = 1; j < 4; j++)
@@ -101,6 +102,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// A => ascii code
 		// W => wide character
 
+		//rec draw
+
 		for (int j = 0; j < recs.size(); j++)
 		{
 			RECT rc = recs[j];
@@ -108,6 +111,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			TextOut(hdc, rc.left + 20, rc.top + 20, to_string(j + 1).c_str(), 1);
 		}
 
+		//times draw
 		for (int j = 1 ; j < 10; j++)
 		{
 			char charArr[250];
@@ -140,6 +144,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_LBUTTONDOWN:
 	{
+		//click
 		for (int j = 0; j < recs.size(); j++)
 		{
 			RECT rc = recs[j];
