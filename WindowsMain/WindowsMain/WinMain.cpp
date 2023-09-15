@@ -116,38 +116,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			// process the 10-second timer 
 
 
-			/*
+			
 			if (false == (goalPoint.x == -1 && goalPoint.y == -1))
 			{
-				if (goalPoint.x < mainRect.x)
-				{
-					int gap = mainRect.x - goalPoint.x;
-					int movePoint = min(gap, 5);
-					mainRect.x -= movePoint;
-				}
-				if (goalPoint.x > mainRect.x)
-				{
-					int gap = goalPoint.x - mainRect.x;
-					int movePoint = min(gap, 5);
 
-					mainRect.x += movePoint;
-				}
-				if (goalPoint.y < mainRect.y)
-				{
-					int gap = mainRect.y - goalPoint.y;
-					int movePoint = min(gap, 5);
-
-					mainRect.y -= movePoint;
-				}
-				if (goalPoint.y > mainRect.y)
-				{
-					int gap = goalPoint.y - mainRect.y;
-					int movePoint = min(gap, 5);
-
-					mainRect.y += movePoint;
-				}
 			}
-			*/
+			
 
 			RECT rc;
 			GetClientRect(_hwnd, &rc);
