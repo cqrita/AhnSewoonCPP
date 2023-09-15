@@ -10,7 +10,12 @@
 //stl
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <format>
 
+//header
+#include "CommonFunction.h"
+#include "CommonStruct.h"
 //namespace
 using namespace std;
 

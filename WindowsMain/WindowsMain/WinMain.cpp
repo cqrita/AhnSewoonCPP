@@ -4,7 +4,6 @@
 HINSTANCE _hInstance;
 HWND _hwnd;
 POINT _mousePos={};
-int num = 1;
 
 //forward declaration
 LRESULT CALLBACK WndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -41,8 +40,8 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance, 
 	//CreateWindowA(lpClassName, lpWindowName, dwStyle, x, y,nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam)
 	_hwnd = CreateWindow(
 		WIN_NAME //lpClassName
-		, WIN_NAME, //lpWindowName
-		WS_OVERLAPPEDWINDOW //dwStyle
+		, WIN_NAME //lpWindowName
+		, WS_OVERLAPPEDWINDOW //dwStyle
 		, WIN_START_X //x
 		, WIN_START_Y //y
 		, WIN_SIZE_WIDTH //nWidth
@@ -52,7 +51,6 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance, 
 		,_hInstance //hInstance
 		,NULL //lpParam
 	);
-
 	//show window
 	ShowWindow(_hwnd,nCmdShow);
 
@@ -65,36 +63,121 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance, 
 		{
 			TranslateMessage(&message);
 			DispatchMessage(&message);
-
-		}
-		else
-		{
-			SendMessage(_hwnd, WM_APP, 0, 0);
 		}
 	}
 
 	return 0;
 }
+
+
+//mouse click
+// rect create
+// rect vector push
+// vector draw
+
+
+RECT mainRect;
+RECT subRect;
+
+POINT goalPoint{ -1,-1 };
+// mouse click set goal point to mouse click
+//if goal point!=-1,-1
+//move rect to goal point
+//goal point <rec x
+//goal point >rec
+//goal point <rec y
+//goal point >rec
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	vector<RECT> recs;
 	//rec vector
-	for (int i = 1; i < 4; i++)
-	{
-		for (int j = 1; j < 4; j++)
-		{
-			RECT rc;
-			rc.left = 50 * j;
-			rc.right = rc.left + 50;
-			rc.top = 50 * i;
-			rc.bottom = rc.top + 50;
-			recs.push_back(rc);
-		}
-	}
+	
 	switch (message)
 	{
 	case WM_CREATE:
+	{
+		srand(time(NULL));
+
+		SetTimer(hWnd,             // handle to main window 
+			0,            // timer identifier 
+			1000/60,                 // 10-second interval 
+			(TIMERPROC)NULL);     // no timer callback 
+
+		mainRect = { 100,100,150,150 };
+		subRect = { 200,200,250,250 };
+
 		break;
+	}
+	case WM_TIMER:
+	{
+		switch (wParam)
+		{
+		case 0:
+			// process the 10-second timer 
+
+
+			/*
+			if (false == (goalPoint.x == -1 && goalPoint.y == -1))
+			{
+				if (goalPoint.x < mainRect.x)
+				{
+					int gap = mainRect.x - goalPoint.x;
+					int movePoint = min(gap, 5);
+					mainRect.x -= movePoint;
+				}
+				if (goalPoint.x > mainRect.x)
+				{
+					int gap = goalPoint.x - mainRect.x;
+					int movePoint = min(gap, 5);
+
+					mainRect.x += movePoint;
+				}
+				if (goalPoint.y < mainRect.y)
+				{
+					int gap = mainRect.y - goalPoint.y;
+					int movePoint = min(gap, 5);
+
+					mainRect.y -= movePoint;
+				}
+				if (goalPoint.y > mainRect.y)
+				{
+					int gap = goalPoint.y - mainRect.y;
+					int movePoint = min(gap, 5);
+
+					mainRect.y += movePoint;
+				}
+			}
+			*/
+
+			RECT rc;
+			GetClientRect(_hwnd, &rc);
+			InvalidateRect(_hwnd, &rc, true);
+			
+
+		}
+		break;
+	}
+	case WM_KEYDOWN:
+	{
+		switch (wParam)
+		{
+		case VK_UP:
+			break;
+		case VK_LEFT:
+
+			break;
+		case VK_RIGHT:
+			break;
+		case VK_DOWN:
+			break;
+		default:
+			break;
+		}
+
+		break;
+	}
+
+
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
@@ -103,24 +186,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// W => wide character
 
 		//rec draw
-
-		for (int j = 0; j < recs.size(); j++)
-		{
-			RECT rc = recs[j];
-			Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
-			TextOut(hdc, rc.left + 20, rc.top + 20, to_string(j + 1).c_str(), 1);
-		}
-
-		//times draw
-		for (int j = 1 ; j < 10; j++)
-		{
-			char charArr[250];
-			sprintf_s(charArr,"%d * %d = %d", num,j, num *j);
-			string str(charArr);
-			TextOut(hdc, _mousePos.x, _mousePos.y+(j-1)*20, str.c_str(), str.size());
-		}
-		
-
+		Draw::Rect(hdc, mainRect);
+		Draw::Rect(hdc, subRect);
 		EndPaint(hWnd, &ps);
 		break;
 	}
@@ -129,37 +196,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		_mousePos.x = GET_X_LPARAM(lParam);
 		_mousePos.y = GET_Y_LPARAM(lParam);
 
-		if (MK_RBUTTON == wParam)
-		{
-			cout << "X : " << _mousePos.x << endl;
-			cout << "Y : " << _mousePos.y << endl;
-
-		}
-		RECT rc;
-		GetClientRect(_hwnd, &rc);
-		InvalidateRect(_hwnd, &rc, true);
 
 
 		break;
 	}
 	case WM_LBUTTONDOWN:
 	{
-		//click
-		for (int j = 0; j < recs.size(); j++)
-		{
-			RECT rc = recs[j];
-			if (PtInRect(&rc, _mousePos))
-			{
-				num = j+1;
-				cout << num << endl;
-			}
-		}
-		RECT rc;
-		GetClientRect(_hwnd, &rc);
-		InvalidateRect(_hwnd, &rc, true);
-
+		goalPoint = _mousePos;
 		break;
 	}
+	case WM_RBUTTONDOWN:
+	{
+		break;
+	}
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
