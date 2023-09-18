@@ -32,3 +32,51 @@ namespace Collision
 		return false;
 	}
 }
+namespace Rect
+{
+	int* InsideRect(RECT rect1, RECT rect2)
+	{
+		int arr[4] = { 0,0,0,0 };
+		if (rect1.left < rect2.left)
+		{
+			arr[0] = 1;
+		}
+		if (rect1.right > rect2.right)
+		{
+			arr[1] = 1;
+		}
+		if (rect1.top < rect2.top)
+		{
+			arr[2] = 1;
+		}
+		if (rect1.bottom > rect2.bottom)
+		{
+			arr[3] = 1;
+		}
+		return arr;
+	}
+
+	int* OutsideRect(RECT rect1, RECT rect2)
+	{
+		int arr[4] = { 0,0,0,0 };
+		
+		if (rect1.left < rect2.right)
+		{
+			arr[0] = 1;
+		}
+		if (rect1.right > rect2.left)
+		{
+			arr[1] = 1;
+		}
+		if (rect1.top < rect2.bottom)
+		{
+			arr[2] = 1;
+		}
+		if (rect1.bottom > rect2.top)
+		{
+			arr[3] = 1;
+		}
+		return arr;
+	}
+}
+

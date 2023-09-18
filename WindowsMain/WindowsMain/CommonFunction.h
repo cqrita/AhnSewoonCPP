@@ -1,5 +1,6 @@
 #pragma once
 #include "CommonStruct.h"
+#include <vector>
 //
 
 //Rect
@@ -50,4 +51,9 @@ namespace Collision
 {
 	bool PtInRect(CenterRect Rect, POINT pt);
 	bool RecttInRect(CenterRect Rect1, CenterRect Rect2);
+}
+namespace Rect
+{
+	int* InsideRect(RECT rect1, RECT rect2);
+	int* OutsideRect(RECT rect1, RECT rect2);
 }
