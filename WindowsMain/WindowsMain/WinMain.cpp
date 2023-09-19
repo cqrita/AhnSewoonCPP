@@ -25,74 +25,59 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance, 
 	wndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);  //icon
 	wndClass.hInstance = _hInstance; // Instance Handle
 	wndClass.lpfnWndProc = WndProc;
-wndClass.lpszClassName = WIN_NAME; // class name
-wndClass.lpszMenuName = NULL; //menu name
-wndClass.style = CS_HREDRAW | CS_VREDRAW;
-// camel case myName
-// paskal case MyName
-//snake case my_name
-//Hungurian lpszMyName
+	wndClass.lpszClassName = WIN_NAME; // class name
+	wndClass.lpszMenuName = NULL; //menu name
+	wndClass.style = CS_HREDRAW | CS_VREDRAW;
+	// camel case myName
+	// paskal case MyName
+	//snake case my_name
+	//Hungurian lpszMyName
+	
+	//window register
+	RegisterClass(&wndClass);
 
-//window register
-RegisterClass(&wndClass);
-
-//window create
-//CreateWindowA(lpClassName, lpWindowName, dwStyle, x, y,nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam)
-_hwnd = CreateWindow(
-	WIN_NAME //lpClassName
-	, WIN_NAME //lpWindowName
-	, WS_OVERLAPPEDWINDOW //dwStyle
-	, WIN_START_X //x
-	, WIN_START_Y //y
-	, WIN_SIZE_WIDTH //nWidth
-	, WIN_SIZE_HEIGHT //nHeight
-	, NULL //hWndParent
-	, NULL //hMenu
-	, _hInstance //hInstance
-	, NULL //lpParam
-);
-//show window
-ShowWindow(_hwnd, nCmdShow);
-
-
-//message loop
-MSG message{ 0 };
-while (message.message != WM_QUIT)
-{
-	if (PeekMessage(&message, NULL, 0, 0, PM_REMOVE))
+	//window create
+	//CreateWindowA(lpClassName, lpWindowName, dwStyle, x, y,nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam)
+	_hwnd = CreateWindow(
+		WIN_NAME //lpClassName
+		, WIN_NAME //lpWindowName
+		, WS_OVERLAPPEDWINDOW //dwStyle
+		, WIN_START_X //x
+		, WIN_START_Y //y
+		, WIN_SIZE_WIDTH //nWidth
+		, WIN_SIZE_HEIGHT //nHeight
+		, NULL //hWndParent
+		, NULL //hMenu
+		, _hInstance //hInstance
+		, NULL //lpParam
+	);
+	//show window
+	ShowWindow(_hwnd, nCmdShow);
+	
+	
+	//message loop
+	MSG message{ 0 };
+	while (message.message != WM_QUIT)
 	{
-		TranslateMessage(&message);
-		DispatchMessage(&message);
+		if (PeekMessage(&message, NULL, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&message);
+			DispatchMessage(&message);
+		}
+		SendMessage(_hwnd, WM_APP, 0, 0);
 	}
+
+	return 0;
 }
 
-return 0;
-}
-
-
-//mouse click
-// rect create
-// rect vector push
-// vector draw
-
-
-RECT mainRect;
-RECT subRect1;
-RECT subRect2;
-RECT* inRect;
-RECT* outRect;
-
-bool state;
 POINT goalPoint{ -1,-1 };
 
-// rect 1,2,3
-// move function
-// mouse ,keyboard
-// collision function
-// in,out
-// 
-// 
-//
+//flickering
+vector<RECT> rects;
+int num;
+int timeSum;
+int duration;
+int score;
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	//rec vector
@@ -103,252 +88,113 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		srand(time(NULL));
 
-		SetTimer(hWnd,             // handle to main window 
-			0,            // timer identifier 
-			1000 / 60,                 // 10-second interval 
-			(TIMERPROC)NULL);     // no timer callback 
 
-		mainRect = { 200,200,250,250 };
-		subRect1 = { 100,100,300,300 };
-		subRect2 = { 400,400,600,600 };
-		inRect = &subRect1;
-		outRect = &subRect2;
-		state = false;
-		break;
-	}
-	case WM_TIMER:
-	{
-		switch (wParam)
+		for (int i = 0; i <3; i++)
 		{
-		case 0:
-
-			int gap = 0;
-			RECT interRect1;
-			RECT interRect2;
-			RECT zeroRect = { 0,0,0,0 };
-			
-			IntersectRect(&interRect1, inRect, outRect);
-			IntersectRect(&interRect2, &mainRect, &interRect1);
-			
-			if (false == (goalPoint.x == -1 && goalPoint.y == -1))
+			for (int j = 0; j < 3; j++)
 			{
-				if (goalPoint.x < (mainRect.left+mainRect.right)/2)
-				{
-					gap = (mainRect.left + mainRect.right) / 2 - goalPoint.x;
-					int movePoint = min(gap, 5);
-					OffsetRect(&mainRect, -movePoint,0);
-					int* arr = Rect::InsideRect(mainRect, *inRect);
-					if (arr[0] == 1)
-					{
-						OffsetRect(inRect, -movePoint, 0);
-						if (!EqualRect(&interRect1, &zeroRect)&& !EqualRect(&interRect2, &zeroRect)&&state==true)
-						{
-							int offset1 = (outRect->left + outRect->right) / 2;
-							int offset2 = (mainRect.right - mainRect.left) / 2;
-							int offset3 = (outRect->top + outRect->bottom) / 2;
-							int offset4 = (mainRect.bottom - mainRect.top) / 2;
-
-							SetRect(&mainRect, offset1 - offset2, offset3 - offset4, offset1 + offset2, offset3 + offset4);
-							RECT* temp = inRect;
-							inRect = outRect;
-							outRect = temp;
-						}
-					}
-					
-				}
-				if (goalPoint.x > (mainRect.left + mainRect.right) / 2)
-				{
-					gap = goalPoint.x - (mainRect.left + mainRect.right) / 2;
-					int movePoint = min(gap, 5);
-					OffsetRect(&mainRect, movePoint, 0);
-					int* arr = Rect::InsideRect(mainRect, *inRect);
-					if (arr[1] == 1 )
-					{
-						OffsetRect(inRect, movePoint, 0);
-						if (!EqualRect(&interRect1, &zeroRect) && !EqualRect(&interRect2, &zeroRect) && state == true)
-						{
-							int offset1 = (outRect->left + outRect->right) / 2;
-							int offset2 = (mainRect.right - mainRect.left) / 2;
-							int offset3 = (outRect->top + outRect->bottom) / 2;
-							int offset4 = (mainRect.bottom - mainRect.top) / 2;
-
-							SetRect(&mainRect, offset1 - offset2, offset3 - offset4, offset1 + offset2, offset3 + offset4);
-							RECT* temp = inRect;
-							inRect = outRect;
-							outRect = temp;
-						}
-					}
-				}
-
-				if (goalPoint.y < (mainRect.top + mainRect.bottom) / 2)
-				{
-					gap = (mainRect.top + mainRect.bottom) / 2 - goalPoint.y;
-					int movePoint = min(gap, 5);
-					OffsetRect(&mainRect,0 , -movePoint);
-					int* arr = Rect::InsideRect(mainRect, *inRect);
-					if (arr[2] == 1 )
-					{
-						OffsetRect(inRect, 0, -movePoint);
-						if (!EqualRect(&interRect1, &zeroRect) && !EqualRect(&interRect2, &zeroRect) && state == true)
-						{
-							int offset1 = (outRect->left + outRect->right) / 2;
-							int offset2 = (mainRect.right - mainRect.left) / 2;
-							int offset3 = (outRect->top + outRect->bottom) / 2;
-							int offset4 = (mainRect.bottom - mainRect.top) / 2;
-
-							SetRect(&mainRect, offset1 - offset2, offset3 - offset4, offset1 + offset2, offset3 + offset4);
-							RECT* temp = inRect;
-							inRect = outRect;
-							outRect = temp;
-						}
-					}
-				}
-				if (goalPoint.y > (mainRect.top + mainRect.bottom) / 2)
-				{
-					gap = goalPoint.y - (mainRect.top + mainRect.bottom) / 2;
-					int movePoint = min(gap, 5);
-					OffsetRect(&mainRect,0 , movePoint);
-					int* arr = Rect::InsideRect(mainRect, *inRect);
-					if (arr[3] == 1 )
-					{
-						OffsetRect(inRect, 0, movePoint);
-						if (!EqualRect(&interRect1, &zeroRect) && !EqualRect(&interRect2, &zeroRect) && state == true)
-						{
-							int offset1 = (outRect->left + outRect->right) / 2;
-							int offset2 = (mainRect.right - mainRect.left) / 2;
-							int offset3 = (outRect->top + outRect->bottom) / 2;
-							int offset4 = (mainRect.bottom - mainRect.top) / 2;
-
-							SetRect(&mainRect, offset1 - offset2, offset3 - offset4, offset1 + offset2, offset3 + offset4);
-							RECT* temp = inRect;
-							inRect = outRect;
-							outRect = temp;
-						}
-					}
-				}
-				
+				rects.push_back(RECT{ 100 + (j * 100),100 + (i * 100),200 + (j * 100),200 + (i * 100) });
 			}
-			if (gap == 0)
-			{
-				goalPoint = { -1,-1 };
-			}
-
-			RECT rc;
-			GetClientRect(_hwnd, &rc);
-			InvalidateRect(_hwnd, &rc, true);
-			
-
 		}
+		timeSum = 0;
+		duration = 500;
+		score = 0;
 		break;
 	}
+	case WM_APP:
+	{		
+		timeSum++;
+		if (timeSum > duration)
+		{
+			timeSum = 0;
+			num = rand() % 9;
+		}
+		RECT rc;
+		GetClientRect(_hwnd, &rc);
+		InvalidateRect(_hwnd, &rc, true);
+		break;
+	}
+
+
 	case WM_KEYDOWN:
 	{
-		RECT interRect1;
-		RECT interRect2;
-		RECT zeroRect = { 0,0,0,0 };
-
-		IntersectRect(&interRect1, inRect, outRect);
-		IntersectRect(&interRect2, &mainRect, &interRect1);
-		switch (wParam)
+		switch (num)
 		{
-		case VK_UP:
+		case 0:
 		{
-			OffsetRect(&mainRect, 0, -5);
-			int* arr = Rect::InsideRect(mainRect, *inRect);
-			if (arr[2] == 1)
+			if (KEYMANAGER->GetKeyDown(VK_NUMPAD7))
 			{
-				OffsetRect(inRect, 0, -5);
-				if (!EqualRect(&interRect1, &zeroRect) && !EqualRect(&interRect2, &zeroRect) && state == true)
-				{
-					int offset1 = (outRect->left + outRect->right) / 2;
-					int offset2 = (mainRect.right - mainRect.left) / 2;
-					int offset3 = (outRect->top + outRect->bottom) / 2;
-					int offset4 = (mainRect.bottom - mainRect.top) / 2;
-
-					SetRect(&mainRect, offset1 - offset2, offset3 - offset4, offset1 + offset2, offset3 + offset4);
-					RECT* temp = inRect;
-					inRect = outRect;
-					outRect = temp;
-				}
+				score++;
 			}
-			break;
 		}
-			
-		case VK_LEFT:
+		case 1:
 		{
-			OffsetRect(&mainRect, -5, 0);
-			int* arr = Rect::InsideRect(mainRect, *inRect);
-			if (arr[0] == 1)
+			if (KEYMANAGER->GetKeyDown(VK_NUMPAD8))
 			{
-				OffsetRect(inRect, -5, 0);
-				if (!EqualRect(&interRect1, &zeroRect) && !EqualRect(&interRect2, &zeroRect) && state == true)
-				{
-					int offset1 = (outRect->left + outRect->right) / 2;
-					int offset2 = (mainRect.right - mainRect.left) / 2;
-					int offset3 = (outRect->top + outRect->bottom) / 2;
-					int offset4 = (mainRect.bottom - mainRect.top) / 2;
-
-					SetRect(&mainRect, offset1 - offset2, offset3 - offset4, offset1 + offset2, offset3 + offset4);
-					RECT* temp = inRect;
-					inRect = outRect;
-					outRect = temp;
-				}
+				score++;
 			}
-			break;
 		}
-			
-		case VK_RIGHT:
+
+		case 2:
 		{
-			OffsetRect(&mainRect, 5, 0);
-			int* arr = Rect::InsideRect(mainRect, *inRect);
-			if (arr[1] == 1)
+			if (KEYMANAGER->GetKeyDown(VK_NUMPAD9))
 			{
-				OffsetRect(inRect, 5, 0);
-				if (!EqualRect(&interRect1, &zeroRect) && !EqualRect(&interRect2, &zeroRect) && state == true)
-				{
-					int offset1 = (outRect->left + outRect->right) / 2;
-					int offset2 = (mainRect.right - mainRect.left) / 2;
-					int offset3 = (outRect->top + outRect->bottom) / 2;
-					int offset4 = (mainRect.bottom - mainRect.top) / 2;
-
-					SetRect(&mainRect, offset1 - offset2, offset3 - offset4, offset1 + offset2, offset3 + offset4);
-					RECT* temp = inRect;
-					inRect = outRect;
-					outRect = temp;
-				}
+				score++;
 			}
-			break;
 		}
-			
-		case VK_DOWN:
+
+		case 3:
 		{
-			OffsetRect(&mainRect, 0, 5);
-			int* arr = Rect::InsideRect(mainRect, *inRect);
-			if (arr[3] == 1)
+			if (KEYMANAGER->GetKeyDown(VK_NUMPAD4))
 			{
-				OffsetRect(inRect, 0, 5);
-				if (!EqualRect(&interRect1, &zeroRect) && !EqualRect(&interRect2, &zeroRect) && state == true)
-				{
-					int offset1 = (outRect->left + outRect->right) / 2;
-					int offset2 = (mainRect.right - mainRect.left) / 2;
-					int offset3 = (outRect->top + outRect->bottom) / 2;
-					int offset4 = (mainRect.bottom - mainRect.top) / 2;
-
-					SetRect(&mainRect, offset1 - offset2, offset3 - offset4, offset1 + offset2, offset3 + offset4);
-					RECT* temp = inRect;
-					inRect = outRect;
-					outRect = temp;
-				}
+				score++;
 			}
-			break;
 		}
-		case 0x31:
-			state = !state;
-			break;
+
+		case 4:
+		{
+			if (KEYMANAGER->GetKeyDown(VK_NUMPAD5))
+			{
+				score++;
+			}
+		}
+
+		case 5:
+		{
+			if (KEYMANAGER->GetKeyDown(VK_NUMPAD6))
+			{
+				score++;
+			}
+		}
+
+		case 6:
+		{
+			if (KEYMANAGER->GetKeyDown(VK_NUMPAD1))
+			{
+				score++;
+			}
+		}
+
+		case 7:
+		{
+			if (KEYMANAGER->GetKeyDown(VK_NUMPAD2))
+			{
+				score++;
+			}
+		}
+
+		case 8:
+		{
+			if (KEYMANAGER->GetKeyDown(VK_NUMPAD3))
+			{
+				score++;
+			}
+		}
+
 		default:
 			break;
 		}
-
+		cout << score << endl;
 		break;
 	}
 
@@ -357,16 +203,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		PAINTSTRUCT ps;
 		HDC hdc= BeginPaint(hWnd,&ps);
-		// A => ascii code
-		// W => wide character
-
-		//rec draw
-		Draw::Rect(hdc, subRect1);
-		if (state == true)
+		for (int i = 0; i < 9; i++)
 		{
-			Draw::Rect(hdc, subRect2);
+			Draw::Rect(hdc, rects[i]);
+			if (num == i)
+			{
+				Draw::Circle(hdc, rects[i]);
+			}
 		}
-		Draw::Rect(hdc, mainRect);
+		RECT rt = { 400, 400, 700, 700 };
+		string str = "score: " + to_string(score);
+		DrawText(hdc, str.c_str(), -1, &rt, DT_CENTER | DT_WORDBREAK);
+
+
 		EndPaint(hWnd, &ps);
 		break;
 	}
@@ -374,9 +223,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		_mousePos.x = GET_X_LPARAM(lParam);
 		_mousePos.y = GET_Y_LPARAM(lParam);
-
-
-
 		break;
 	}
 	case WM_LBUTTONDOWN:
@@ -389,6 +235,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		break;
 	}
+	case WM_ERASEBKGND:
+		return 1;
 
 	case WM_DESTROY:
 		PostQuitMessage(0);

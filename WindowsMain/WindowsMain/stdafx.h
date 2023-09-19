@@ -16,6 +16,8 @@
 //header
 #include "CommonFunction.h"
 #include "CommonStruct.h"
+#include "KeyManager.h"
+
 //namespace
 using namespace std;
 

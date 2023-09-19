@@ -14,69 +14,30 @@ namespace Collision
 			return false;
 		}
 	}
-	bool RecttInRect(CenterRect Rect1, CenterRect Rect2)
+	bool RectInRect(CenterRect rect1, CenterRect rect2)
 	{
-		POINT pt[4];
-		
-		pt[0] = { Rect1.x - Rect1.width / 2 ,Rect1.y - Rect1.height / 2 };
-		pt[1] = { Rect1.x + Rect1.width / 2,Rect1.y - Rect1.height / 2 };
-		pt[2] = { Rect1.x - Rect1.width / 2,Rect1.y + Rect1.height / 2 };
-		pt[3] = { Rect1.x + Rect1.width / 2,Rect1.y + Rect1.height / 2 };
-		for (int i = 0; i < 4; i++)
-		{
-			if (PtInRect(Rect2, pt[i]))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-}
-namespace Rect
-{
-	int* InsideRect(RECT rect1, RECT rect2)
-	{
-		int arr[4] = { 0,0,0,0 };
-		if (rect1.left < rect2.left)
-		{
-			arr[0] = 1;
-		}
-		if (rect1.right > rect2.right)
-		{
-			arr[1] = 1;
-		}
-		if (rect1.top < rect2.top)
-		{
-			arr[2] = 1;
-		}
-		if (rect1.bottom > rect2.bottom)
-		{
-			arr[3] = 1;
-		}
-		return arr;
-	}
+		POINT pt1 = { rect2.x - rect2.width / 2, rect2.y - rect2.height / 2 };
+		POINT pt2 = { rect2.x + rect2.width / 2, rect2.y - rect2.height / 2 };
+		POINT pt3 = { rect2.x - rect2.width / 2, rect2.y + rect2.height / 2 };
+		POINT pt4 = { rect2.x + rect2.width / 2, rect2.y + rect2.height / 2 };
 
-	int* OutsideRect(RECT rect1, RECT rect2)
-	{
-		int arr[4] = { 0,0,0,0 };
-		
-		if (rect1.left < rect2.right)
+		if (PtInRect(rect1, pt1))
 		{
-			arr[0] = 1;
+			return true;
 		}
-		if (rect1.right > rect2.left)
+		else if (PtInRect(rect1, pt2))
 		{
-			arr[1] = 1;
+			return true;
 		}
-		if (rect1.top < rect2.bottom)
+		else if (PtInRect(rect1, pt3))
 		{
-			arr[2] = 1;
+			return true;
 		}
-		if (rect1.bottom > rect2.top)
+		else if (PtInRect(rect1, pt4))
 		{
-			arr[3] = 1;
+			return true;
 		}
-		return arr;
 	}
 }
+
 

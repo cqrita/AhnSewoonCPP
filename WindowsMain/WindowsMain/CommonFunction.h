@@ -6,7 +6,7 @@
 //Rect
 namespace Rect
 {
-	//x,y 
+	//x, y를 기준으로  width height를 만든다.
 	inline RECT MakeRect(int x, int y, int width, int height)
 	{
 		RECT rc;
@@ -14,17 +14,20 @@ namespace Rect
 		rc.top = y;
 		rc.right = x + width;
 		rc.bottom = y + height;
+
 		return rc;
 	}
 
+	//x, y를 센터라고 가정했을때  width height로 사각형을 만든다.
 	inline CenterRect MakeCenterRect(int x, int y, int width, int height)
 	{
-		CenterRect center;
-		center.x = x;
-		center.y = y;
-		center.width = width;
-		center.height = height;
-		return center;
+		CenterRect rc;
+		rc.x = x;
+		rc.y = y;
+		rc.width = width;
+		rc.height = height;
+
+		return rc;
 	}
 }
 
@@ -36,7 +39,25 @@ namespace Draw
 	}
 	inline void Rect(HDC hdc, CenterRect rc)
 	{
-		Rectangle(hdc, rc.x-rc.width, rc.y-rc.height/2, rc.x+rc.height, rc.y+rc.height);
+		Rectangle(hdc,
+			rc.x - rc.width / 2,	//left
+			rc.y - rc.height / 2,	//top
+			rc.x + rc.width / 2,	//right
+			rc.y + rc.height / 2	//bottom
+		);
+	}
+	inline void Circle(HDC hdc, RECT rc)
+	{
+		Ellipse(hdc, rc.left, rc.top, rc.right, rc.bottom);
+	}
+	inline void Circle(HDC hdc, CenterRect rc)
+	{
+		Ellipse(hdc,
+			rc.x - rc.width / 2,	//left
+			rc.y - rc.height / 2,	//top
+			rc.x + rc.width / 2,	//right
+			rc.y + rc.height / 2	//bottom
+		);
 	}
 }
 
@@ -50,10 +71,5 @@ namespace Random
 namespace Collision
 {
 	bool PtInRect(CenterRect Rect, POINT pt);
-	bool RecttInRect(CenterRect Rect1, CenterRect Rect2);
-}
-namespace Rect
-{
-	int* InsideRect(RECT rect1, RECT rect2);
-	int* OutsideRect(RECT rect1, RECT rect2);
+	bool RectInRect(CenterRect Rect1, CenterRect Rect2);
 }
