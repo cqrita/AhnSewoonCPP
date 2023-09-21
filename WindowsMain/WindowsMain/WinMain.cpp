@@ -74,7 +74,7 @@ POINT goalPoint{ -1,-1 };
 
 //flickering
 vector<RECT> rects;
-int num;
+vector<int> nums;
 int timeSum;
 int duration;
 int score;
@@ -107,7 +107,38 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		if (timeSum > duration)
 		{
 			timeSum = 0;
-			num = rand() % 9;
+			int num = rand() % 9;
+			if (nums.size() < 4)
+			{
+				bool check = false;
+				for (int i = 0; i < nums.size(); i++)
+				{
+					if (nums[i] == num)
+					{
+						check = true;
+					}
+				}
+				if (check == false)
+				{
+					nums.push_back(num);
+				}
+			}
+			else
+			{
+				nums.erase(nums.begin());
+				bool check = false;
+				for (int i = 0; i < nums.size(); i++)
+				{
+					if (nums[i] == num)
+					{
+						check = true;
+					}
+				}
+				if (check == false)
+				{
+					nums.push_back(num);
+				}
+			}
 		}
 		RECT rc;
 		GetClientRect(_hwnd, &rc);
@@ -118,83 +149,87 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	case WM_KEYDOWN:
 	{
-		switch (num)
+		for (int i = 0; i < nums.size(); i++)
 		{
-		case 0:
-		{
-			if (KEYMANAGER->GetKeyDown(VK_NUMPAD7))
+			int num = nums[i];
+			switch (num)
 			{
-				score++;
-			}
-		}
-		case 1:
-		{
-			if (KEYMANAGER->GetKeyDown(VK_NUMPAD8))
+			case 0:
 			{
-				score++;
+				if (KEYMANAGER->GetKeyDown(VK_NUMPAD7))
+				{
+					score++;
+				}
 			}
-		}
+			case 1:
+			{
+				if (KEYMANAGER->GetKeyDown(VK_NUMPAD8))
+				{
+					score++;
+				}
+			}
 
-		case 2:
-		{
-			if (KEYMANAGER->GetKeyDown(VK_NUMPAD9))
+			case 2:
 			{
-				score++;
+				if (KEYMANAGER->GetKeyDown(VK_NUMPAD9))
+				{
+					score++;
+				}
 			}
-		}
 
-		case 3:
-		{
-			if (KEYMANAGER->GetKeyDown(VK_NUMPAD4))
+			case 3:
 			{
-				score++;
+				if (KEYMANAGER->GetKeyDown(VK_NUMPAD4))
+				{
+					score++;
+				}
 			}
-		}
 
-		case 4:
-		{
-			if (KEYMANAGER->GetKeyDown(VK_NUMPAD5))
+			case 4:
 			{
-				score++;
+				if (KEYMANAGER->GetKeyDown(VK_NUMPAD5))
+				{
+					score++;
+				}
 			}
-		}
 
-		case 5:
-		{
-			if (KEYMANAGER->GetKeyDown(VK_NUMPAD6))
+			case 5:
 			{
-				score++;
+				if (KEYMANAGER->GetKeyDown(VK_NUMPAD6))
+				{
+					score++;
+				}
 			}
-		}
 
-		case 6:
-		{
-			if (KEYMANAGER->GetKeyDown(VK_NUMPAD1))
+			case 6:
 			{
-				score++;
+				if (KEYMANAGER->GetKeyDown(VK_NUMPAD1))
+				{
+					score++;
+				}
 			}
-		}
 
-		case 7:
-		{
-			if (KEYMANAGER->GetKeyDown(VK_NUMPAD2))
+			case 7:
 			{
-				score++;
+				if (KEYMANAGER->GetKeyDown(VK_NUMPAD2))
+				{
+					score++;
+				}
 			}
-		}
 
-		case 8:
-		{
-			if (KEYMANAGER->GetKeyDown(VK_NUMPAD3))
+			case 8:
 			{
-				score++;
+				if (KEYMANAGER->GetKeyDown(VK_NUMPAD3))
+				{
+					score++;
+				}
 			}
-		}
 
-		default:
-			break;
+			default:
+				break;
+			}
+			cout << score << endl;
 		}
-		cout << score << endl;
 		break;
 	}
 
@@ -206,9 +241,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		for (int i = 0; i < 9; i++)
 		{
 			Draw::Rect(hdc, rects[i]);
-			if (num == i)
+			for (int j = 0; j < nums.size(); j++)
 			{
-				Draw::Circle(hdc, rects[i]);
+				int num = nums[j];
+				if (num == i)
+				{
+					Draw::Circle(hdc, rects[i]);
+				}
 			}
 		}
 		RECT rt = { 400, 400, 700, 700 };
