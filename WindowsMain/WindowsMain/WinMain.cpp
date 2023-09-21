@@ -107,23 +107,29 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		if (timeSum > duration)
 		{
 			timeSum = 0;
-			int num = rand() % 9;
+			int num;
 			if (nums.size() >= 4)
 			{
 				nums.erase(nums.begin());
 			}
-			bool check = false;
-			for (int i = 0; i < nums.size(); i++)
+			while (true)
 			{
-				if (nums[i] == num)
+				bool check = false;
+				num = rand() % 9;
+				for (int i = 0; i < nums.size(); i++)
 				{
-					check = true;
+					if (nums[i] == num)
+					{
+						check = true;
+					}
+				}
+				if (check == false)
+				{
+					break;
 				}
 			}
-			if (check == false)
-			{
-				nums.push_back(num);
-			}
+			nums.push_back(num);
+			
 		}
 		RECT rc;
 		GetClientRect(_hwnd, &rc);
