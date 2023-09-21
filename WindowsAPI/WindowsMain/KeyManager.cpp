@@ -2,6 +2,7 @@
 #include "KeyManager.h"
 #include <Windows.h>
 
+KeyManager* KeyManager::_instance = nullptr;
 
 void KeyManager::Init()
 {

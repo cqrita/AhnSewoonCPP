@@ -12,10 +12,10 @@ RECT CenterRect::ToRect()
 CenterRect CenterRect::FromRect(RECT rect)
 {
 	CenterRect centerRect = {};
-	centerRect.x = static_cast<float>((rect.right + rect.left) / 2);
-	centerRect.y = static_cast<float>((rect.top + rect.bottom) / 2);
-	centerRect.width = static_cast<float>(rect.right - rect.left);
-	centerRect.height = static_cast<float>(rect.bottom - rect.top);
+	centerRect.x = (rect.right + rect.left) / 2;
+	centerRect.y = (rect.top + rect.bottom) / 2;
+	centerRect.width = rect.right - rect.left;
+	centerRect.height = rect.bottom - rect.top;
 
 	return centerRect;
 }

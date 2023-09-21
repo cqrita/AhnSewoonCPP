@@ -19,7 +19,7 @@ namespace Rect
 	}
 
 	//x, y를 센터라고 가정했을때  width height로 사각형을 만든다.
-	inline CenterRect MakeCenterRect(float x, float y, float width, float height)
+	inline CenterRect MakeCenterRect(int x, int y, int width, int height)
 	{
 		CenterRect rc;
 		rc.x = x;
@@ -40,10 +40,10 @@ namespace Draw
 	inline void Rect(HDC hdc, CenterRect rc)
 	{
 		Rectangle(hdc,
-			static_cast<int>(rc.x - rc.width / 2),	//left
-			static_cast<int>(rc.y - rc.height / 2),	//top
-			static_cast<int>(rc.x + rc.width / 2),	//right
-			static_cast<int>(rc.y + rc.height / 2)	//bottom
+			rc.x - rc.width / 2,	//left
+			rc.y - rc.height / 2,	//top
+			rc.x + rc.width / 2,	//right
+			rc.y + rc.height / 2	//bottom
 		);
 	}
 	inline void Circle(HDC hdc, RECT rc)
@@ -53,10 +53,10 @@ namespace Draw
 	inline void Circle(HDC hdc, CenterRect rc)
 	{
 		Ellipse(hdc,
-			static_cast<int>(rc.x - rc.width / 2),	//left
-			static_cast<int>(rc.y - rc.height / 2),	//top
-			static_cast<int>(rc.x + rc.width / 2),	//right
-			static_cast<int>(rc.y + rc.height / 2)	//bottom
+			rc.x - rc.width / 2,	//left
+			rc.y - rc.height / 2,	//top
+			rc.x + rc.width / 2,	//right
+			rc.y + rc.height / 2	//bottom
 		);
 	}
 }

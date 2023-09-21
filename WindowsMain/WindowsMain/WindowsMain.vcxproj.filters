@@ -5,44 +5,85 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\00.MainGame">
+      <UniqueIdentifier>{bc79af6a-62e0-4e87-989e-3e00f325211b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01.Manager">
+      <UniqueIdentifier>{afb6f501-ffd9-41d3-ad76-b23040619af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99.Utils">
+      <UniqueIdentifier>{32978200-5b95-4d6e-9a75-3d82d991e6f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02.Scene">
+      <UniqueIdentifier>{48f98953-b8cb-4518-8de2-341bb2c4b9f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp">
+      <Filter>소스 파일\00.MainGame</Filter>
+    </ClCompile>
     <ClCompile Include="WinMain.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CommonFunction.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CommonStruct.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\00.MainGame</Filter>
     </ClCompile>
     <ClCompile Include="KeyManager.cpp">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\01.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>소스 파일\01.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonFunction.cpp">
+      <Filter>소스 파일\99.Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonStruct.cpp">
+      <Filter>소스 파일\99.Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일\99.Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>소스 파일\01.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\02.Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonFunction.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonStruct.h">
-      <Filter>소스 파일</Filter>
+    <ClInclude Include="Game.h">
+      <Filter>소스 파일\00.MainGame</Filter>
     </ClInclude>
     <ClInclude Include="KeyManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\01.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>소스 파일\01.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonFunction.h">
+      <Filter>소스 파일\99.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonStruct.h">
+      <Filter>소스 파일\99.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>소스 파일\99.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>소스 파일\99.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>소스 파일\99.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>소스 파일\99.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>소스 파일\01.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\02.Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
