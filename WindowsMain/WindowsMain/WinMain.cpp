@@ -97,7 +97,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		timeSum = 0;
-		duration = 500;
+		duration = 3000;
 		score = 0;
 		break;
 	}
