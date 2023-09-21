@@ -108,36 +108,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			timeSum = 0;
 			int num = rand() % 9;
-			if (nums.size() < 4)
-			{
-				bool check = false;
-				for (int i = 0; i < nums.size(); i++)
-				{
-					if (nums[i] == num)
-					{
-						check = true;
-					}
-				}
-				if (check == false)
-				{
-					nums.push_back(num);
-				}
-			}
-			else
+			if (nums.size() >= 4)
 			{
 				nums.erase(nums.begin());
-				bool check = false;
-				for (int i = 0; i < nums.size(); i++)
+			}
+			bool check = false;
+			for (int i = 0; i < nums.size(); i++)
+			{
+				if (nums[i] == num)
 				{
-					if (nums[i] == num)
-					{
-						check = true;
-					}
+					check = true;
 				}
-				if (check == false)
-				{
-					nums.push_back(num);
-				}
+			}
+			if (check == false)
+			{
+				nums.push_back(num);
 			}
 		}
 		RECT rc;
@@ -160,6 +145,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				{
 					score++;
 				}
+				nums.erase(nums.begin() + i);
+				break;
 			}
 			case 1:
 			{
@@ -167,6 +154,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				{
 					score++;
 				}
+				nums.erase(nums.begin() + i);
+				break;
 			}
 
 			case 2:
@@ -175,6 +164,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				{
 					score++;
 				}
+				nums.erase(nums.begin() + i);
+				break;
+
 			}
 
 			case 3:
@@ -183,6 +175,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				{
 					score++;
 				}
+				nums.erase(nums.begin() + i);
+				break;
+
 			}
 
 			case 4:
@@ -191,6 +186,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				{
 					score++;
 				}
+				nums.erase(nums.begin() + i);
+				break;
+
 			}
 
 			case 5:
@@ -199,6 +197,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				{
 					score++;
 				}
+				nums.erase(nums.begin() + i);
+				break;
+
 			}
 
 			case 6:
@@ -207,6 +208,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				{
 					score++;
 				}
+				nums.erase(nums.begin() + i);
+				break;
+
 			}
 
 			case 7:
@@ -215,6 +219,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				{
 					score++;
 				}
+				nums.erase(nums.begin() + i);
+				break;
+
 			}
 
 			case 8:
@@ -223,6 +230,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				{
 					score++;
 				}
+				nums.erase(nums.begin() + i);
+				break;
+
 			}
 
 			default:
