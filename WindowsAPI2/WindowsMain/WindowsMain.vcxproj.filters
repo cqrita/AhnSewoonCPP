@@ -21,9 +21,6 @@
     <Filter Include="소스 파일\02.Scene">
       <UniqueIdentifier>{48f98953-b8cb-4518-8de2-341bb2c4b9f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\03.Object">
-      <UniqueIdentifier>{432355cb-d4f0-45ee-bdbb-aed7fbbdb80f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -52,9 +49,6 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>소스 파일\02.Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>소스 파일\03.Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,9 +84,6 @@
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>소스 파일\02.Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>소스 파일\03.Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

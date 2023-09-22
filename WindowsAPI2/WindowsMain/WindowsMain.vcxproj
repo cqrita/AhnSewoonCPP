@@ -146,7 +146,6 @@
     <ClCompile Include="CommonStruct.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="KeyManager.cpp" />
-    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="stdafx.cpp" />
@@ -160,7 +159,6 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="KeyManager.h" />
-    <ClInclude Include="Projectile.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="stdafx.h" />
