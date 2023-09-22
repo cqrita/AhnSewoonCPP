@@ -5,6 +5,11 @@ enum class State
 	LOSE,
 	DEFAULT
 };
+//make enemy vector
+// render
+// update
+// collision check
+// score
 class Scene
 {
 private:
