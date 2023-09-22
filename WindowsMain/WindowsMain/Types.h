@@ -19,6 +19,49 @@ struct Vector2
 	{
 		return Vector2{ x-other.x,y-other.y };
 	}
+	Vector2 operator-=(const Vector2 other) const
+	{
+		return Vector2{ x - other.x,y - other.y };
+	}
+
+	Vector2 operator+(const Vector2 other) const
+	{
+		return Vector2{ x + other.x,y + other.y };
+	}
+	Vector2 operator+=(const Vector2 other) const
+	{
+		return Vector2{ x + other.x,y + other.y };
+	}
+
+	Vector2 operator*(const Vector2 other) const
+	{
+		return Vector2{ x * other.x,y * other.y };
+	}
+	Vector2 operator*=(const Vector2 other) const
+	{
+		return Vector2{ x * other.x,y * other.y };
+	}
+
+	Vector2 operator+(const float other) const
+	{
+		return Vector2{ x + other,y + other };
+	}
+	Vector2 operator+=(const float other) const
+	{
+		return Vector2{ x + other,y + other };
+	}
+
+	Vector2 operator*(const float other) const
+	{
+		return Vector2{ x * other,y * other };
+	}
+	Vector2 operator*=(const float other) const
+	{
+		return Vector2{ x * other,y * other };
+	}
+
+
+
 	void Normalize()
 	{
 		float length = sqrt(x * x + y * y);

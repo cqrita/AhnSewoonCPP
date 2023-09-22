@@ -65,7 +65,13 @@ namespace Random
 {
 	inline int GetInt(int fromInclude, int toExclude)
 	{
-		return rand() % (fromInclude + 1) + rand() % (toExclude - fromInclude);
+		return fromInclude + rand() %( toExclude - fromInclude);
+	}
+	inline float GetFloat(int fromInclude, int toExclude)
+	{
+		float random = static_cast<float> (rand()) / static_cast<float>(RAND_MAX);
+
+		return fromInclude  +random*(toExclude - fromInclude);
 	}
 }
 namespace Collision
