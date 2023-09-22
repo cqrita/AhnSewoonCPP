@@ -40,3 +40,4 @@ using namespace std;
 extern HINSTANCE _hInstance;
 extern HWND _hwnd;
 extern POINT _mousePos;
+

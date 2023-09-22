@@ -1,19 +1,30 @@
 #pragma once
+enum class State
+{
+	WIN,
+	LOSE,
+	DEFAULT
+};
 class Scene
 {
 private:
 	CenterRect _player;
 	vector<class Projectile*> _missile;
+	vector<RECT> _enemies;
+	int _score;
+	float _spawnRate;
+	float _spawnTimer;
 	int _speed;
 public:
 	void Init();
 	void Render(HDC hdc);
 	void Update();
 	void Release();
+public:
+	State _gameState;
 };
 class Projectile
 {
-	CenterRect _body;
 	float _speed;
 	Vector2 _direction;
 public:
@@ -21,4 +32,6 @@ public:
 	void Update();
 	void Render(HDC hdc);
 	void Release();
+public:
+	CenterRect _body;
 };
