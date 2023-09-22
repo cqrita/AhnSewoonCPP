@@ -108,6 +108,7 @@ void Scene::Release()
 		SAFE_DELETE(_missile[i]);
 	}
 	_missile.clear();
+	_enemies.clear();
 }
 
 
