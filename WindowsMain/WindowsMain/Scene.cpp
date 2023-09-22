@@ -90,6 +90,7 @@ void Scene::Update()
 			if (IntersectRect(&rc, &missile, &_enemies[j]))
 			{
 				_score++;
+				SAFE_DELETE(_missile[i]);
 				_missile.erase(_missile.begin() + i);
 				_enemies.erase(_enemies.begin() + j);
 				if (_score >= 10)
