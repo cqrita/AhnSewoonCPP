@@ -2,10 +2,10 @@
 class Player
 {
 private:
-	RECT _body;
+	CenterRect _body;
 	float _speed;
 public:
-	RECT GetCollision() { return _body; };
+	CenterRect GetCollision() { return _body; };
 public:
 	void Move(Vector2 direction);
 public:

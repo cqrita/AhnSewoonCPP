@@ -2,8 +2,8 @@
 #include "Enemy.h"
 void Enemy::Init(Vector2 position)
 {
-	_body = Rect::MakeRect(position.x, position.y, 70, 70);
-	_speed = 1000;
+	_body = Rect::MakeCenterRect(position.x, position.y, 70, 70);
+	_speed = 500;
 }
 void Enemy::Update()
 {
@@ -22,5 +22,7 @@ void Enemy::Move(Vector2 direction)
 {
 	cout << "move" << endl;
 	direction.Normalize();
-	OffsetRect(&_body, direction.x * _speed * DeltaTime, direction.y * _speed * DeltaTime);
+	_body.x += direction.x * _speed * DeltaTime;
+	_body.y += direction.y * _speed * DeltaTime;
+
 }

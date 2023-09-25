@@ -70,8 +70,8 @@ void Scene::OnCollisionEnemyProjectile()
 	RECT temp;
 	for (int i = 0; i < _enemies.size(); i++)
 	{
-		RECT enemyCollision = _enemies[i]->GetCollision();
-		RECT playerCollision = _player->GetCollision();
+		RECT enemyCollision = _enemies[i]->GetCollision().ToRect();
+		RECT playerCollision = _player->GetCollision().ToRect();
 		if (IntersectRect(&temp,&enemyCollision,&playerCollision))
 		{
 			_enemies[i]->Release();
