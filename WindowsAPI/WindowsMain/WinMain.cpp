@@ -1,13 +1,15 @@
 //headers
 #include "stdafx.h"
+#include "Game.h"
 //globals
 HINSTANCE _hInstance;
 HWND _hwnd;
 POINT _mousePos={};
 
+
 //forward declaration
 LRESULT CALLBACK WndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
+void SetWindowSize(int x, int y, int width, int height);
 int APIENTRY WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance, _In_ char* lpszCmdParam, _In_ int nCmdShow)
 {
 	//HINSTANCE hInstance Instance handle
@@ -52,9 +54,12 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance, 
 		, NULL //lpParam
 	);
 	//show window
+	SetWindowSize(0, 0, WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT);
 	ShowWindow(_hwnd, nCmdShow);
 	
-	
+	Game game;
+	//double buffer
+	game.Init();
 	//message loop
 	MSG message{ 0 };
 	while (message.message != WM_QUIT)
@@ -64,20 +69,17 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance, 
 			TranslateMessage(&message);
 			DispatchMessage(&message);
 		}
-		SendMessage(_hwnd, WM_APP, 0, 0);
+		else
+		{
+			game.Update();
+			game.Render();
+		}
 	}
-
 	return 0;
 }
 
 POINT goalPoint{ -1,-1 };
 
-//flickering
-vector<RECT> rects;
-vector<int> nums;
-int timeSum;
-int duration;
-int score;
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	//rec vector
@@ -87,193 +89,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 	{
 		srand(time(NULL));
-
-
-		for (int i = 0; i <3; i++)
-		{
-			for (int j = 0; j < 3; j++)
-			{
-				rects.push_back(RECT{ 100 + (j * 100),100 + (i * 100),200 + (j * 100),200 + (i * 100) });
-			}
-		}
-		timeSum = 0;
-		duration = 3000;
-		score = 0;
-		break;
-	}
-	case WM_APP:
-	{		
-		timeSum++;
-		if (timeSum > duration)
-		{
-			timeSum = 0;
-			int num;
-			if (nums.size() >= 4)
-			{
-				nums.erase(nums.begin());
-			}
-			while (true)
-			{
-				bool check = false;
-				num = rand() % 9;
-				for (int i = 0; i < nums.size(); i++)
-				{
-					if (nums[i] == num)
-					{
-						check = true;
-					}
-				}
-				if (check == false)
-				{
-					break;
-				}
-			}
-			nums.push_back(num);
-			
-		}
-		RECT rc;
-		GetClientRect(_hwnd, &rc);
-		InvalidateRect(_hwnd, &rc, true);
 		break;
 	}
 
-
-	case WM_KEYDOWN:
-	{
-		for (int i = 0; i < nums.size(); i++)
-		{
-			int num = nums[i];
-			switch (num)
-			{
-			case 0:
-			{
-				if (KEYMANAGER->GetKeyDown(VK_NUMPAD7))
-				{
-					score++;
-				}
-				nums.erase(nums.begin() + i);
-				break;
-			}
-			case 1:
-			{
-				if (KEYMANAGER->GetKeyDown(VK_NUMPAD8))
-				{
-					score++;
-				}
-				nums.erase(nums.begin() + i);
-				break;
-			}
-
-			case 2:
-			{
-				if (KEYMANAGER->GetKeyDown(VK_NUMPAD9))
-				{
-					score++;
-				}
-				nums.erase(nums.begin() + i);
-				break;
-
-			}
-
-			case 3:
-			{
-				if (KEYMANAGER->GetKeyDown(VK_NUMPAD4))
-				{
-					score++;
-				}
-				nums.erase(nums.begin() + i);
-				break;
-
-			}
-
-			case 4:
-			{
-				if (KEYMANAGER->GetKeyDown(VK_NUMPAD5))
-				{
-					score++;
-				}
-				nums.erase(nums.begin() + i);
-				break;
-
-			}
-
-			case 5:
-			{
-				if (KEYMANAGER->GetKeyDown(VK_NUMPAD6))
-				{
-					score++;
-				}
-				nums.erase(nums.begin() + i);
-				break;
-
-			}
-
-			case 6:
-			{
-				if (KEYMANAGER->GetKeyDown(VK_NUMPAD1))
-				{
-					score++;
-				}
-				nums.erase(nums.begin() + i);
-				break;
-
-			}
-
-			case 7:
-			{
-				if (KEYMANAGER->GetKeyDown(VK_NUMPAD2))
-				{
-					score++;
-				}
-				nums.erase(nums.begin() + i);
-				break;
-
-			}
-
-			case 8:
-			{
-				if (KEYMANAGER->GetKeyDown(VK_NUMPAD3))
-				{
-					score++;
-				}
-				nums.erase(nums.begin() + i);
-				break;
-
-			}
-
-			default:
-				break;
-			}
-			cout << score << endl;
-		}
-		break;
-	}
-
-
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		HDC hdc= BeginPaint(hWnd,&ps);
-		for (int i = 0; i < 9; i++)
-		{
-			Draw::Rect(hdc, rects[i]);
-			for (int j = 0; j < nums.size(); j++)
-			{
-				int num = nums[j];
-				if (num == i)
-				{
-					Draw::Circle(hdc, rects[i]);
-				}
-			}
-		}
-		RECT rt = { 400, 400, 700, 700 };
-		string str = "score: " + to_string(score);
-		DrawText(hdc, str.c_str(), -1, &rt, DT_CENTER | DT_WORDBREAK);
-
-
-		EndPaint(hWnd, &ps);
-		break;
-	}
 	case WM_MOUSEMOVE:
 	{
 		_mousePos.x = GET_X_LPARAM(lParam);
@@ -283,20 +101,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 	{
 		goalPoint = _mousePos;
-		
 		break;
 	}
-	case WM_RBUTTONDOWN:
-	{
-		break;
-	}
-	case WM_ERASEBKGND:
-		return 1;
-
+	
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
+}
+void SetWindowSize(int x, int y, int width, int height)
+{
+	RECT rc;
+	rc.left = 0;
+	rc.top = 0;
+	rc.right = width;
+	rc.bottom = height;
+	AdjustWindowRect(&rc, WS_CAPTION| WS_SYSMENU, false);
+	SetWindowPos(_hwnd, NULL, x, y, rc.right-rc.left, rc.bottom - rc.top, SWP_NOZORDER | SWP_NOMOVE);
 }

@@ -14,10 +14,14 @@
 #include <format>
 
 //header
+#include "Defines.h"
+#include "Types.h"
+#include "Enums.h"
 #include "CommonFunction.h"
 #include "CommonStruct.h"
 #include "KeyManager.h"
-
+#include "TimeManager.h"
+#include "SceneManager.h"
 //namespace
 using namespace std;
 
@@ -36,3 +40,4 @@ using namespace std;
 extern HINSTANCE _hInstance;
 extern HWND _hwnd;
 extern POINT _mousePos;
+
