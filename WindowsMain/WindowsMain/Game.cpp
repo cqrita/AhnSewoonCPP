@@ -4,15 +4,27 @@
 
 void Game::Init()
 {
+
+
+	//double buffering
+
 	_hdc = GetDC(_hwnd);
 	_hdcBack = CreateCompatibleDC(_hdc);
 	_bmpBack = CreateCompatibleBitmap(_hdc, WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT);
 	HBITMAP preBmp = (HBITMAP)SelectObject(_hdcBack, _bmpBack);
 	DeleteBitmap(preBmp);
 
+	//gdiplus
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+	Gdiplus::GdiplusStartup(&this->_gdiPlusToken, &gdiplusStartupInput, NULL);
+
+	//singleton
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(SceneManager)->Init();
 	GET_SINGLE(KeyManager)->Init();
+
+	GET_SINGLE(SceneManager)->ChangeScene(SceneType::Dev1Scene);
+
 }
 void Game::Update()
 {

@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "Dev1Scene.h"
+#include "Dev2Scene.h"
 void SceneManager::Init()
 {
-	_scene = new Scene();
-	_scene->Init();
+
 }
 void SceneManager::Render(HDC hdc)
 {
@@ -29,7 +30,26 @@ void SceneManager::Release()
 	}
 	SAFE_DELETE(_scene)
 }
-void SceneManager::ChangeScene()
+void SceneManager::ChangeScene(SceneType sceneType)
 {
-
+	if (_sceneType == sceneType)
+	{
+		return;
+	}
+	Scene* newScene = nullptr;
+	switch (sceneType)
+	{
+	case SceneType::Dev1Scene:
+		newScene = new Dev1Scene();
+		break;
+	case SceneType::Dev2Scene:
+		newScene = new Dev2Scene();
+		break;
+	default:
+		break;
+	}
+	SAFE_DELETE(_scene);
+	_scene = newScene;
+	_sceneType = sceneType;
+	_scene->Init();
 }

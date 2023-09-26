@@ -1,21 +1,17 @@
 #pragma once
 class Scene
 {
-private:
-	vector<class Enemy*> _enemies;
-	class Player* _player;
-	int _score;
-private:
-	float _generateTime=0.0f;
 public:
-	void GenerateEnemy();
-	void CheckGameState();
-	void OnCollisionEnemyProjectile();
+	vector<class Actor*> _actors;
+
 public:
-	void Init();
-	void Render(HDC hdc);
-	void Update();
-	void Release();
+	virtual void Init();
+	virtual void Render(HDC hdc);
+	virtual void Update();
+	virtual void Release();
+public:
+	void SpawnActor(class Actor* Actor);
+	void DeSpawnActor(class Actor* Actor);
 };
 
 

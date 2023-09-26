@@ -9,7 +9,10 @@ public:
 	void Render();
 	void Release();
 
-
+//gdiplus
+private:
+	ULONG_PTR _gdiPlusToken;
+//double buffering
 private:
 	HDC _hdc;
 	HDC _hdcBack;

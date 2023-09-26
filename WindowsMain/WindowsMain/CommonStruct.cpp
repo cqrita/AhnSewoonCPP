@@ -9,6 +9,12 @@ RECT CenterRect::ToRect()
 	rc = Rect::MakeRect(x - width / 2, y - height / 2, width, height);
 	return rc;
 }
+Gdiplus::Rect CenterRect::ToGdiRect()
+{
+	Gdiplus::Rect rc;
+	rc = Gdiplus::Rect(x - width / 2, y - height / 2, width, height);
+	return rc;
+}
 CenterRect CenterRect::FromRect(RECT rect)
 {
 	CenterRect centerRect = {};

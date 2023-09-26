@@ -13,6 +13,13 @@
 #include <algorithm>
 #include <format>
 
+
+//gdiplus
+#include <gdiplus.h>
+#pragma comment(lib, "gdiplus.lib") 
+//using namespace Gdiplus
+
+
 //header
 #include "Defines.h"
 #include "Types.h"

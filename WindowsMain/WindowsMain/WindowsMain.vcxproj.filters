@@ -24,6 +24,12 @@
     <Filter Include="소스 파일\03.Object">
       <UniqueIdentifier>{432355cb-d4f0-45ee-bdbb-aed7fbbdb80f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\02.Scene\Game">
+      <UniqueIdentifier>{54fbbf03-d576-42bf-b8d8-77f9d877d128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03.Object\Game">
+      <UniqueIdentifier>{9d4e082b-0588-419b-b074-38aa34b24582}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -53,14 +59,23 @@
     <ClCompile Include="Scene.cpp">
       <Filter>소스 파일\02.Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Projectile.cpp">
+    <ClCompile Include="Dev1Scene.cpp">
+      <Filter>소스 파일\02.Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Dev2Scene.cpp">
+      <Filter>소스 파일\02.Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
       <Filter>소스 파일\03.Object</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="SpriteActor.cpp">
       <Filter>소스 파일\03.Object</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>소스 파일\03.Object</Filter>
+      <Filter>소스 파일\03.Object\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>소스 파일\03.Object\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,14 +112,23 @@
     <ClInclude Include="Scene.h">
       <Filter>소스 파일\02.Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Projectile.h">
+    <ClInclude Include="Dev1Scene.h">
+      <Filter>소스 파일\02.Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Dev2Scene.h">
+      <Filter>소스 파일\02.Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
       <Filter>소스 파일\03.Object</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
+    <ClInclude Include="SpriteActor.h">
       <Filter>소스 파일\03.Object</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>소스 파일\03.Object</Filter>
+      <Filter>소스 파일\03.Object\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>소스 파일\03.Object\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
