@@ -1,17 +1,20 @@
 #pragma once
-class Enemy
+#include "SpriteActor.h"
+class Enemy : public SpriteActor
 {
+public:
+	using Super = SpriteActor;
 private:
-	CenterRect _body;
-	float _speed;
+	int _speed;
+	Vector2 _direction;
+public:
+	virtual void Init() override;
+	virtual void Render(HDC hdc) override;
+	virtual void Update() override;
+	virtual void Release() override;
 public:
 	void Move(Vector2 direction);
-public:
-	CenterRect GetCollision() { return _body; };
-public:
-	void Init(Vector2 position);
-	void Update();
-	void Render(HDC hdc);
-	void Release();
+	void SetEnemyInfo(Vector2 direction, int speed, CenterRect body, const WCHAR* spritePath);
+
 };
 

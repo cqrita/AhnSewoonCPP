@@ -8,8 +8,11 @@ public:
 	void Render(HDC hdc);
 	void Update();
 	void Release();
-	void ChangeScene();
+public:
+	void ChangeScene(SceneType sceneType);
+	class Scene* GetCurrentScene() { return _scene; }
 private:
 	class Scene* _scene= nullptr;
+	SceneType _sceneType = SceneType::None;
 };
 

@@ -1,30 +1,30 @@
 #include "stdafx.h"
-#include "Enemy.h"
-void Enemy::Init()
+#include "Bullet.h"
+void Bullet::Init()
 {
 	Super::Init();
 }
-void Enemy::Render(HDC hdc)
+void Bullet::Render(HDC hdc)
 {
 	Super::Render(hdc);
 }
-void Enemy::Update()
+void Bullet::Update()
 {
 	Super::Update();
-	Move(_direction);
+	Move(_direction);	
 }
-void Enemy::Release()
+void Bullet::Release()
 {
 	Super::Release();
 }
 
-void Enemy::Move(Vector2 direction)
+void Bullet::Move(Vector2 direction)
 {
 	direction.Normalize();
 	_body.x += direction.x * _speed * DeltaTime;
 	_body.y += direction.y * _speed * DeltaTime;
 }
-void Enemy::SetEnemyInfo(Vector2 direction, int speed, CenterRect body, const WCHAR* spritePath)
+void Bullet::SetBulletInfo(Vector2 direction,int speed, CenterRect body, const WCHAR* spritePath)
 {
 	_direction = direction;
 	_speed = speed;
