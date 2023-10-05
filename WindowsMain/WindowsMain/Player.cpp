@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "Scene.h"
+#include "BoxCollider.h"
 void Player::Init()
 {
 	Super::Init();
@@ -40,6 +41,12 @@ void Player::Update()
 		Bullet* bullet = new Bullet();
 		bullet->Init();
 		bullet->SetBulletInfo(Vector2(0, -1), 300, Rect::MakeCenterRect(_body.x, _body.y, 10, 10), L"../Resources/Power Ups/Power Up.png");
+		{
+			BoxCollider* collider = new BoxCollider();
+			collider->SetCollision(Rect::MakeCenterRect(0, 0, 20, 20));
+			collider->Init();
+			bullet->AddComponent(collider);
+		}
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(bullet);
 	}
 	
@@ -59,4 +66,13 @@ void Player::SetPlayerInfo(int speed,CenterRect body,const WCHAR* spritePath)
 	_speed = speed;
 	_body = body;
 	SetSprite(spritePath, _body);
+}
+
+void Player::OnComponentBeginOverlap(class Collider* collider, class Collider* other)
+{
+
+}
+void Player::OnComponentEndOverlap(class Collider* collider, class Collider* other)
+{
+
 }

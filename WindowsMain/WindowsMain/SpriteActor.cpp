@@ -7,11 +7,22 @@ void SpriteActor::Init()
 }
 void SpriteActor::Render(HDC hdc)
 {
+	static Gdiplus::Graphics* g=nullptr;
+	static HDC lastHdc = {};
+
+
+	if (lastHdc!=hdc)
+	{
+		SAFE_DELETE(g);
+		g = new Gdiplus::Graphics(hdc);
+		g->SetInterpolationMode(Gdiplus::InterpolationModeNearestNeighbor);
+		lastHdc = hdc;
+	}
+
 	Super::Render(hdc);
 	if (_sprite)
 	{
-		Gdiplus::Graphics g(hdc);
-		g.DrawImage(_sprite, _body.ToGdiRect());
+		g->DrawImage(_sprite, _body.ToGdiRect());
 	}
 }
 void SpriteActor::Update()

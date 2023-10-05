@@ -6,3 +6,10 @@ enum class SceneType
 	Dev1Scene,
 	Dev2Scene
 };
+
+enum class ColliderType
+{
+	None,
+	Box,
+	Circle
+};

@@ -4,6 +4,7 @@ class Dev1Scene : public Scene
 {
 private:
 	class Player* _player = nullptr;
+	class SpriteActor* _background = nullptr;
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;

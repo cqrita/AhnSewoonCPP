@@ -4,7 +4,6 @@ class SpriteActor :public Actor
 {
 protected:
 	class Gdiplus::Image* _sprite=nullptr;
-	CenterRect _body = {};
 public:
 	void SetSprite(const WCHAR* fliePath, CenterRect _body);
 public:

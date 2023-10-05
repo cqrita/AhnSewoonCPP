@@ -12,7 +12,7 @@
 #include <vector>
 #include <algorithm>
 #include <format>
-
+#include <unordered_set>
 
 //gdiplus
 #include <gdiplus.h>
@@ -29,6 +29,7 @@
 #include "KeyManager.h"
 #include "TimeManager.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
 //namespace
 using namespace std;
 

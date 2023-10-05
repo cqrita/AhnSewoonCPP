@@ -22,6 +22,7 @@ void Game::Init()
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(SceneManager)->Init();
 	GET_SINGLE(KeyManager)->Init();
+	GET_SINGLE(CollisionManager)->Init();
 
 	GET_SINGLE(SceneManager)->ChangeScene(SceneType::Dev1Scene);
 
@@ -29,6 +30,7 @@ void Game::Init()
 void Game::Update()
 {
 	GET_SINGLE(TimeManager)->Update();
+	GET_SINGLE(CollisionManager)->Update();
 	GET_SINGLE(SceneManager)->Update();
 
 }
