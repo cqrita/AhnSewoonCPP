@@ -37,6 +37,6 @@ void SpriteActor::Release()
 }
 void SpriteActor::SetSprite(const WCHAR* fliePath, CenterRect drawArea)
 {
-	_sprite = Gdiplus::Image::FromFile(fliePath);
+	_sprite = Gdiplus::Bitmap::FromFile(fliePath, false);
 	_body = drawArea;
 }

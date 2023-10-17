@@ -6,6 +6,9 @@
 void Player::Init()
 {
 	Super::Init();
+	this->SetName("Player");
+
+	_missileStat = 1;
 }
 void Player::Render(HDC hdc)
 {
@@ -38,16 +41,25 @@ void Player::Update()
 	}
 	if (GET_SINGLE(KeyManager)->GetKeyDown(VK_LBUTTON))
 	{
-		Bullet* bullet = new Bullet();
-		bullet->Init();
-		bullet->SetBulletInfo(Vector2(0, -1), 300, Rect::MakeCenterRect(_body.x, _body.y, 10, 10), L"../Resources/Power Ups/Power Up.png");
+		for (int i = 0; i < _missileStat; i++)
 		{
-			BoxCollider* collider = new BoxCollider();
-			collider->SetCollision(Rect::MakeCenterRect(0, 0, 20, 20));
-			collider->Init();
-			bullet->AddComponent(collider);
+			Bullet* bullet = new Bullet();
+			bullet->Init();
+			Vector2 direction;
+			direction.x = 0;
+			direction.y = -1;
+			float centerX = _body.x;
+			float maxWidth = (_missileStat-1) * 70;
+			float temp2 = centerX-maxWidth/2+i*10;
+			bullet->SetBulletInfo(direction, 300, Rect::MakeCenterRect(_body.x+i*70, _body.y, 10, 10), L"../Resources/Power Ups/Power Up.png");
+			{
+				BoxCollider* collider = new BoxCollider();
+				collider->SetCollision(Rect::MakeCenterRect(0, 0, 20, 20));
+				collider->Init();
+				bullet->AddComponent(collider);
+			}
+			GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(bullet);
 		}
-		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(bullet);
 	}
 	
 }

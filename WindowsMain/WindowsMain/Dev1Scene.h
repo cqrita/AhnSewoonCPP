@@ -4,6 +4,8 @@ class Dev1Scene : public Scene
 {
 private:
 	class Player* _player = nullptr;
+	class ItemBox* _itemBox = nullptr;
+
 	class SpriteActor* _background = nullptr;
 public:
 	virtual void Init() override;

@@ -13,3 +13,9 @@ enum class ColliderType
 	Box,
 	Circle
 };
+enum class ItemBoxType
+{
+	HPItemBox,
+	MissileItemBox,
+	None
+};

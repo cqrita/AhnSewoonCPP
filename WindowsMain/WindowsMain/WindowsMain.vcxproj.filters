@@ -95,6 +95,9 @@
     <ClCompile Include="CollisionManager.cpp">
       <Filter>소스 파일\01.Manager</Filter>
     </ClCompile>
+    <ClCompile Include="ItemBox.cpp">
+      <Filter>소스 파일\03.Object\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -159,6 +162,9 @@
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>소스 파일\01.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBox.h">
+      <Filter>소스 파일\03.Object\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -29,7 +29,9 @@ void Actor::Release()
 	for (Component* component : _components)
 	{
 		component->Release();
+		SAFE_DELETE(component);
 	}
+	_components.clear();
 }
 void Actor::AddComponent(Component* component)
 {
@@ -37,7 +39,9 @@ void Actor::AddComponent(Component* component)
 	{
 		return;
 	}
+	component->Init();
 	component->SetOwner(this);
+	cout << this << endl;
 	_components.push_back(component);
 }
 void Actor::RemoveComponent(Component* component)

@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "SpriteActor.h"
 #include "BoxCollider.h"
+#include "ItemBox.h"
+
 void Dev1Scene::Init()
 {
 	_background = new SpriteActor();
@@ -19,6 +21,19 @@ void Dev1Scene::Init()
 			collider->Init();
 			_player->AddComponent(collider);
 		}
+	}
+	{
+		_itemBox = new ItemBox();
+		_itemBox->Init();
+		_itemBox->SetItemBoxInfo(ItemBoxType::MissileItemBox, Rect::MakeCenterRect(400, 200, 50, 50));
+		{
+			//컴포넌트 추가
+			BoxCollider* collider = new BoxCollider();
+			collider->SetCollision(Rect::MakeCenterRect(0, 0, 50, 50));
+			collider->Init();
+			_itemBox->AddComponent(collider);
+		}
+		this->SpawnActor(_itemBox);
 	}
 }
 void Dev1Scene::Render(HDC hdc)

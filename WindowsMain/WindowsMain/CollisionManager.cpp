@@ -8,12 +8,11 @@ void CollisionManager::Init()
 }
 void CollisionManager::Update()
 {
-
 	for (int i = 0; i < _colliders.size(); i++)
 	{
-		for (int j = i + 1; j < _colliders.size(); j++)
+		Collider* c1 = _colliders[i];
+		for (int j = 0; j < _colliders.size(); j++)
 		{
-			Collider* c1 = _colliders[i];
 			Collider* c2 = _colliders[j];
 			//on collision check
 			if (c1->CheckCollision(c2))

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Scene.h"
+#include "Actor.h"
 void Scene::Init()
 {
 
@@ -23,4 +24,6 @@ void Scene::SpawnActor(class Actor* actor)
 void Scene::DeSpawnActor(class Actor* actor)
 {
 	_actors.erase(remove(_actors.begin(), _actors.end(), actor), _actors.end());
+	actor->Release();
+	SAFE_DELETE(actor);
 }
