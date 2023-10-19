@@ -41,7 +41,6 @@ void Actor::AddComponent(Component* component)
 	}
 	component->Init();
 	component->SetOwner(this);
-	cout << this << endl;
 	_components.push_back(component);
 }
 void Actor::RemoveComponent(Component* component)

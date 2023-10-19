@@ -22,10 +22,11 @@ void Dev1Scene::Init()
 			_player->AddComponent(collider);
 		}
 	}
+	for(int i=-1;i<=1;i++)
 	{
 		_itemBox = new ItemBox();
 		_itemBox->Init();
-		_itemBox->SetItemBoxInfo(ItemBoxType::MissileItemBox, Rect::MakeCenterRect(400, 200, 50, 50));
+		_itemBox->SetItemBoxInfo(ItemBoxType::MissileItemBox, Rect::MakeCenterRect(400+i*100, 200, 50, 50));
 		{
 			//컴포넌트 추가
 			BoxCollider* collider = new BoxCollider();

@@ -23,7 +23,7 @@ void Scene::SpawnActor(class Actor* actor)
 }
 void Scene::DeSpawnActor(class Actor* actor)
 {
-	_actors.erase(remove(_actors.begin(), _actors.end(), actor), _actors.end());
 	actor->Release();
+	_actors.erase(remove(_actors.begin(), _actors.end(), actor), _actors.end());
 	SAFE_DELETE(actor);
 }

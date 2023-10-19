@@ -20,9 +20,7 @@ void CollisionManager::Update()
 				if (false==c1->_collisionMap.contains(c2))
 				{
 					c1->GetOwner()->OnComponentBeginOverlap(c1,c2);
-					c2->GetOwner()->OnComponentBeginOverlap(c2,c1);
 					c1->_collisionMap.insert(c2);
-					c2->_collisionMap.insert(c1);
 				}
 			}
 			else
@@ -30,9 +28,7 @@ void CollisionManager::Update()
 				if (c1->_collisionMap.contains(c2))
 				{
 					c1->GetOwner()->OnComponentEndOverlap(c1, c2);
-					c2->GetOwner()->OnComponentEndOverlap(c2, c1);
 					c1->_collisionMap.erase(c2);
-					c2->_collisionMap.erase(c1);
 				}
 			}
 		}

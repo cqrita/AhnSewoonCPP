@@ -49,9 +49,9 @@ void Player::Update()
 			direction.x = 0;
 			direction.y = -1;
 			float centerX = _body.x;
-			float maxWidth = (_missileStat-1) * 70;
-			float temp2 = centerX-maxWidth/2+i*10;
-			bullet->SetBulletInfo(direction, 300, Rect::MakeCenterRect(_body.x+i*70, _body.y, 10, 10), L"../Resources/Power Ups/Power Up.png");
+			float maxWidth = 70 * (_missileStat - 1);
+			float missileX = centerX - maxWidth / 2 + 70 * i;
+			bullet->SetBulletInfo(direction, 300, Rect::MakeCenterRect(missileX, _body.y - 50, 10, 10), L"../Resources/Power Ups/Power Up.png");
 			{
 				BoxCollider* collider = new BoxCollider();
 				collider->SetCollision(Rect::MakeCenterRect(0, 0, 20, 20));
@@ -82,6 +82,15 @@ void Player::SetPlayerInfo(int speed,CenterRect body,const WCHAR* spritePath)
 
 void Player::OnComponentBeginOverlap(class Collider* collider, class Collider* other)
 {
+	if (other->GetOwner()->GetName() == "ItemBox")
+	{
+
+		other->Release();
+		GET_SINGLE(SceneManager)->GetCurrentScene()->DeSpawnActor(other->GetOwner());
+
+		_missileStat++;
+
+	}
 
 }
 void Player::OnComponentEndOverlap(class Collider* collider, class Collider* other)
