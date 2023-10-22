@@ -15,6 +15,7 @@ public:
 public:
 	void Move(Vector2 direction);
 	void SetBulletInfo(Vector2 direction,int speed, CenterRect body, const WCHAR* spritePath);
-
+public:
+	virtual void OnComponentBeginOverlap(class Collider* collider, class Collider* other) override;
 };
 

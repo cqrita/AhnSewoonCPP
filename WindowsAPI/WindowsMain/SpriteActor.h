@@ -3,8 +3,7 @@
 class SpriteActor :public Actor
 {
 protected:
-	class Gdiplus::Image* _sprite=nullptr;
-	CenterRect _body = {};
+	Gdiplus::Bitmap* _sprite=nullptr;
 public:
 	void SetSprite(const WCHAR* fliePath, CenterRect _body);
 public:
@@ -15,7 +14,5 @@ public:
 	virtual void Render(HDC hdc) override;
 	virtual void Update() override;
 	virtual void Release() override;
-	CenterRect GetCollision() { return _body; };
-
 };
 

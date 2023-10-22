@@ -2,9 +2,13 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "Scene.h"
+#include "BoxCollider.h"
 void Player::Init()
 {
 	Super::Init();
+	this->SetName("Player");
+
+	_missileStat = 1;
 }
 void Player::Render(HDC hdc)
 {
@@ -14,19 +18,19 @@ void Player::Update()
 {
 	Super::Update();
 	Vector2 direction{0,0};
-	if (GET_SINGLE(KeyManager)->GetKey(VK_UP))
+	if (GET_SINGLE(KeyManager)->GetKey('W'))
 	{
 		direction = direction+ Vector2{0,-1};
 	}
-	if (GET_SINGLE(KeyManager)->GetKey(VK_DOWN))
+	if (GET_SINGLE(KeyManager)->GetKey('S'))
 	{
 		direction = direction + Vector2{ 0,1 };
 	}
-	if (GET_SINGLE(KeyManager)->GetKey(VK_LEFT))
+	if (GET_SINGLE(KeyManager)->GetKey('A'))
 	{
 		direction = direction + Vector2{ -1,0 };
 	}
-	if (GET_SINGLE(KeyManager)->GetKey(VK_RIGHT))
+	if (GET_SINGLE(KeyManager)->GetKey('D'))
 	{
 		direction = direction + Vector2{ 1,0 };
 	}
@@ -35,27 +39,29 @@ void Player::Update()
 		direction.Normalize();
 		Move(direction);
 	}
-	if (GET_SINGLE(KeyManager)->GetKeyDown('Z'))
+	if (GET_SINGLE(KeyManager)->GetKeyDown(VK_LBUTTON))
 	{
-		for (int i = -1; i <= 1; i++)
+		for (int i = 0; i < _missileStat; i++)
 		{
 			Bullet* bullet = new Bullet();
 			bullet->Init();
-			bullet->SetBulletInfo(Vector2(i, -1), 300, Rect::MakeCenterRect(_body.x+i, _body.y, 10, 10), L"../Resources/Power Ups/Power Up.png");
+			Vector2 direction;
+			direction.x = 0;
+			direction.y = -1;
+			float centerX = _body.x;
+			float maxWidth = 70 * (_missileStat - 1);
+			float missileX = centerX - maxWidth / 2 + 70 * i;
+			bullet->SetBulletInfo(direction, 300, Rect::MakeCenterRect(missileX, _body.y - 50, 10, 10), L"../Resources/Power Ups/Power Up.png");
+			{
+				BoxCollider* collider = new BoxCollider();
+				collider->SetCollision(Rect::MakeCenterRect(0, 0, 40, 40));
+				collider->Init();
+				bullet->AddComponent(collider);
+			}
 			GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(bullet);
-			_bullets.push_back(bullet);
 		}
 	}
-	if (GET_SINGLE(KeyManager)->GetKeyDown('X'))
-	{
-
-		Bullet* bullet = new Bullet();
-		bullet->Init();
-		bullet->SetBulletInfo(Vector2(sin(90/DeltaTime), -1), 300, Rect::MakeCenterRect(_body.x, _body.y, 10, 10), L"../Resources/Power Ups/Power Up.png");
-		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(bullet);
-		_bullets.push_back(bullet);
-	}
-
+	
 }
 void Player::Release()
 {
@@ -72,4 +78,22 @@ void Player::SetPlayerInfo(int speed,CenterRect body,const WCHAR* spritePath)
 	_speed = speed;
 	_body = body;
 	SetSprite(spritePath, _body);
+}
+
+void Player::OnComponentBeginOverlap(class Collider* collider, class Collider* other)
+{
+	if (other->GetOwner()->GetName() == "ItemBox")
+	{
+
+		other->Release();
+		GET_SINGLE(SceneManager)->GetCurrentScene()->DeSpawnActor(other->GetOwner());
+
+		_missileStat++;
+
+	}
+
+}
+void Player::OnComponentEndOverlap(class Collider* collider, class Collider* other)
+{
+
 }

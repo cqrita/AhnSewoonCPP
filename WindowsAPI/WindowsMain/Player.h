@@ -6,7 +6,7 @@ public:
 	using Super = SpriteActor;
 private:
 	int _speed;
-	vector<class Bullet*> _bullets;
+	int _missileStat;
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;
@@ -15,7 +15,10 @@ public:
 public:
 	void Move(Vector2 direction);
 	void SetPlayerInfo(int speed, CenterRect body, const WCHAR* spritePath);
-	void DeleteBullet(int i) { _bullets.erase(_bullets.begin() + i); };
-	vector<class Bullet*> GetBullets() const { return _bullets; };
+public:
+public:
+	virtual void OnComponentBeginOverlap(class Collider* collider, class Collider* other) override;
+	virtual void OnComponentEndOverlap(class Collider* collider, class Collider* other) override;
+
 };
 
