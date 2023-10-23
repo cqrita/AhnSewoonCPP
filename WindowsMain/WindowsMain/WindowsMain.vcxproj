@@ -169,6 +169,7 @@
     <ClCompile Include="SpriteActor.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="TrackingMonster.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +194,7 @@
     <ClInclude Include="SpriteActor.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="TrackingMonster.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

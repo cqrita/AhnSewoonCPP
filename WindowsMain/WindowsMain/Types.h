@@ -16,10 +16,10 @@ struct Vector2
 		x = 0;
 		y = 0;
 	}
-	Vector2(int x, int y)
+	Vector2(float x, float y)
 	{
-		x = x;
-		y = y;
+		this->x = x;
+		this->y = y;
 	}
 	Vector2 operator-(const POINT pt) const
 	{
@@ -76,7 +76,7 @@ struct Vector2
 	Vector2 Normalize()
 	{
 		float length = sqrt(x * x + y * y);
-		if (length > 0.00000001f)
+		if (length > EPSILON)
 		{
 			x /= length;
 			y /= length;
@@ -102,6 +102,10 @@ struct Vector2
 		Vector2 origin = *this;
 		origin.Normalize();
 		float cosTheta = other.Dot(origin);
+		if (abs(cosTheta - 1.0f) < EPSILON)
+		{
+			return 0;
+		}
 		float angle = acos(cosTheta);
 		float sign = origin.x * other.y - origin.y * other.x;
 		if (sign < 0)
@@ -126,11 +130,11 @@ struct Vector2
 	}
 	static Vector2 Left()
 	{
-		return Vector2{ 0,1};
+		return Vector2{ -1,0};
 	}
 	static Vector2 Down()
 	{
-		return Vector2{ -1,0 };
+		return Vector2{ 0,1 };
 	}
 
 

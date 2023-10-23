@@ -5,6 +5,7 @@ protected:
 	vector<class Component*> _components;
 	CenterRect _body = {};
 	string _name;
+	float _rotationRadian;
 public:
 	virtual void OnComponentBeginOverlap(class Collider* collider, class Collider* other);
 	virtual void OnComponentEndOverlap(class Collider* collider, class Collider* other);

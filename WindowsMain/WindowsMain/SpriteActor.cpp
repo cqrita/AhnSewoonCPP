@@ -22,7 +22,23 @@ void SpriteActor::Render(HDC hdc)
 	Super::Render(hdc);
 	if (_sprite)
 	{
-		g->DrawImage(_sprite, _body.ToGdiRect());
+		if (false == (abs(_rotationRadian) < EPSILON))
+		{
+			{
+				Gdiplus::Matrix matrix;
+				matrix.RotateAt(Rad2Deg(_rotationRadian), Gdiplus::PointF(_body.x, _body.y));
+				g->SetTransform(&matrix);
+			}
+			g->DrawImage(_sprite, _body.ToGdiRect());
+			{
+				Gdiplus::Matrix matrix;
+				g->SetTransform(&matrix);
+			}
+		}
+		else
+		{
+			g->DrawImage(_sprite, _body.ToGdiRect());
+		}
 	}
 }
 void SpriteActor::Update()

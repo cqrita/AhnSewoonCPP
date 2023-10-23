@@ -5,7 +5,7 @@
 #include "SpriteActor.h"
 #include "BoxCollider.h"
 #include "ItemBox.h"
-
+#include "TrackingMonster.h"
 void Dev1Scene::Init()
 {
 	_background = new SpriteActor();
@@ -22,19 +22,18 @@ void Dev1Scene::Init()
 			_player->AddComponent(collider);
 		}
 	}
-	for(int i=-1;i<=1;i++)
 	{
-		_itemBox = new ItemBox();
-		_itemBox->Init();
-		_itemBox->SetItemBoxInfo(ItemBoxType::MissileItemBox, Rect::MakeCenterRect(400+i*100, 200, 50, 50));
+		TrackingMonster* trackingMonster = new TrackingMonster();
+		trackingMonster->Init();
+		trackingMonster->SetTrackingMonsterInfo(PI/3.0f,50,Vector2(100,100), Vector2::Down());
 		{
-			//컴포넌트 추가
 			BoxCollider* collider = new BoxCollider();
 			collider->SetCollision(Rect::MakeCenterRect(0, 0, 50, 50));
 			collider->Init();
-			_itemBox->AddComponent(collider);
+			trackingMonster->AddComponent(collider);
 		}
-		this->SpawnActor(_itemBox);
+		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(trackingMonster);
+		trackingMonster->SetTargetActor(_player);
 	}
 }
 void Dev1Scene::Render(HDC hdc)

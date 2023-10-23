@@ -59,6 +59,11 @@ namespace Draw
 			static_cast<int>(rc.y + rc.height / 2)	//bottom
 		);
 	}
+	inline void Line(HDC hdc, Vector2 startPos, Vector2 endPos)
+	{
+		MoveToEx(hdc, static_cast<int>(startPos.x), static_cast<int>(startPos.y), (LPPOINT)NULL);
+		LineTo(hdc, static_cast<int>(endPos.x), static_cast<int>(endPos.y));
+	}
 }
 
 namespace Random
