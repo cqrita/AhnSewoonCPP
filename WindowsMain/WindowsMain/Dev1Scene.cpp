@@ -2,13 +2,16 @@
 #include "Dev1Scene.h"
 #include "Actor.h"
 #include "Player.h"
+#include "GdiSpriteActor.h"
 #include "SpriteActor.h"
+#include "Sprite.h"
+#include "Texture.h"
 #include "BoxCollider.h"
 #include "ItemBox.h"
 #include "TrackingMonster.h"
 void Dev1Scene::Init()
 {
-	_background = new SpriteActor();
+	_background = new GdiSpriteActor();
 	_background->Init();
 	_background->SetSprite(L"../Resources/background.jpg", Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT));
 	{
@@ -35,6 +38,16 @@ void Dev1Scene::Init()
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(trackingMonster);
 		trackingMonster->SetTargetActor(_player);
 	}
+	{
+		SpriteActor* spriteActor = new SpriteActor();
+		spriteActor->Init();
+		spriteActor->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2 + 100, WIN_SIZE_HEIGHT / 2 + 100, 50, 50));
+		Texture* texture=GET_SINGLE(ResourceManager)->LoadTexture("texture", "Player Ships/Short-Lazer-Ship.png");
+		Sprite* sprite=GET_SINGLE(ResourceManager)->CreateSprite("sprite", texture);
+		spriteActor->SetSprite(sprite);
+		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(spriteActor);
+	}
+
 }
 void Dev1Scene::Render(HDC hdc)
 {

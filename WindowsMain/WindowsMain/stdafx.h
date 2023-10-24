@@ -11,8 +11,8 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <format>
 #include <unordered_set>
+#include <map>
 
 //gdiplus
 #include <gdiplus.h>
@@ -30,6 +30,7 @@
 #include "TimeManager.h"
 #include "SceneManager.h"
 #include "CollisionManager.h"
+#include "ResourceManager.h"
 //namespace
 using namespace std;
 

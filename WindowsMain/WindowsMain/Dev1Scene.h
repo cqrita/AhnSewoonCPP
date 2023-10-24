@@ -6,7 +6,7 @@ private:
 	class Player* _player = nullptr;
 	class ItemBox* _itemBox = nullptr;
 
-	class SpriteActor* _background = nullptr;
+	class GdiSpriteActor* _background = nullptr;
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;

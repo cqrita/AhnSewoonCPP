@@ -13,7 +13,6 @@ void TrackingMonster::Render(HDC hdc)
 
 	Vector2 leftEndPos = Vector2(_body.x, _body.y) + (forwardDirection * cos(_trackingRadian / 2) + leftDirection * sin(_trackingRadian / 2)) * 200;
 	Vector2 rightEndPos = Vector2(_body.x, _body.y) + (forwardDirection * cos(_trackingRadian / 2) + rightDirection * sin(_trackingRadian / 2)) * 200;
-
 	Draw::Line(hdc, Vector2(_body.x, _body.y), leftEndPos);
 	Draw::Line(hdc, Vector2(_body.x, _body.y), rightEndPos);
 }
@@ -31,7 +30,7 @@ void TrackingMonster::Update()
 		if (IsInTrackingRange())
 		{
 			Vector2 moveVec = (_targetActor->GetBody().Position() - this->GetBody().Position()).Normalize();
-			this->_direction = moveVec;
+			this->_direction = _direction*0.95f+moveVec*0.05f;
 			Move(moveVec);
 		}
 		else
@@ -40,12 +39,12 @@ void TrackingMonster::Update()
 			if (toTarget.Length() > 2.0f)
 			{
 				Vector2 moveVec = toTarget.Normalize();
-				this->_direction = moveVec;
+				this->_direction = _direction * 0.95f + moveVec * 0.05f;
 				Move(moveVec);
 			}
 			else
 			{
-				this->_direction = _originDirection;
+				this->_direction = _direction*0.95f+_originDirection*0.05f;
 			}
 		}
 	}

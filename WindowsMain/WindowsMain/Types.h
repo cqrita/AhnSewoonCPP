@@ -140,6 +140,67 @@ struct Vector2
 
 
 };
+
+struct Vector2Int
+{
+	int x = 0;
+	int y = 0;
+	Vector2Int() { x = 0, y = 0; }
+	Vector2Int(int x, int y) :x{ x }, y{y} {}
+	Vector2Int(Vector2 vector)
+	{
+		x = static_cast<int>(vector.x);
+		y = static_cast<int>(vector.y);
+	}
+	Vector2Int(POINT point)
+	{
+		x = point.x;
+		y = point.y;
+	}
+	Vector2Int operator+(const Vector2Int& other)
+	{
+		return Vector2Int{ this->x + other.x,this->y + other.y };
+	}
+	Vector2Int operator-(const Vector2Int& other)
+	{
+		return Vector2Int{ this->x - other.x,this->y - other.y };
+	}
+	Vector2Int operator*(int32 value)
+	{
+		return Vector2Int{ this->x * value,this->y * value };
+	}
+	void operator+=(const Vector2Int& other)
+	{
+		this->x = this->x + other.x;
+		this->y = this->y + other.y;
+	}
+	void operator-=(const Vector2Int& other)
+	{
+		this->x = this->x - other.x;
+		this->y = this->y - other.y;
+	}
+	void operator+=(int32 value)
+	{
+		this->x = this->x * value;
+		this->y = this->y * value;
+	}
+	int32 LengthSquared()
+	{
+		return x * x + y * y;
+	}
+	float Length()
+	{
+		return sqrtf(static_cast<float>(LengthSquared()));
+	}
+	int32 Dot(Vector2Int other)
+	{
+		return this->x* other.x + this->y * other.y;
+	}
+};
+
+
+
+
 /*
 sin 60 r3/2
 cos 30 r3/2

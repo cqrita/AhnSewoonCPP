@@ -36,6 +36,9 @@
     <Filter Include="소스 파일\04.Component\Collider">
       <UniqueIdentifier>{adb15ee6-9ac3-4ca0-b07f-853a387940de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\05.Resources">
+      <UniqueIdentifier>{7900437b-9e49-4d17-b2f4-e116c59e3914}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -74,7 +77,7 @@
     <ClCompile Include="Actor.cpp">
       <Filter>소스 파일\03.Object</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteActor.cpp">
+    <ClCompile Include="GdiSpriteActor.cpp">
       <Filter>소스 파일\03.Object</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -100,6 +103,21 @@
     </ClCompile>
     <ClCompile Include="TrackingMonster.cpp">
       <Filter>소스 파일\03.Object\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceBase.cpp">
+      <Filter>소스 파일\05.Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>소스 파일\05.Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>소스 파일\01.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>소스 파일\05.Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteActor.cpp">
+      <Filter>소스 파일\03.Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +163,7 @@
     <ClInclude Include="Actor.h">
       <Filter>소스 파일\03.Object</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteActor.h">
+    <ClInclude Include="GdiSpriteActor.h">
       <Filter>소스 파일\03.Object</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
@@ -171,6 +189,21 @@
     </ClInclude>
     <ClInclude Include="TrackingMonster.h">
       <Filter>소스 파일\03.Object\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceBase.h">
+      <Filter>소스 파일\05.Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>소스 파일\05.Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>소스 파일\01.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>소스 파일\05.Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteActor.h">
+      <Filter>소스 파일\03.Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
