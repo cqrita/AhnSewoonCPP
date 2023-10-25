@@ -15,11 +15,7 @@ void CollisionManager::Update()
 		{
 			Collider* c2 = _colliders[j];
 			//on collision check
-			if (c1 == c2)
-			{
-
-			}
-			else if (c1->CheckCollision(c2))
+			if (c1->CheckCollision(c2))
 			{
 				if (false==c1->_collisionMap.contains(c2))
 				{

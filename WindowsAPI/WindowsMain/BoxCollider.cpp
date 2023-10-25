@@ -35,10 +35,8 @@ bool BoxCollider::CheckCollision(Collider* other)
 	case ColliderType::Box:
 	{
 		BoxCollider* otherCollider = static_cast<BoxCollider*>(other);
-		RECT otherCollision = otherCollider->GetCollision().ToRect();
-		RECT thisCollision = GetCollision().ToRect();
-		RECT temp;
-		return IntersectRect(&temp,&thisCollision, &otherCollision);
+		CenterRect otherCollision = otherCollider->GetCollision();
+		return Collision::RectInRect(this->GetCollision(), otherCollision);
 		break;
 	}
 	}

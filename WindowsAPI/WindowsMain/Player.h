@@ -14,7 +14,7 @@ public:
 	virtual void Release() override;
 public:
 	void Move(Vector2 direction);
-	void SetPlayerInfo(int speed, CenterRect body, const WCHAR* spritePath);
+	void SetPlayerInfo(int speed, CenterRect body, string spritePath);
 public:
 public:
 	virtual void OnComponentBeginOverlap(class Collider* collider, class Collider* other) override;

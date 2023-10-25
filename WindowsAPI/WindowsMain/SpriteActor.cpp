@@ -1,42 +1,30 @@
 #include "stdafx.h"
 #include "SpriteActor.h"
+#include "Sprite.h"
 void SpriteActor::Init()
 {
 	Super::Init();
-
 }
+
 void SpriteActor::Render(HDC hdc)
 {
-	static Gdiplus::Graphics* g=nullptr;
-	static HDC lastHdc = {};
-
-
-	if (lastHdc!=hdc)
-	{
-		SAFE_DELETE(g);
-		g = new Gdiplus::Graphics(hdc);
-		g->SetInterpolationMode(Gdiplus::InterpolationModeNearestNeighbor);
-		lastHdc = hdc;
-	}
-
 	Super::Render(hdc);
-	if (_sprite)
+	if (_sprite == nullptr)
 	{
-		g->DrawImage(_sprite, _body.ToGdiRect());
+		return;
 	}
+	Vector2Int size = _sprite->GetSize();
+
+	TransparentBlt(hdc, (int)(_body.x - _body.width/2), (int)(_body.y - _body.height/2),
+		(int)(_body.width), (int)(_body.height), _sprite->GetDC(), _sprite->GetPos().x, _sprite->GetPos().y, size.x, size.y,_sprite->GetTransparent());
 }
+
 void SpriteActor::Update()
 {
 	Super::Update();
-
 }
+
 void SpriteActor::Release()
 {
 	Super::Release();
-
-}
-void SpriteActor::SetSprite(const WCHAR* fliePath, CenterRect drawArea)
-{
-	_sprite = Gdiplus::Bitmap::FromFile(fliePath, false);
-	_body = drawArea;
 }

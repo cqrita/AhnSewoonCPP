@@ -23,6 +23,7 @@ void Game::Init()
 	GET_SINGLE(SceneManager)->Init();
 	GET_SINGLE(KeyManager)->Init();
 	GET_SINGLE(CollisionManager)->Init();
+	GET_SINGLE(ResourceManager)->Init();
 
 	GET_SINGLE(SceneManager)->ChangeScene(SceneType::Dev1Scene);
 
@@ -52,5 +53,7 @@ void Game::Release()
 	GET_SINGLE(TimeManager)->Release();
 	GET_SINGLE(SceneManager)->Release();
 	GET_SINGLE(KeyManager)->Release();
+	GET_SINGLE(ResourceManager)->Release();
+
 
 }

@@ -25,3 +25,7 @@ CenterRect CenterRect::FromRect(RECT rect)
 
 	return centerRect;
 }
+Vector2 CenterRect::Position()
+{
+	return Vector2(x, y);
+}

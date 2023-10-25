@@ -1,9 +1,9 @@
 #pragma once
-#include "SpriteActor.h"
-class ItemBox : public SpriteActor
+#include "GdiSpriteActor.h"
+class ItemBox : public GdiSpriteActor
 {
 public:
-	using Super = SpriteActor;
+	using Super = GdiSpriteActor;
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;

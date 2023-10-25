@@ -1,13 +1,8 @@
 #include "stdafx.h"
 #include "Bullet.h"
-#include "Scene.h"
-#include "BoxCollider.h"
-
 void Bullet::Init()
 {
 	Super::Init();
-	this->SetName("Bullet");
-
 }
 void Bullet::Render(HDC hdc)
 {
@@ -35,12 +30,4 @@ void Bullet::SetBulletInfo(Vector2 direction,int speed, CenterRect body, const W
 	_speed = speed;
 	_body = body;
 	SetSprite(spritePath, _body);
-}
-void Bullet::OnComponentBeginOverlap(class Collider* collider, class Collider* other)
-{
-	if (other->GetOwner()->GetName() == "Enemy")
-	{
-		other->Release();
-		GET_SINGLE(SceneManager)->GetCurrentScene()->DeSpawnActor(other->GetOwner());
-	}
 }

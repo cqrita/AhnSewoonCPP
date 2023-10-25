@@ -14,8 +14,9 @@ void SpriteActor::Render(HDC hdc)
 		return;
 	}
 	Vector2Int size = _sprite->GetSize();
-	BitBlt(hdc, (int)(_body.x - _body.width), (int)(_body.y - _body.height),
-		size.x, size.y, _sprite->GetDC(), _sprite->GetPos().x, _sprite->GetPos().y, SRCCOPY);
+
+	TransparentBlt(hdc, (int)(_body.x - _body.width/2), (int)(_body.y - _body.height/2),
+		(int)(_body.width), (int)(_body.height), _sprite->GetDC(), _sprite->GetPos().x, _sprite->GetPos().y, size.x, size.y,_sprite->GetTransparent());
 }
 
 void SpriteActor::Update()

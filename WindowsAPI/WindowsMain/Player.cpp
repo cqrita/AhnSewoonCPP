@@ -3,6 +3,7 @@
 #include "Bullet.h"
 #include "Scene.h"
 #include "BoxCollider.h"
+#include "Texture.h"
 void Player::Init()
 {
 	Super::Init();
@@ -54,7 +55,7 @@ void Player::Update()
 			bullet->SetBulletInfo(direction, 300, Rect::MakeCenterRect(missileX, _body.y - 50, 10, 10), L"../Resources/Power Ups/Power Up.png");
 			{
 				BoxCollider* collider = new BoxCollider();
-				collider->SetCollision(Rect::MakeCenterRect(0, 0, 40, 40));
+				collider->SetCollision(Rect::MakeCenterRect(0, 0, 20, 20));
 				collider->Init();
 				bullet->AddComponent(collider);
 			}
@@ -73,11 +74,14 @@ void Player::Move(Vector2 direction)
 	_body.x += direction.x * _speed * DeltaTime;
 	_body.y += direction.y * _speed * DeltaTime;
 }
-void Player::SetPlayerInfo(int speed,CenterRect body,const WCHAR* spritePath)
+void Player::SetPlayerInfo(int speed,CenterRect body,string spritePath)
 {
 	_speed = speed;
 	_body = body;
-	SetSprite(spritePath, _body);
+	Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture("t_player", spritePath);
+	Sprite* sprite = GET_SINGLE(ResourceManager)->CreateSprite("s_player", texture);
+
+	SetSprite(sprite);
 }
 
 void Player::OnComponentBeginOverlap(class Collider* collider, class Collider* other)
