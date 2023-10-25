@@ -7,7 +7,6 @@ void Player::Init()
 {
 	Super::Init();
 	this->SetName("Player");
-
 	_missileStat = 1;
 }
 void Player::Render(HDC hdc)
@@ -21,23 +20,33 @@ void Player::Update()
 	if (GET_SINGLE(KeyManager)->GetKey('W'))
 	{
 		direction = direction+ Vector2{0,-1};
+		_spriteDir = ePlayerDirection::UP;
 	}
 	if (GET_SINGLE(KeyManager)->GetKey('S'))
 	{
 		direction = direction + Vector2{ 0,1 };
+		_spriteDir = ePlayerDirection::DOWN;
 	}
 	if (GET_SINGLE(KeyManager)->GetKey('A'))
 	{
 		direction = direction + Vector2{ -1,0 };
+		_spriteDir = ePlayerDirection::LEFT;
 	}
 	if (GET_SINGLE(KeyManager)->GetKey('D'))
 	{
 		direction = direction + Vector2{ 1,0 };
+		_spriteDir = ePlayerDirection::RIGHT;
 	}
-	if (!(direction.x==0&&direction.y==0))
+	if (EPSILON<direction.Length())
 	{
+		SetFlipbook(_moveFlipbook[DirToInt(_spriteDir)]);
 		direction.Normalize();
 		Move(direction);
+	}
+	else
+	{
+		SetFlipbook(_idleFlipbook[DirToInt(_spriteDir)]);
+
 	}
 	if (GET_SINGLE(KeyManager)->GetKeyDown(VK_LBUTTON))
 	{
@@ -73,11 +82,21 @@ void Player::Move(Vector2 direction)
 	_body.x += direction.x * _speed * DeltaTime;
 	_body.y += direction.y * _speed * DeltaTime;
 }
-void Player::SetPlayerInfo(int speed,CenterRect body,const WCHAR* spritePath)
+void Player::SetPlayerInfo(int speed,CenterRect body)
 {
 	_speed = speed;
 	_body = body;
-	SetSprite(spritePath, _body);
+	_moveFlipbook[DirToInt(ePlayerDirection::DOWN)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Move_Down");
+	_moveFlipbook[DirToInt(ePlayerDirection::UP)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Move_Up");
+	_moveFlipbook[DirToInt(ePlayerDirection::RIGHT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Move_Right");
+	_moveFlipbook[DirToInt(ePlayerDirection::LEFT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Move_Left");
+	_idleFlipbook[DirToInt(ePlayerDirection::DOWN)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Idle_Down");
+	_idleFlipbook[DirToInt(ePlayerDirection::UP)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Idle_Up");
+	_idleFlipbook[DirToInt(ePlayerDirection::RIGHT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Idle_Right");
+	_idleFlipbook[DirToInt(ePlayerDirection::LEFT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Idle_Left");
+	_spriteDir = ePlayerDirection::DOWN;
+
+	SetFlipbook(_idleFlipbook[DirToInt(_spriteDir)]);
 }
 
 void Player::OnComponentBeginOverlap(class Collider* collider, class Collider* other)

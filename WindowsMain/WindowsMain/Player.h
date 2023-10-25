@@ -1,12 +1,24 @@
 #pragma once
-#include "GdiSpriteActor.h"
-class Player : public GdiSpriteActor
+#include "FlipbookActor.h"
+enum class ePlayerDirection :int
+{
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT,
+	END
+};
+class Player : public FlipbookActor
 {
 public:
-	using Super = GdiSpriteActor;
+	using Super = FlipbookActor;
 private:
 	int _speed;
 	int _missileStat;
+	Flipbook* _idleFlipbook[4];
+	Flipbook* _moveFlipbook[4];
+	ePlayerDirection _spriteDir= ePlayerDirection::END;
+	int DirToInt(ePlayerDirection dir) { return static_cast<int>(dir); }
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;
@@ -14,7 +26,7 @@ public:
 	virtual void Release() override;
 public:
 	void Move(Vector2 direction);
-	void SetPlayerInfo(int speed, CenterRect body, const WCHAR* spritePath);
+	void SetPlayerInfo(int speed, CenterRect body);
 public:
 public:
 	virtual void OnComponentBeginOverlap(class Collider* collider, class Collider* other) override;

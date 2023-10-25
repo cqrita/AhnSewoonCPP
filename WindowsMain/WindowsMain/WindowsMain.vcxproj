@@ -160,6 +160,8 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Dev1Scene.cpp" />
     <ClCompile Include="Dev2Scene.cpp" />
+    <ClCompile Include="Flipbook.cpp" />
+    <ClCompile Include="FlipbookActor.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ItemBox.cpp" />
     <ClCompile Include="KeyManager.cpp" />
@@ -190,6 +192,8 @@
     <ClInclude Include="Dev1Scene.h" />
     <ClInclude Include="Dev2Scene.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="Flipbook.h" />
+    <ClInclude Include="FlipbookActor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ItemBox.h" />
     <ClInclude Include="KeyManager.h" />
