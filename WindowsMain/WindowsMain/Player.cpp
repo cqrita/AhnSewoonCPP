@@ -64,7 +64,6 @@ void Player::Update()
 			{
 				BoxCollider* collider = new BoxCollider();
 				collider->SetCollision(Rect::MakeCenterRect(0, 0, 20, 20));
-				collider->Init();
 				bullet->AddComponent(collider);
 			}
 			GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(bullet);
