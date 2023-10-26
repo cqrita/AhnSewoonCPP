@@ -54,7 +54,7 @@ void Actor::RemoveComponent(Component* component)
 }
 void Actor::OnComponentBeginOverlap(Collider* collider,  Collider* other)
 {
-	cout << collider->GetOwner()->GetName() << endl;
+
 }
 void Actor::OnComponentEndOverlap(Collider* collider,  Collider* other)
 {

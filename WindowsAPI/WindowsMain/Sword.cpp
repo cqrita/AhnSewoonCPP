@@ -5,6 +5,7 @@
 void Sword::Init()
 {
 	Actor::Init();
+	SetName("Sword");
 }
 
 void Sword::Update()
@@ -21,7 +22,6 @@ void Sword::OnComponentBeginOverlap(Collider* collider, Collider* other)
 {
 	if (other->GetOwner()!=nullptr&&other->GetOwner()->GetName() == "Monster")
 	{
-
 		other->Release();
 		GET_SINGLE(SceneManager)->GetCurrentScene()->DeSpawnActor(other->GetOwner());
 	}

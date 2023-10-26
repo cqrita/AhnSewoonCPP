@@ -94,7 +94,6 @@ void Player::Update()
 				{
 					BoxCollider* collider = new BoxCollider();
 					collider->SetCollision(Rect::MakeCenterRect(0, 0, 50, 50));
-					collider->Init();
 					_sword->AddComponent(collider);
 				}
 				GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_sword);

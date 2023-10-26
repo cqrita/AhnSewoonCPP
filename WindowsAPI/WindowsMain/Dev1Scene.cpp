@@ -26,7 +26,6 @@ void Dev1Scene::Init()
 		{
 			BoxCollider* collider = new BoxCollider();
 			collider->SetCollision(Rect::MakeCenterRect(0, 0, 100, 100));
-			collider->Init();
 			_player->AddComponent(collider);
 		}
 	}
@@ -37,7 +36,6 @@ void Dev1Scene::Init()
 		{
 			BoxCollider* collider = new BoxCollider();
 			collider->SetCollision(Rect::MakeCenterRect(0, 0, 50, 50));
-			collider->Init();
 			trackingMonster->AddComponent(collider);
 		}
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(trackingMonster);

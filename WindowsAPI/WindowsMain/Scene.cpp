@@ -25,5 +25,10 @@ void Scene::DeSpawnActor(class Actor* actor)
 {
 	actor->Release();
 	_actors.erase(remove(_actors.begin(), _actors.end(), actor), _actors.end());
+	auto findIt = find(_actors.begin(), _actors.end(), actor);
+	if (findIt != _actors.end())
+	{
+		_actors.erase(findIt);
+	}
 	SAFE_DELETE(actor);
 }
