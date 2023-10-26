@@ -18,6 +18,7 @@
 #include <gdiplus.h>
 #pragma comment(lib, "gdiplus.lib") 
 #pragma comment(lib, "msimg32.lib")
+
 //using namespace Gdiplus
 
 
@@ -44,8 +45,8 @@ using namespace std;
 #define WIN_SIZE_HEIGHT 800
 #define WIN_STYLE WS_OVERLAPPEDWINDOW
 
-#define SAFE_DELETE(p) {if((p)) delete p; (p)=NULL;}
-#define SAFE_DELETE_ARRAY(p) {if((p)) delete[] p; (p)=NULL;}
+#define SAFE_DELETE(p) {if((p)) delete p; (p)=nullptr;}
+#define SAFE_DELETE_ARRAY(p) {if((p)) delete[] p; (p)=nullptr;}
 
 extern HINSTANCE _hInstance;
 extern HWND _hwnd;

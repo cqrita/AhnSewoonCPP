@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "Texture.h"
 #include "Sprite.h"
+#include "Flipbook.h"
 void ResourceManager::Init()
 {
 	_resourcePath = "../Resources/";
@@ -58,4 +59,20 @@ Texture* ResourceManager::LoadTexture(const string& key, const string& path, uin
 	texture->LoadBmp(fullPath);
 	_resources[key] = texture;
 	return texture;
+}
+
+Flipbook* ResourceManager::GetFlipbook(const string& key)
+{
+	return static_cast<Flipbook*>(_resources[key]);
+}
+
+Flipbook* ResourceManager::CreateFlipbook(const string& key, FlipbookInfo info)
+{
+	if (_resources.contains(key))
+	{
+		return GetFlipbook(key);
+	}
+	Flipbook* flipbook = new Flipbook();
+	flipbook->SetInfo(info);
+	_resources[key] = flipbook;
 }

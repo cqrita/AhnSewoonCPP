@@ -24,7 +24,6 @@ void BoxCollider::Update()
 void BoxCollider::Release()
 {
 	Super::Release();
-
 }
 bool BoxCollider::CheckCollision(Collider* other)
 {

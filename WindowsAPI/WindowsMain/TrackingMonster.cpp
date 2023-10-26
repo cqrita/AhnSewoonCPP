@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "TrackingMonster.h"
-#include "Texture.h"
 void TrackingMonster::Init()
 {
 	Super::Init();
+	this->SetName("Monster");
+
 }
 void TrackingMonster::Render(HDC hdc)
 {
@@ -70,10 +71,7 @@ void TrackingMonster::SetTrackingMonsterInfo(float trackingRadian, int speed, Ve
 	_speed = speed;
 	_trackingRadian = trackingRadian;
 	_originPos = spawnPos;
-	_body = Rect::MakeCenterRect(spawnPos.x, spawnPos.y, 70, 70);
-	Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture("t_TrackingMonster", "Enemies/Enemy_02.png");
-	Sprite* sprite = GET_SINGLE(ResourceManager)->CreateSprite("s_TrackingMonster", texture);
-	SetSprite(sprite);
+	SetSprite(L"../Resources/Enemies/Enemy_02.png",Rect::MakeCenterRect(spawnPos.x,spawnPos.y,70,70));
 }
 void TrackingMonster::SetTargetActor(Actor* targetActor)
 {

@@ -9,18 +9,20 @@
 #include "BoxCollider.h"
 #include "ItemBox.h"
 #include "TrackingMonster.h"
+#include "FlipbookActor.h"
+#include "Flipbook.h"
+
 void Dev1Scene::Init()
 {
-	_background = new SpriteActor();
+	SetPlayerResource();
+	
+	_background = new GdiSpriteActor();
 	_background->Init();
-	_background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH/2, WIN_SIZE_HEIGHT/2, WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT));
-	Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture("t_background", "background.jpg");
-	Sprite* sprite = GET_SINGLE(ResourceManager)->CreateSprite("s_background", texture);
-	_background->SetSprite(sprite);
+	_background->SetSprite(L"../Resources/background.jpg", Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT));
 	{
 		_player = new Player();
 		_player->Init();
-		_player->SetPlayerInfo(300, Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 100, 100), "Player Ships/Short-Lazer-Ship.png");
+		_player->SetPlayerInfo(300, Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 200, 200));
 		{
 			BoxCollider* collider = new BoxCollider();
 			collider->SetCollision(Rect::MakeCenterRect(0, 0, 100, 100));
@@ -41,7 +43,6 @@ void Dev1Scene::Init()
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(trackingMonster);
 		trackingMonster->SetTargetActor(_player);
 	}
-
 }
 void Dev1Scene::Render(HDC hdc)
 {
@@ -80,4 +81,146 @@ void Dev1Scene::Release()
 	_actors.clear();
 	_background->Release();
 	SAFE_DELETE(_background);
+}
+
+void Dev1Scene::SetPlayerResource()
+{
+	GET_SINGLE(ResourceManager)->LoadTexture("T_Character_Down", "Character/PlayerDown.bmp", RGB(128, 128, 128));
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Down");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 1;
+		info.loop = true;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Move_Down", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Down");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 0;
+		info.loop = true;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Idle_Down", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Down");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 6;
+		info.line = 3;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Attack_Down", info);
+	}
+	GET_SINGLE(ResourceManager)->LoadTexture("T_Character_Up", "Character/PlayerUp.bmp", RGB(128, 128, 128));
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Up");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 1;
+		info.loop = true;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Move_Up", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Up");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 0;
+		info.loop = true;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Idle_Up", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Up");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 6;
+		info.line = 3;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Attack_Up", info);
+	}
+
+	GET_SINGLE(ResourceManager)->LoadTexture("T_Character_Left", "Character/PlayerLeft.bmp", RGB(128, 128, 128));
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Left");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 1;
+		info.loop = true;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Move_Left", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Left");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 0;
+		info.loop = true;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Idle_Left", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Left");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 6;
+		info.line = 3;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Attack_Left", info);
+	}
+	GET_SINGLE(ResourceManager)->LoadTexture("T_Character_Right", "Character/PlayerRight.bmp", RGB(128, 128, 128));
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Right");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 1;
+		info.loop = true;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Move_Right", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Right");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 0;
+		info.loop = true;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Idle_Right", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Right");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 6;
+		info.line = 3;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Attack_Right", info);
+	}
+
 }

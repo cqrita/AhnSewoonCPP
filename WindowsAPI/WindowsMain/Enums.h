@@ -9,9 +9,9 @@ enum class SceneType
 
 enum class ColliderType
 {
-	None,
 	Box,
-	Circle
+	Circle,
+	None
 };
 enum class ItemBoxType
 {

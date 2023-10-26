@@ -1,9 +1,9 @@
 #pragma once
-#include "SpriteActor.h"
-class TrackingMonster : public SpriteActor
+#include "GdiSpriteActor.h"
+class TrackingMonster : public GdiSpriteActor
 {
 public:
-	using Super = SpriteActor;
+	using Super = GdiSpriteActor;
 private:
 	int _speed;
 	Vector2 _direction;

@@ -4,6 +4,7 @@
 #include "Collider.h"
 void Actor::Init()
 {
+	SetName("Actor");
 	for (Component* component : _components)
 	{
 		component->Init();

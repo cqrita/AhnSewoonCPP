@@ -15,7 +15,19 @@ void CollisionManager::Update()
 		{
 			Collider* c2 = _colliders[j];
 			//on collision check
-			if (c1->CheckCollision(c2))
+			if (c1 == nullptr || c2 == nullptr)
+			{
+
+			}
+			else if (c1->GetOwner() == NULL||(unsigned long long)c1->GetOwner() == 0xdddddddddddddddd || c1->GetColliderType() >= ColliderType::None||(int)c1->GetColliderType()<0)
+			{
+
+			}
+			else if (c2->GetOwner() == NULL || (unsigned long long)c2->GetOwner() == 0xdddddddddddddddd || c2->GetColliderType() >= ColliderType::None || (int)c2->GetColliderType() < 0)
+			{
+
+			}
+			else if (c1->CheckCollision(c2))
 			{
 				if (false==c1->_collisionMap.contains(c2))
 				{
@@ -45,4 +57,9 @@ void CollisionManager::RemoveCollider(Collider* collider)
 	{
 		_colliders.erase(findIt);
 	}
+	else
+	{
+		cout << "err" << endl;
+	}
+	collider == nullptr;
 }

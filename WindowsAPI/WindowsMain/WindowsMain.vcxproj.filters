@@ -119,6 +119,15 @@
     <ClCompile Include="SpriteActor.cpp">
       <Filter>소스 파일\03.Object</Filter>
     </ClCompile>
+    <ClCompile Include="Flipbook.cpp">
+      <Filter>소스 파일\05.Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="FlipbookActor.cpp">
+      <Filter>소스 파일\03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Sword.cpp">
+      <Filter>소스 파일\03.Object\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -204,6 +213,15 @@
     </ClInclude>
     <ClInclude Include="SpriteActor.h">
       <Filter>소스 파일\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Flipbook.h">
+      <Filter>소스 파일\05.Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FlipbookActor.h">
+      <Filter>소스 파일\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Sword.h">
+      <Filter>소스 파일\03.Object\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
