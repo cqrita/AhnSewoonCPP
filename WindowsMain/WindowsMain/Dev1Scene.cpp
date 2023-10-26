@@ -11,22 +11,30 @@
 #include "TrackingMonster.h"
 #include "FlipbookActor.h"
 #include "Flipbook.h"
+#include "CameraComponent.h"
 
 void Dev1Scene::Init()
 {
 	SetPlayerResource();
-	
-	_background = new GdiSpriteActor();
+	Texture* texture=GET_SINGLE(ResourceManager)->LoadTexture("T_background", "background.jpg", RGB(255, 0, 255));
+	Sprite* sprite=GET_SINGLE(ResourceManager)->CreateSprite("S_background", texture);
+
+	_background = new SpriteActor();
 	_background->Init();
-	_background->SetSprite(L"../Resources/background.jpg", Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT));
+	_background->SetSprite(sprite);
+	_background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, WIN_SIZE_WIDTH*2, WIN_SIZE_HEIGHT*2));
 	{
 		_player = new Player();
 		_player->Init();
-		_player->SetPlayerInfo(300, Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 200, 200));
+		_player->SetPlayerInfo(500, Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 200, 200));
 		{
 			BoxCollider* collider = new BoxCollider();
 			collider->SetCollision(Rect::MakeCenterRect(0, 0, 100, 100));
 			_player->AddComponent(collider);
+		}
+		{
+			CameraComponent* camera = new CameraComponent();
+			_player->AddComponent(camera);
 		}
 	}
 	{
@@ -63,6 +71,7 @@ void Dev1Scene::Update()
 	}
 	_player->Update();
 	_background->Update();
+
 
 }
 void Dev1Scene::Release()

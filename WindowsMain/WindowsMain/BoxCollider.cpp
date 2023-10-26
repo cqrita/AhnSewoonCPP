@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BoxCollider.h"
 #include "Actor.h"
+#include "Scene.h"
 void BoxCollider::Init()
 {
 	Super::Init();
@@ -11,8 +12,14 @@ void BoxCollider::Render(HDC hdc)
 
 	HBRUSH emptyBrush = GetStockBrush(NULL_BRUSH);
 	HBRUSH oldBrush =SelectBrush(hdc, emptyBrush);
+	CenterRect worldRect = GetCollision();
+	Vector2Int CameraPos = CurrentScene->GetCameraPos();
+	CameraPos -= Vector2Int(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2);
 
-	Draw::Rect(hdc, GetCollision());
+	worldRect.x -= static_cast<float>(CameraPos.x);
+	worldRect.y -= static_cast<float>(CameraPos.y);
+
+	Draw::Rect(hdc, worldRect);
 	SelectBrush(hdc, oldBrush);
 	DeleteBrush(emptyBrush);
 }

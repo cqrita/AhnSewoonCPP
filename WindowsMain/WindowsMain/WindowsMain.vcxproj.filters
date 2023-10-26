@@ -39,6 +39,9 @@
     <Filter Include="소스 파일\05.Resources">
       <UniqueIdentifier>{7900437b-9e49-4d17-b2f4-e116c59e3914}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\99.Utils\Types">
+      <UniqueIdentifier>{7f628358-8989-4f9d-816b-29134257b263}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -125,6 +128,15 @@
     <ClCompile Include="FlipbookActor.cpp">
       <Filter>소스 파일\03.Object</Filter>
     </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>소스 파일\04.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>소스 파일\99.Utils\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2Int.cpp">
+      <Filter>소스 파일\99.Utils\Types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -149,9 +161,6 @@
       <Filter>소스 파일\99.Utils</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>소스 파일\99.Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Types.h">
       <Filter>소스 파일\99.Utils</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
@@ -216,6 +225,18 @@
     </ClInclude>
     <ClInclude Include="FlipbookActor.h">
       <Filter>소스 파일\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>소스 파일\04.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>소스 파일\99.Utils\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>소스 파일\99.Utils\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2Int.h">
+      <Filter>소스 파일\99.Utils\Types</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

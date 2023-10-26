@@ -8,7 +8,6 @@ void CollisionManager::Init()
 }
 void CollisionManager::Update()
 {
-	cout<<_colliders.size()<<endl;
 	for (int i = 0; i < _colliders.size(); i++)
 	{
 		Collider* c1 = _colliders[i];

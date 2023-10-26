@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GdiSpriteActor.h"
+#include "Scene.h"
 void GdiSpriteActor::Init()
 {
 	Super::Init();
@@ -17,6 +18,11 @@ void GdiSpriteActor::Render(HDC hdc)
 		g->SetInterpolationMode(Gdiplus::InterpolationModeNearestNeighbor);
 		lastHdc = hdc;
 	}
+	CenterRect rect = _body;
+	Vector2Int CameraPos = CurrentScene->GetCameraPos();
+	CameraPos -= Vector2Int(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2);
+	rect.x -= CameraPos.x;
+	rect.y -= CameraPos.y;
 
 	Super::Render(hdc);
 	if (_sprite)
@@ -25,10 +31,10 @@ void GdiSpriteActor::Render(HDC hdc)
 		{
 			{
 				Gdiplus::Matrix matrix;
-				matrix.RotateAt(Rad2Deg(_rotationRadian), Gdiplus::PointF(_body.x, _body.y));
+				matrix.RotateAt(Rad2Deg(_rotationRadian), Gdiplus::PointF(rect.x, rect.y));
 				g->SetTransform(&matrix);
 			}
-			g->DrawImage(_sprite, _body.ToGdiRect());
+			g->DrawImage(_sprite, rect.ToGdiRect());
 			{
 				Gdiplus::Matrix matrix;
 				g->SetTransform(&matrix);
@@ -36,7 +42,7 @@ void GdiSpriteActor::Render(HDC hdc)
 		}
 		else
 		{
-			g->DrawImage(_sprite, _body.ToGdiRect());
+			g->DrawImage(_sprite, rect.ToGdiRect());
 		}
 	}
 }

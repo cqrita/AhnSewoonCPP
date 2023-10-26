@@ -3,7 +3,7 @@ class Scene
 {
 public:
 	vector<class Actor*> _actors;
-
+	Vector2Int _cameraPosition{};
 public:
 	virtual void Init();
 	virtual void Render(HDC hdc);
@@ -12,6 +12,9 @@ public:
 public:
 	void SpawnActor(class Actor* Actor);
 	void DeSpawnActor(class Actor* Actor);
+public:
+	void SetCameraPos(Vector2Int pos) { _cameraPosition = pos; }
+	Vector2Int GetCameraPos() { return _cameraPosition; }
 };
 
 

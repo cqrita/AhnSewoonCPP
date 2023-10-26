@@ -14,6 +14,7 @@ public:                             \
 #define GET_SINGLE(ClassName) ClassName::GetInstance()
 
 #define DeltaTime GET_SINGLE(TimeManager)->GetDeltaTime()
+#define CurrentScene GET_SINGLE(SceneManager)->GetCurrentScene()
 
 #define EPSILON 1e-6f
 #define PI 3.14159265358979f
