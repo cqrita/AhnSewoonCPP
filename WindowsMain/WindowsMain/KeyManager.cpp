@@ -33,7 +33,7 @@ bool KeyManager::GetKeyDown(int vKey)
 }
 bool KeyManager::GetKey(int vKey)
 {
-	if (GetAsyncKeyState(vKey) & 0x8001)
+	if (GetAsyncKeyState(vKey) & 0x8000)
 	{
 		return true;
 	}

@@ -12,6 +12,8 @@
 #include "FlipbookActor.h"
 #include "Flipbook.h"
 #include "CameraComponent.h"
+#include "Button.h";
+
 
 void Dev1Scene::Init()
 {
@@ -49,14 +51,31 @@ void Dev1Scene::Init()
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(trackingMonster);
 		trackingMonster->SetTargetActor(_player);
 	}
+
+
+	{
+		Button* button = new Button();
+		button->SetRect(Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 300, 300));
+		button->AddOnClickDelegate(this, &Dev1Scene::ChangeScene);
+		_UIs.push_back(button);
+	}
+	for (UI* ui : _UIs)
+	{
+		ui->Init();
+	}
 }
 void Dev1Scene::Render(HDC hdc)
 {
 	_background->Render(hdc);
+	for (UI* ui : _UIs)
+	{
+		ui->Render(hdc);
+	}
 	for (int i = 0; i < _actors.size(); i++)
 	{
 		_actors[i]->Render(hdc);
 	}
+
 	_player->Render(hdc);
 	char str[250];
 	sprintf_s(str, "DEV1SCENE");
@@ -72,6 +91,10 @@ void Dev1Scene::Update()
 	_player->Update();
 	_background->Update();
 
+	for (UI* ui : _UIs)
+	{
+		ui->Update();
+	}
 
 }
 void Dev1Scene::Release()
@@ -86,6 +109,14 @@ void Dev1Scene::Release()
 		SAFE_DELETE(_actors[i]);
 	}
 	_actors.clear();
+
+	for (UI* ui : _UIs)
+	{
+		ui->Release();
+		SAFE_DELETE(ui);
+	}
+	_UIs.clear();
+
 	_background->Release();
 	SAFE_DELETE(_background);
 }
@@ -184,4 +215,8 @@ void Dev1Scene::SetPlayerResource()
 		info.size = { 200, 200 };
 		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Idle_Right", info);
 	}
+}
+void Dev1Scene::ChangeScene()
+{
+	GET_SINGLE(SceneManager)->ChangeScene(SceneType::Dev2Scene);
 }

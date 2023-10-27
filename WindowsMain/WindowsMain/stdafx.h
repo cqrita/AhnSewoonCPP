@@ -13,7 +13,7 @@
 #include <algorithm>
 #include <unordered_set>
 #include <map>
-
+#include <functional>
 //gdiplus
 #include <gdiplus.h>
 #pragma comment(lib, "gdiplus.lib") 

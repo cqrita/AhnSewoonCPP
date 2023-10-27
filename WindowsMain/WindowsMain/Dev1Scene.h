@@ -14,5 +14,6 @@ public:
 	virtual void Release() override;
 public:
 	void SetPlayerResource();
+	void ChangeScene();
 };
 

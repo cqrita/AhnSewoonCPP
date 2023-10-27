@@ -42,6 +42,12 @@
     <Filter Include="소스 파일\99.Utils\Types">
       <UniqueIdentifier>{7f628358-8989-4f9d-816b-29134257b263}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\06.UI">
+      <UniqueIdentifier>{2b95fa19-66f9-4cea-9288-0f426be58158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\06.UI\Game">
+      <UniqueIdentifier>{10d751a3-3ab3-44f4-afd3-6556fa6c3a91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -136,6 +142,15 @@
     </ClCompile>
     <ClCompile Include="Vector2Int.cpp">
       <Filter>소스 파일\99.Utils\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>소스 파일\06.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>소스 파일\06.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TestButton.cpp">
+      <Filter>소스 파일\06.UI\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +252,15 @@
     </ClInclude>
     <ClInclude Include="Vector2Int.h">
       <Filter>소스 파일\99.Utils\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>소스 파일\06.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>소스 파일\06.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TestButton.h">
+      <Filter>소스 파일\06.UI\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
