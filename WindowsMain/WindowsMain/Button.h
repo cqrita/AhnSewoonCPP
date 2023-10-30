@@ -5,20 +5,25 @@ enum class eButtonState
 	Default,
 	Hover,
 	Pressed,
+	Disabled,
 	End
 };
 class Button : public UI
 {
+	using Super = UI;
 protected:
-	class Sprite* _sprite[static_cast<int>(eButtonState::End)] {};
+	class Sprite* _currentSprite = nullptr;
+	class Sprite* _sprites[static_cast<int>(eButtonState::End)] {};
 	eButtonState _state = eButtonState::Default;
 	function<void()> _onClick=nullptr;
 public:
 	void SetSprite(eButtonState state, class Sprite* sprite)
 	{
-		_sprite[static_cast<int>(state)] = sprite;
+		_sprites[static_cast<int>(state)] = sprite;
 	}
-	class Sprite* GetSprite(eButtonState state) { return _sprite[static_cast<int>(state)]; }
+	class Sprite* GetSprite(eButtonState state) { return _sprites[static_cast<int>(state)]; }
+protected:
+	void SetState(eButtonState state);
 public:
 	Button();
 	virtual ~Button();

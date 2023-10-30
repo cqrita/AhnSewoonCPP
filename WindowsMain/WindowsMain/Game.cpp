@@ -5,7 +5,6 @@
 void Game::Init()
 {
 
-
 	//double buffering
 
 	_hdc = GetDC(_hwnd);
@@ -33,6 +32,7 @@ void Game::Update()
 	GET_SINGLE(TimeManager)->Update();
 	GET_SINGLE(CollisionManager)->Update();
 	GET_SINGLE(SceneManager)->Update();
+	GET_SINGLE(KeyManager)->Update();
 
 }
 void Game::Render()

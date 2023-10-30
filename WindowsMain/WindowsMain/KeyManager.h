@@ -1,18 +1,32 @@
 #pragma once
-#include <bitset>
-using namespace std;
-#define KEYMAX 256
+using KeyType = int32;
+enum class KeyState
+{
+	None,
+	Press,
+	Down,
+	Up,
+	End
+};
+enum
+{
+	KEY_TYPE_COUNT=static_cast<int32>(256),
+	KEY_STATE_COUNT=static_cast<int32>(KeyState::End)
+};
 class KeyManager
 {
-DECLARE_SINGLE(KeyManager)
+	DECLARE_SINGLE(KeyManager)
 private:
-	bitset<KEYMAX> _keyDown;
+	vector<KeyState> _states;
 public:
-	bool GetKeyDown(int vKey);
-	bool GetKey(int vKey);
-	
+	//current frame
+	bool GetKeyDown(KeyType key);
+	bool GetKey(KeyType key);
+	bool GetKeyUp(KeyType key);
+
 public:
 	void Init();
+	void Update();
 	void Release();
 
 

@@ -7,6 +7,8 @@
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console") 
 
 
+
+
 //stl
 #include <string>
 #include <vector>
@@ -20,7 +22,9 @@
 #pragma comment(lib, "msimg32.lib")
 
 //using namespace Gdiplus
-
+// 
+//namespace
+using namespace std;
 
 //header
 #include "Defines.h"
@@ -33,8 +37,6 @@
 #include "SceneManager.h"
 #include "CollisionManager.h"
 #include "ResourceManager.h"
-//namespace
-using namespace std;
 
 //define
 

@@ -13,10 +13,13 @@
 #include "Flipbook.h"
 #include "CameraComponent.h"
 #include "Button.h";
-
+#include "TestPanel.h"
 
 void Dev1Scene::Init()
 {
+
+
+
 	SetPlayerResource();
 	Texture* texture=GET_SINGLE(ResourceManager)->LoadTexture("T_background", "background.jpg", RGB(255, 0, 255));
 	Sprite* sprite=GET_SINGLE(ResourceManager)->CreateSprite("S_background", texture);
@@ -24,7 +27,7 @@ void Dev1Scene::Init()
 	_background = new SpriteActor();
 	_background->Init();
 	_background->SetSprite(sprite);
-	_background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, WIN_SIZE_WIDTH*2, WIN_SIZE_HEIGHT*2));
+	_background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, WIN_SIZE_WIDTH*4, WIN_SIZE_HEIGHT*4));
 	{
 		_player = new Player();
 		_player->Init();
@@ -54,10 +57,9 @@ void Dev1Scene::Init()
 
 
 	{
-		Button* button = new Button();
-		button->SetRect(Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 300, 300));
-		button->AddOnClickDelegate(this, &Dev1Scene::ChangeScene);
-		_UIs.push_back(button);
+		TestPanel* testPanel = new TestPanel();
+		testPanel->Init();
+		_UIs.push_back(testPanel);
 	}
 	for (UI* ui : _UIs)
 	{
@@ -95,7 +97,22 @@ void Dev1Scene::Update()
 	{
 		ui->Update();
 	}
-
+	if(Input->GetKeyDown('Z'))
+	{
+		cout << "Z" << endl;
+	}
+	if (Input->GetKeyDown('Z'))
+	{
+		cout << "Z" << endl;
+	}
+	if (Input->GetKey('Z'))
+	{
+		cout << "Z" << endl;
+	}
+	if (Input->GetKeyUp('Z'))
+	{
+		cout << "Z" << endl;
+	}
 }
 void Dev1Scene::Release()
 {
@@ -123,6 +140,8 @@ void Dev1Scene::Release()
 
 void Dev1Scene::SetPlayerResource()
 {
+
+
 	GET_SINGLE(ResourceManager)->LoadTexture("T_Character_Down", "Character/PlayerDown.bmp", RGB(128, 128, 128));
 	{
 		FlipbookInfo info;
@@ -215,6 +234,19 @@ void Dev1Scene::SetPlayerResource()
 		info.size = { 200, 200 };
 		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Idle_Right", info);
 	}
+
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture("T_StartButton", "Buttons/Start.bmp", RGB(255, 0, 210));
+		GET_SINGLE(ResourceManager)->CreateSprite("S_StartButton_Default", texture,0,0,200,200);
+		GET_SINGLE(ResourceManager)->CreateSprite("S_StartButton_Hover", texture, 200, 0, 200, 200);
+		GET_SINGLE(ResourceManager)->CreateSprite("S_StartButton_Pressed", texture, 400, 0, 200, 200);
+		GET_SINGLE(ResourceManager)->CreateSprite("S_StartButton_Disabled", texture, 600, 0, 200, 200);
+
+
+	}
+
+
+
 }
 void Dev1Scene::ChangeScene()
 {

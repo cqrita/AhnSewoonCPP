@@ -5,9 +5,42 @@
 
 void KeyManager::Init()
 {
-	for (int i = 0; i < KEYMAX; i++)
+	_states.resize(KEY_TYPE_COUNT,KeyState::None);
+}
+void KeyManager::Update()
+{
+	BYTE asciikeys[KEY_TYPE_COUNT]{};
+	bool result=GetKeyboardState(asciikeys);
+	if (result == false)
 	{
-		_keyDown.set(i, false);
+		return;
+	}
+	for (uint32 key = 0; key < KEY_TYPE_COUNT; key++)
+	{
+		if (asciikeys[key] & 0x80)
+		{
+			KeyState& state = _states[key];
+			if (state == KeyState::Press || state == KeyState::Down)
+			{
+				state = KeyState::Press;
+			}
+			else
+			{
+				state = KeyState::Down;
+			}
+		}
+		else
+		{
+			KeyState& state = _states[key];
+			if (state == KeyState::Press || state == KeyState::Down)
+			{
+				state = KeyState::Up;
+			}
+			else
+			{
+				state = KeyState::None;
+			}
+		}
 	}
 }
 void KeyManager::Release()
@@ -15,27 +48,16 @@ void KeyManager::Release()
 
 }
 
-bool KeyManager::GetKeyDown(int vKey)
+bool KeyManager::GetKeyDown(KeyType key)
 {
-	if (GetAsyncKeyState(vKey) & 0x8000)
-	{
-		if (_keyDown[vKey] == false)
-		{
-			_keyDown.set(vKey, true);
-			return true;
-		}
-	}
-	else
-	{
-		_keyDown.set(vKey, false);
-	}
-	return false;
+	return _states[static_cast<uint32>(key)]==KeyState::Down;
 }
-bool KeyManager::GetKey(int vKey)
+bool KeyManager::GetKey(KeyType key)
 {
-	if (GetAsyncKeyState(vKey) & 0x8000)
-	{
-		return true;
-	}
-	return false;
+	return _states[static_cast<uint32>(key)] == KeyState::Press;
+}
+
+bool KeyManager::GetKeyUp(KeyType key)
+{
+	return _states[static_cast<uint32>(key)] == KeyState::Up;
 }

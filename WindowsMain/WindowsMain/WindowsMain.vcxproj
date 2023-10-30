@@ -167,6 +167,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ItemBox.cpp" />
     <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="Panel.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceBase.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="SpriteActor.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TestButton.cpp" />
+    <ClCompile Include="TestPanel.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TrackingMonster.cpp" />
@@ -205,6 +207,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="ItemBox.h" />
     <ClInclude Include="KeyManager.h" />
+    <ClInclude Include="Panel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceBase.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -215,6 +218,7 @@
     <ClInclude Include="SpriteActor.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestButton.h" />
+    <ClInclude Include="TestPanel.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TrackingMonster.h" />
