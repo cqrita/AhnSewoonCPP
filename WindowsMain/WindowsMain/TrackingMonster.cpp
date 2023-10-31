@@ -4,6 +4,7 @@
 void TrackingMonster::Init()
 {
 	Super::Init();
+	SetName("Monster");
 }
 void TrackingMonster::Render(HDC hdc)
 {

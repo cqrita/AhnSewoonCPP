@@ -58,6 +58,7 @@ void Dev1Scene::Init()
 
 	{
 		TestPanel* testPanel = new TestPanel();
+		testPanel->SetRect(Rect::MakeCenterRect(WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT, 200, 200));
 		testPanel->Init();
 		_UIs.push_back(testPanel);
 	}
@@ -69,16 +70,17 @@ void Dev1Scene::Init()
 void Dev1Scene::Render(HDC hdc)
 {
 	_background->Render(hdc);
-	for (UI* ui : _UIs)
-	{
-		ui->Render(hdc);
-	}
 	for (int i = 0; i < _actors.size(); i++)
 	{
 		_actors[i]->Render(hdc);
 	}
 
 	_player->Render(hdc);
+	for (UI* ui : _UIs)
+	{
+		ui->Render(hdc);
+	}
+
 	char str[250];
 	sprintf_s(str, "DEV1SCENE");
 	TextOut(hdc, 0, WIN_SIZE_HEIGHT - 50, str, strlen(str));
@@ -119,6 +121,12 @@ void Dev1Scene::Release()
 
 	_player->Release();
 	SAFE_DELETE(_player);
+	for (UI* ui : _UIs)
+	{
+		ui->Release();
+		SAFE_DELETE(ui);
+	}
+	_UIs.clear();
 
 	for (int i = 0; i < _actors.size(); i++)
 	{
@@ -127,12 +135,6 @@ void Dev1Scene::Release()
 	}
 	_actors.clear();
 
-	for (UI* ui : _UIs)
-	{
-		ui->Release();
-		SAFE_DELETE(ui);
-	}
-	_UIs.clear();
 
 	_background->Release();
 	SAFE_DELETE(_background);
@@ -165,6 +167,28 @@ void Dev1Scene::SetPlayerResource()
 		info.size = { 200, 200 };
 		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Idle_Down", info);
 	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Down");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 6;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Attack_Down", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Down");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 5;
+		info.line = 2;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Hit_Down", info);
+	}
 	GET_SINGLE(ResourceManager)->LoadTexture("T_Character_Up", "Character/PlayerUp.bmp", RGB(128, 128, 128));
 	{
 		FlipbookInfo info;
@@ -187,6 +211,28 @@ void Dev1Scene::SetPlayerResource()
 		info.loop = true;
 		info.size = { 200, 200 };
 		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Idle_Up", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Up");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 6;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Attack_Up", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Up");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 5;
+		info.line = 2;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Hit_Up", info);
 	}
 	GET_SINGLE(ResourceManager)->LoadTexture("T_Character_Left", "Character/PlayerLeft.bmp", RGB(128, 128, 128));
 	{
@@ -211,6 +257,28 @@ void Dev1Scene::SetPlayerResource()
 		info.size = { 200, 200 };
 		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Idle_Left", info);
 	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Left");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 6;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Attack_Left", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Left");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 5;
+		info.line = 2;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Hit_Left", info);
+	}
 	GET_SINGLE(ResourceManager)->LoadTexture("T_Character_Right", "Character/PlayerRight.bmp", RGB(128, 128, 128));
 	{
 		FlipbookInfo info;
@@ -233,6 +301,28 @@ void Dev1Scene::SetPlayerResource()
 		info.loop = true;
 		info.size = { 200, 200 };
 		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Idle_Right", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Right");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 9;
+		info.line = 6;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Attack_Right", info);
+	}
+	{
+		FlipbookInfo info;
+		info.texture = GET_SINGLE(ResourceManager)->GetTexture("T_Character_Right");
+		info.duration = 0.5f;
+		info.start = 0;
+		info.end = 5;
+		info.line = 2;
+		info.loop = false;
+		info.size = { 200, 200 };
+		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Hit_Right", info);
 	}
 
 	{

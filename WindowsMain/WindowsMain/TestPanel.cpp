@@ -14,7 +14,7 @@ void TestPanel::Init()
 	Super::Init();
 	{
 		Button* button = new Button();
-		button->SetRect(Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 300, 300));
+		button->SetRect(Rect::MakeCenterRect(WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT, 100, 100));
 		button->AddOnClickDelegate(this, &TestPanel::OnClick_StartButton);
 		button->SetSprite(eButtonState::Default, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Default"));
 		button->SetSprite(eButtonState::Hover, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Hover"));
@@ -24,7 +24,7 @@ void TestPanel::Init()
 	}
 	{
 		Button* button = new Button();
-		button->SetRect(Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 300, 300));
+		button->SetRect(Rect::MakeCenterRect(WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT, 100, 100));
 		button->AddOnClickDelegate(this, &TestPanel::OnClick_StartButton);
 		button->SetSprite(eButtonState::Default, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Default"));
 		button->SetSprite(eButtonState::Hover, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Hover"));

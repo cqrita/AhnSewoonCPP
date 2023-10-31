@@ -48,9 +48,12 @@ void FlipbookActor::Update()
 	float delta = info.duration / frameAmount;
 	if (delta <= _sumTime)
 	{
-		_sumTime -= delta;
-		_index++;
-		_index %= frameAmount;
+		if ((info.loop == false && _index == info.end)==false)
+		{
+			_sumTime -= delta;
+			_index++;
+			_index %= frameAmount + info.start;
+		}
 	}
 }
 

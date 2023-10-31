@@ -47,6 +47,7 @@ bool BoxCollider::CheckCollision(Collider* other)
 		break;
 	}
 	}
+	return false;
 }
 BoxCollider::BoxCollider() : Collider(ColliderType::Box)
 {

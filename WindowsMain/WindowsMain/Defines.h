@@ -21,3 +21,5 @@ public:                             \
 #define PI 3.14159265358979f
 #define Deg2Rad(deg) (0.0174533*deg)
 #define Rad2Deg(rad) (57.2958*rad)
+
+#define Alert(title,message) MessageBox(_hwnd, title, message, NULL);
