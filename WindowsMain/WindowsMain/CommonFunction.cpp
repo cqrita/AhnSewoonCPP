@@ -38,6 +38,11 @@ namespace Collision
 			return true;
 		}
 	}
+	bool CircleInCircle(CenterCircle c1, CenterCircle c2)
+	{
+		float length = (c1.center - c2.center).Length();
+		return length <= c1.radius + c2.radius;
+	}
 }
 
 

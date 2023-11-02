@@ -13,6 +13,23 @@ enum class ColliderType
 	Box,
 	Circle
 };
+enum class LayerType
+{
+	 Background,
+	 Object,
+
+	 End
+};
+namespace eCounter
+{
+	const int LAYER_MAXCOUNT = static_cast<int>(LayerType::End);
+}
+enum CollisionLayerType : uint8
+{
+	CLT_OBJECT,
+	CLT_GROUND,
+	CLT_WALL,
+};
 enum class ItemBoxType
 {
 	HPItemBox,

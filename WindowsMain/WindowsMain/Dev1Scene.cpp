@@ -18,29 +18,35 @@
 void Dev1Scene::Init()
 {
 
-
+	Super::Init();
 
 	SetPlayerResource();
 	Texture* texture=GET_SINGLE(ResourceManager)->LoadTexture("T_background", "background.jpg", RGB(255, 0, 255));
 	Sprite* sprite=GET_SINGLE(ResourceManager)->CreateSprite("S_background", texture);
 
 	_background = new SpriteActor();
-	_background->Init();
+	_background->SetLayer(LayerType::Background);
 	_background->SetSprite(sprite);
 	_background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, WIN_SIZE_WIDTH*4, WIN_SIZE_HEIGHT*4));
+	GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_background);
 	{
 		_player = new Player();
-		_player->Init();
 		_player->SetPlayerInfo(500, Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 200, 200));
 		{
 			BoxCollider* collider = new BoxCollider();
 			collider->SetCollision(Rect::MakeCenterRect(0, 0, 100, 100));
+			collider->SetCollisionLayer(CollisionLayerType::CLT_OBJECT);
+			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_GROUND);
+			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
+			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_WALL);
+
 			_player->AddComponent(collider);
 		}
 		{
 			CameraComponent* camera = new CameraComponent();
 			_player->AddComponent(camera);
 		}
+		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_player);
 	}
 	{
 		TrackingMonster* trackingMonster = new TrackingMonster();
@@ -62,25 +68,10 @@ void Dev1Scene::Init()
 		testPanel->Init();
 		_UIs.push_back(testPanel);
 	}
-	for (UI* ui : _UIs)
-	{
-		ui->Init();
-	}
 }
 void Dev1Scene::Render(HDC hdc)
 {
-	_background->Render(hdc);
-	for (int i = 0; i < _actors.size(); i++)
-	{
-		_actors[i]->Render(hdc);
-	}
-
-	_player->Render(hdc);
-	for (UI* ui : _UIs)
-	{
-		ui->Render(hdc);
-	}
-
+	Super::Render(hdc);
 	char str[250];
 	sprintf_s(str, "DEV1SCENE");
 	TextOut(hdc, 0, WIN_SIZE_HEIGHT - 50, str, strlen(str));
@@ -88,17 +79,8 @@ void Dev1Scene::Render(HDC hdc)
 }
 void Dev1Scene::Update()
 {
-	for (int i = 0; i < _actors.size(); i++)
-	{
-		_actors[i]->Update();
-	}
-	_player->Update();
-	_background->Update();
+	Super::Update();
 
-	for (UI* ui : _UIs)
-	{
-		ui->Update();
-	}
 	if(Input->GetKeyDown('Z'))
 	{
 		cout << "Z" << endl;
@@ -118,24 +100,9 @@ void Dev1Scene::Update()
 }
 void Dev1Scene::Release()
 {
-
+	Super::Release();
 	_player->Release();
 	SAFE_DELETE(_player);
-	for (UI* ui : _UIs)
-	{
-		ui->Release();
-		SAFE_DELETE(ui);
-	}
-	_UIs.clear();
-
-	for (int i = 0; i < _actors.size(); i++)
-	{
-		_actors[i]->Release();
-		SAFE_DELETE(_actors[i]);
-	}
-	_actors.clear();
-
-
 	_background->Release();
 	SAFE_DELETE(_background);
 }

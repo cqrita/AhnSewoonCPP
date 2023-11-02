@@ -145,15 +145,16 @@ void Player::UpdateMove()
 	}
 	ePlayerState newState = ePlayerState::Move;
 	uint32 currentOrder = 0;
-	if (currentOrder <= 0 && _onHit)
-	{
-		newState = ePlayerState::Hit;
-		currentOrder = 0;
-	}
+	
 	if (currentOrder <= 1 && false == (EPSILON < _direction.Length()))
 	{
 		newState = ePlayerState::Idle;
 		currentOrder = 1;
+	}
+	if (currentOrder <= 5 && _onHit)
+	{
+		newState = ePlayerState::Hit;
+		currentOrder = 5;
 	}
 	SetState(newState);
 }
@@ -163,11 +164,6 @@ void Player::UpdateIdle()
 	ePlayerState newState = ePlayerState::Idle;
 	uint32 currentOrder = 0;
 
-	if (currentOrder <= 1 && _onHit)
-	{
-		newState = ePlayerState::Hit;
-		currentOrder = 1;
-	}
 	if (currentOrder <= 2 && EPSILON < _direction.Length())
 	{
 		newState = ePlayerState::Move;
@@ -178,17 +174,22 @@ void Player::UpdateIdle()
 		newState = ePlayerState::Attack;
 		currentOrder = 3;
 	}
+	if (currentOrder <= 5 && _onHit)
+	{
+		newState = ePlayerState::Hit;
+		currentOrder = 5;
+	}
+
 	this->SetState(newState);
 }
 
 void Player::UpdateAttack()
 {
-	if (_index==5 && _IsAttack==false)
+	if (_index==3 && _IsAttack==false)
 	{
 		for (int i = 0; i < _missileStat; i++)
 		{
 			Bullet* bullet = new Bullet();
-			bullet->Init();
 			Vector2 direction;
 			switch (_spriteDir)
 			{
@@ -222,17 +223,12 @@ void Player::UpdateAttack()
 		}
 		_IsAttack = true;
 	}
-	if (_index == 0)
+	if (_index == 0|| _index == 4)
 	{
 		_IsAttack = false;
 	}
 	ePlayerState newState = ePlayerState::Attack;
 	uint32 currentOrder = 0;
-	if (currentOrder <= 0 && _onHit)
-	{
-		newState = ePlayerState::Hit;
-		currentOrder = 0;
-	}
 
 	if (_flipbook->GetInfo().end == _index)
 	{
@@ -247,6 +243,11 @@ void Player::UpdateAttack()
 			newState = ePlayerState::Move;
 			currentOrder = 2;
 		}
+	}
+	if (currentOrder <= 5 && _onHit)
+	{
+		newState = ePlayerState::Hit;
+		currentOrder = 5;
 	}
 
 	this->SetState(newState);

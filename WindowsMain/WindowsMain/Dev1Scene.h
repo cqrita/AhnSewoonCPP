@@ -2,6 +2,8 @@
 #include "Scene.h"
 class Dev1Scene : public Scene
 {
+public:
+	using Super = Scene;
 private:
 	class Player* _player = nullptr;
 	class ItemBox* _itemBox = nullptr;

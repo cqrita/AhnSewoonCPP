@@ -2,7 +2,7 @@
 class Scene
 {
 public:
-	vector<class Actor*> _actors;
+	vector<class Actor*> _actors[eCounter::LAYER_MAXCOUNT];
 	vector<class UI*> _UIs;
 
 	Vector2Int _cameraPosition{};

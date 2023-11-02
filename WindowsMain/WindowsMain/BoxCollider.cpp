@@ -35,19 +35,26 @@ void BoxCollider::Release()
 }
 bool BoxCollider::CheckCollision(Collider* other)
 {
-	switch (other->GetColliderType())
+	if(Super::CheckCollision(other) == false)
 	{
-	case ColliderType::Circle:
-		break;
-	case ColliderType::Box:
+		return false;
+	}
+	else
 	{
-		BoxCollider* otherCollider = static_cast<BoxCollider*>(other);
-		CenterRect otherCollision = otherCollider->GetCollision();
-		return Collision::RectInRect(this->GetCollision(), otherCollision);
-		break;
+		switch (other->GetColliderType())
+		{
+		case ColliderType::Circle:
+			break;
+		case ColliderType::Box:
+		{
+			BoxCollider* otherCollider = static_cast<BoxCollider*>(other);
+			CenterRect otherCollision = otherCollider->GetCollision();
+			return Collision::RectInRect(this->GetCollision(), otherCollision);
+			break;
+		}
+		}
+		return false;
 	}
-	}
-	return false;
 }
 BoxCollider::BoxCollider() : Collider(ColliderType::Box)
 {

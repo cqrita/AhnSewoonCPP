@@ -8,3 +8,9 @@ struct CenterRect
 	Vector2 Position();
 	static CenterRect FromRect(RECT rect);
 };
+struct CenterCircle
+{
+	Vector2 center;
+	float radius;
+	CenterRect ToCenterRect();
+};

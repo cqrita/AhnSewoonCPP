@@ -83,4 +83,5 @@ namespace Collision
 {
 	bool PtInRect(CenterRect Rect, POINT pt);
 	bool RectInRect(CenterRect Rect1, CenterRect Rect2);
+	bool CircleInCircle(CenterCircle c1, CenterCircle c2);
 }

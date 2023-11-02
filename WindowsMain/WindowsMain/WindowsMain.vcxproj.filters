@@ -158,6 +158,9 @@
     <ClCompile Include="TestPanel.cpp">
       <Filter>소스 파일\06.UI\Game</Filter>
     </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
+      <Filter>소스 파일\04.Component\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -273,6 +276,9 @@
     </ClInclude>
     <ClInclude Include="TestPanel.h">
       <Filter>소스 파일\06.UI\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleCollider.h">
+      <Filter>소스 파일\04.Component\Collider</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
