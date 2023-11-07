@@ -43,6 +43,27 @@ namespace Collision
 		float length = (c1.center - c2.center).Length();
 		return length <= c1.radius + c2.radius;
 	}
+	bool RectInCircle(CenterRect rect, CenterCircle circle)
+	{
+		float dx = abs(rect.x - circle.center.x);
+		float dy = abs(rect.y - circle.center.y);
+
+		float distX = dx - rect.width / 2;
+		float distY = dy - rect.height / 2;
+
+		if (distX > circle.radius || distY > circle.radius) {
+			return false;
+		}
+
+		if (distX <= 0 || distY <= 0) {
+			return true;
+		}
+
+		float cornerDistance_sq = (distX * distX) + (distY * distY);
+
+		return cornerDistance_sq <= (circle.radius * circle.radius);
+
+	}
 }
 
 

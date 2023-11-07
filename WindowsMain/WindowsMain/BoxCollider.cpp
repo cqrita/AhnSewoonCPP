@@ -2,6 +2,7 @@
 #include "BoxCollider.h"
 #include "Actor.h"
 #include "Scene.h"
+#include "CircleCollider.h"
 void BoxCollider::Init()
 {
 	Super::Init();
@@ -44,12 +45,17 @@ bool BoxCollider::CheckCollision(Collider* other)
 		switch (other->GetColliderType())
 		{
 		case ColliderType::Circle:
-			break;
-		case ColliderType::Box:
 		{
 			BoxCollider* otherCollider = static_cast<BoxCollider*>(other);
 			CenterRect otherCollision = otherCollider->GetCollision();
 			return Collision::RectInRect(this->GetCollision(), otherCollision);
+			break;
+		}
+		case ColliderType::Box:
+		{
+			CircleCollider* otherCollider = static_cast<CircleCollider*>(other);
+			CenterCircle otherCollision = otherCollider->GetCollision();
+			return Collision::RectInCircle(this->GetCollision(), otherCollision);
 			break;
 		}
 		}

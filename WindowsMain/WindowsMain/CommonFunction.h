@@ -30,7 +30,17 @@ namespace Rect
 		return rc;
 	}
 }
-
+namespace Circle
+{
+	inline CenterCircle MakeCenterCircle(float x, float y, float radius)
+	{
+		CenterCircle rc;
+		rc.center.x = x;
+		rc.center.y = y;
+		rc.radius = radius;
+		return rc;
+	}
+}
 namespace Draw
 {
 	inline void Rect(HDC hdc,RECT rc)
@@ -84,4 +94,5 @@ namespace Collision
 	bool PtInRect(CenterRect Rect, POINT pt);
 	bool RectInRect(CenterRect Rect1, CenterRect Rect2);
 	bool CircleInCircle(CenterCircle c1, CenterCircle c2);
+	bool RectInCircle(CenterRect rect1, CenterCircle c2);
 }

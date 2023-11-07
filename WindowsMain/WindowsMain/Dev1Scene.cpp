@@ -14,7 +14,7 @@
 #include "CameraComponent.h"
 #include "Button.h";
 #include "TestPanel.h"
-
+#include "CircleCollider.h"
 void Dev1Scene::Init()
 {
 
@@ -33,8 +33,8 @@ void Dev1Scene::Init()
 		_player = new Player();
 		_player->SetPlayerInfo(500, Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 200, 200));
 		{
-			BoxCollider* collider = new BoxCollider();
-			collider->SetCollision(Rect::MakeCenterRect(0, 0, 100, 100));
+			CircleCollider* collider = new CircleCollider();
+			collider->SetCollision(Circle::MakeCenterCircle(0, 0, 50));
 			collider->SetCollisionLayer(CollisionLayerType::CLT_OBJECT);
 			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_GROUND);
 			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
@@ -53,8 +53,12 @@ void Dev1Scene::Init()
 		trackingMonster->Init();
 		trackingMonster->SetTrackingMonsterInfo(PI/3.0f,50,Vector2(100,100), Vector2::Down());
 		{
-			BoxCollider* collider = new BoxCollider();
-			collider->SetCollision(Rect::MakeCenterRect(0, 0, 50, 50));
+			CircleCollider* collider = new CircleCollider();
+			collider->SetCollision(Circle::MakeCenterCircle(0, 0, 50));
+			collider->SetCollisionLayer(CollisionLayerType::CLT_OBJECT);
+			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_GROUND);
+			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
+			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_WALL);
 			trackingMonster->AddComponent(collider);
 		}
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(trackingMonster);
@@ -101,10 +105,6 @@ void Dev1Scene::Update()
 void Dev1Scene::Release()
 {
 	Super::Release();
-	_player->Release();
-	SAFE_DELETE(_player);
-	_background->Release();
-	SAFE_DELETE(_background);
 }
 
 void Dev1Scene::SetPlayerResource()

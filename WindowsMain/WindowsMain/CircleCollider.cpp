@@ -2,6 +2,7 @@
 #include "CircleCollider.h"
 #include "Scene.h"
 #include "Actor.h"
+#include "BoxCollider.h"
 CenterCircle CircleCollider::GetCollision()
 {
 	CenterRect body = GetOwner()->GetBody();
@@ -61,6 +62,9 @@ bool CircleCollider::CheckCollision(Collider* other)
 		}
 		case ColliderType::Box:
 		{
+			BoxCollider* otherCollider = static_cast<BoxCollider*>(other);
+			CenterRect otherCollision = otherCollider->GetCollision();
+			return Collision::RectInCircle(otherCollision, this->GetCollision());
 			break;
 		}
 		}

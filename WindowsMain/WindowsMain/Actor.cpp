@@ -6,7 +6,7 @@ void Actor::Init()
 {
 	for (Component* component : _components)
 	{
-		component->Init();
+		//component->Init();
 	}
 }
 void Actor::Render(HDC hdc)
