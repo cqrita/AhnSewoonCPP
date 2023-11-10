@@ -130,6 +130,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>winsqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -161,6 +162,7 @@
     <ClCompile Include="CommonFunction.cpp" />
     <ClCompile Include="CommonStruct.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="Dev1Scene.cpp" />
     <ClCompile Include="Dev2Scene.cpp" />
     <ClCompile Include="Flipbook.cpp" />
@@ -186,6 +188,7 @@
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector2Int.cpp" />
+    <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +203,7 @@
     <ClInclude Include="CommonFunction.h" />
     <ClInclude Include="CommonStruct.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DataManager.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Dev1Scene.h" />
     <ClInclude Include="Dev2Scene.h" />
@@ -228,6 +232,7 @@
     <ClInclude Include="UI.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector2Int.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

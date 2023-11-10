@@ -15,6 +15,7 @@
 #include "Button.h";
 #include "TestPanel.h"
 #include "CircleCollider.h"
+#include "Wall.h"
 void Dev1Scene::Init()
 {
 
@@ -63,6 +64,14 @@ void Dev1Scene::Init()
 		}
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(trackingMonster);
 		trackingMonster->SetTargetActor(_player);
+	}
+
+	vector<RECT> walls = GET_SINGLE(DataManager)->GetCollisionData();
+	for (RECT rc : walls)
+	{
+		Wall* wall = new Wall();
+		wall->SetWallInfo(rc);
+		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(wall);
 	}
 
 

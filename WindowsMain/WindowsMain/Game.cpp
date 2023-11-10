@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
 
-
 void Game::Init()
 {
 
@@ -18,6 +17,7 @@ void Game::Init()
 	Gdiplus::GdiplusStartup(&this->_gdiPlusToken, &gdiplusStartupInput, NULL);
 
 	//singleton
+	GET_SINGLE(DataManager)->Init();
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(SceneManager)->Init();
 	GET_SINGLE(KeyManager)->Init();
@@ -54,6 +54,7 @@ void Game::Release()
 	GET_SINGLE(SceneManager)->Release();
 	GET_SINGLE(KeyManager)->Release();
 	GET_SINGLE(ResourceManager)->Release();
+	GET_SINGLE(DataManager)->Release();
 
 
 }

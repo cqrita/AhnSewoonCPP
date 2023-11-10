@@ -37,7 +37,7 @@ using namespace std;
 #include "SceneManager.h"
 #include "CollisionManager.h"
 #include "ResourceManager.h"
-
+#include "DataManager.h"
 //define
 
 #define WIN_NAME "SBS_ACADEMY"
