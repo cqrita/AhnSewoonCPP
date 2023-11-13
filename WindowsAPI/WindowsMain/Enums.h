@@ -9,9 +9,26 @@ enum class SceneType
 
 enum class ColliderType
 {
+	None,
 	Box,
-	Circle,
-	None
+	Circle
+};
+enum class LayerType
+{
+	 Background,
+	 Object,
+
+	 End
+};
+namespace eCounter
+{
+	const int LAYER_MAXCOUNT = static_cast<int>(LayerType::End);
+}
+enum CollisionLayerType : uint8
+{
+	CLT_OBJECT,
+	CLT_GROUND,
+	CLT_WALL,
 };
 enum class ItemBoxType
 {

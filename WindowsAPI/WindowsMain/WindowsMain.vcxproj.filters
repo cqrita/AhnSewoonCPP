@@ -39,6 +39,18 @@
     <Filter Include="소스 파일\05.Resources">
       <UniqueIdentifier>{7900437b-9e49-4d17-b2f4-e116c59e3914}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\99.Utils\Types">
+      <UniqueIdentifier>{7f628358-8989-4f9d-816b-29134257b263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\06.UI">
+      <UniqueIdentifier>{2b95fa19-66f9-4cea-9288-0f426be58158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\06.UI\Game">
+      <UniqueIdentifier>{10d751a3-3ab3-44f4-afd3-6556fa6c3a91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01.Manager\Game">
+      <UniqueIdentifier>{ac8e6bfb-50fc-4759-880f-999ffc04569b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -125,7 +137,37 @@
     <ClCompile Include="FlipbookActor.cpp">
       <Filter>소스 파일\03.Object</Filter>
     </ClCompile>
-    <ClCompile Include="Sword.cpp">
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>소스 파일\04.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>소스 파일\99.Utils\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2Int.cpp">
+      <Filter>소스 파일\99.Utils\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>소스 파일\06.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>소스 파일\06.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TestButton.cpp">
+      <Filter>소스 파일\06.UI\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Panel.cpp">
+      <Filter>소스 파일\06.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TestPanel.cpp">
+      <Filter>소스 파일\06.UI\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
+      <Filter>소스 파일\04.Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>소스 파일\01.Manager\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
       <Filter>소스 파일\03.Object\Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -152,9 +194,6 @@
       <Filter>소스 파일\99.Utils</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>소스 파일\99.Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Types.h">
       <Filter>소스 파일\99.Utils</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
@@ -220,7 +259,40 @@
     <ClInclude Include="FlipbookActor.h">
       <Filter>소스 파일\03.Object</Filter>
     </ClInclude>
-    <ClInclude Include="Sword.h">
+    <ClInclude Include="CameraComponent.h">
+      <Filter>소스 파일\04.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>소스 파일\99.Utils\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>소스 파일\99.Utils\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2Int.h">
+      <Filter>소스 파일\99.Utils\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>소스 파일\06.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>소스 파일\06.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TestButton.h">
+      <Filter>소스 파일\06.UI\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Panel.h">
+      <Filter>소스 파일\06.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TestPanel.h">
+      <Filter>소스 파일\06.UI\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleCollider.h">
+      <Filter>소스 파일\04.Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>소스 파일\01.Manager\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
       <Filter>소스 파일\03.Object\Game</Filter>
     </ClInclude>
   </ItemGroup>

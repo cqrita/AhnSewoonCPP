@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "TrackingMonster.h"
+#include "Scene.h"
 void TrackingMonster::Init()
 {
 	Super::Init();
-	this->SetName("Monster");
-
+	SetName("Monster");
 }
 void TrackingMonster::Render(HDC hdc)
 {
@@ -12,11 +12,12 @@ void TrackingMonster::Render(HDC hdc)
 	Vector2 forwardDirection = _direction.Normalize();
 	Vector2 leftDirection = Vector2(-forwardDirection.y, forwardDirection.x);
 	Vector2 rightDirection = Vector2(forwardDirection.y, -forwardDirection.x);
-
+	Vector2Int cameraPos = CurrentScene->GetCameraPos();
+	cameraPos -= Vector2Int(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2);
 	Vector2 leftEndPos = Vector2(_body.x, _body.y) + (forwardDirection * cos(_trackingRadian / 2) + leftDirection * sin(_trackingRadian / 2)) * 200;
 	Vector2 rightEndPos = Vector2(_body.x, _body.y) + (forwardDirection * cos(_trackingRadian / 2) + rightDirection * sin(_trackingRadian / 2)) * 200;
-	Draw::Line(hdc, Vector2(_body.x, _body.y), leftEndPos);
-	Draw::Line(hdc, Vector2(_body.x, _body.y), rightEndPos);
+	Draw::Line(hdc, Vector2(_body.x, _body.y) - cameraPos, leftEndPos-cameraPos);
+	Draw::Line(hdc, Vector2(_body.x, _body.y) - cameraPos, rightEndPos-cameraPos);
 }
 void TrackingMonster::Update()
 {

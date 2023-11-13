@@ -7,20 +7,24 @@
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console") 
 
 
+
+
 //stl
 #include <string>
 #include <vector>
 #include <algorithm>
 #include <unordered_set>
 #include <map>
-
+#include <functional>
 //gdiplus
 #include <gdiplus.h>
 #pragma comment(lib, "gdiplus.lib") 
 #pragma comment(lib, "msimg32.lib")
 
 //using namespace Gdiplus
-
+// 
+//namespace
+using namespace std;
 
 //header
 #include "Defines.h"
@@ -33,9 +37,7 @@
 #include "SceneManager.h"
 #include "CollisionManager.h"
 #include "ResourceManager.h"
-//namespace
-using namespace std;
-
+#include "DataManager.h"
 //define
 
 #define WIN_NAME "SBS_ACADEMY"
@@ -45,8 +47,8 @@ using namespace std;
 #define WIN_SIZE_HEIGHT 800
 #define WIN_STYLE WS_OVERLAPPEDWINDOW
 
-#define SAFE_DELETE(p) {if((p)) delete p; (p)=nullptr;}
-#define SAFE_DELETE_ARRAY(p) {if((p)) delete[] p; (p)=nullptr;}
+#define SAFE_DELETE(p) {if((p)) delete p; (p)=NULL;}
+#define SAFE_DELETE_ARRAY(p) {if((p)) delete[] p; (p)=NULL;}
 
 extern HINSTANCE _hInstance;
 extern HWND _hwnd;

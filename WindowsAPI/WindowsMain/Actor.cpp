@@ -4,10 +4,9 @@
 #include "Collider.h"
 void Actor::Init()
 {
-	SetName("Actor");
 	for (Component* component : _components)
 	{
-		component->Init();
+		//component->Init();
 	}
 }
 void Actor::Render(HDC hdc)
@@ -40,8 +39,8 @@ void Actor::AddComponent(Component* component)
 	{
 		return;
 	}
-	component->Init();
 	component->SetOwner(this);
+	component->Init();
 	_components.push_back(component);
 }
 void Actor::RemoveComponent(Component* component)

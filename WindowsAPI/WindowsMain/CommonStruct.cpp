@@ -29,3 +29,8 @@ Vector2 CenterRect::Position()
 {
 	return Vector2(x, y);
 }
+
+CenterRect CenterCircle::ToCenterRect()
+{
+	return CenterRect(center.x,center.y,radius*2,radius*2);
+}

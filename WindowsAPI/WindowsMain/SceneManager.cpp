@@ -48,7 +48,11 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	default:
 		break;
 	}
-	SAFE_DELETE(_scene);
+	if (_scene != nullptr)
+	{
+		_scene->Release();
+		SAFE_DELETE(_scene);
+	}
 	_scene = newScene;
 	_sceneType = sceneType;
 	_scene->Init();

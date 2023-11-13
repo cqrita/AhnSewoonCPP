@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "Game.h"
 
-
 void Game::Init()
 {
-
 
 	//double buffering
 
@@ -19,13 +17,14 @@ void Game::Init()
 	Gdiplus::GdiplusStartup(&this->_gdiPlusToken, &gdiplusStartupInput, NULL);
 
 	//singleton
+	GET_SINGLE(DataManager)->Init();
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(SceneManager)->Init();
 	GET_SINGLE(KeyManager)->Init();
 	GET_SINGLE(CollisionManager)->Init();
 	GET_SINGLE(ResourceManager)->Init();
 
-	GET_SINGLE(SceneManager)->ChangeScene(SceneType::Dev1Scene);
+	GET_SINGLE(SceneManager)->ChangeScene(SceneType::Dev2Scene);
 
 }
 void Game::Update()
@@ -33,6 +32,7 @@ void Game::Update()
 	GET_SINGLE(TimeManager)->Update();
 	GET_SINGLE(CollisionManager)->Update();
 	GET_SINGLE(SceneManager)->Update();
+	GET_SINGLE(KeyManager)->Update();
 
 }
 void Game::Render()
@@ -54,6 +54,7 @@ void Game::Release()
 	GET_SINGLE(SceneManager)->Release();
 	GET_SINGLE(KeyManager)->Release();
 	GET_SINGLE(ResourceManager)->Release();
+	GET_SINGLE(DataManager)->Release();
 
 
 }
