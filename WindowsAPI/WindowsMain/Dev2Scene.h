@@ -9,6 +9,7 @@ private:
 	RECT _mouseRect;
 	vector<class Wall*> _walls;
 	vector<RECT> _rectWalls;
+	int _cWall;
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;

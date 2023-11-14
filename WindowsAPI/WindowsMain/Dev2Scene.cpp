@@ -41,7 +41,7 @@ void Dev2Scene::Init()
 	}
 
 
-
+	int _cWall = 0;
 	_mouseFlag = false;
 	Scene::Init();
 
@@ -57,23 +57,30 @@ void Dev2Scene::Render(HDC hdc)
 void Dev2Scene::Update()
 {
 	Scene::Update();
-	if (Input->GetKeyDown(VK_LBUTTON)&&_mouseFlag==false)
+	if (Input->GetKeyDown(VK_LBUTTON))
 	{
 		_mouseFlag = true;
 		_mouseRect = RECT{};
 		_mouseRect.left= _mousePos.x;
 		_mouseRect.top = _mousePos.y;
-	}
-	if (Input->GetKeyUp(VK_LBUTTON) && _mouseFlag == true)
-	{
-		_mouseFlag = false;
 		_mouseRect.right = _mousePos.x;
 		_mouseRect.bottom = _mousePos.y;
 		Wall* wall = new Wall();
 		wall->SetWallInfo(_mouseRect);
 		_walls.push_back(wall);
-		_rectWalls.push_back(RECT(_mouseRect));
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(wall);
+	}
+	if (_mouseFlag == true&&_walls.size()!=0)
+	{
+		_mouseRect.right = _mousePos.x;
+		_mouseRect.bottom = _mousePos.y;
+		_walls[_cWall]->SetWallInfo(_mouseRect);
+		if (Input->GetKeyUp(VK_LBUTTON))
+		{
+			_mouseFlag = false;
+			_rectWalls.push_back(RECT(_mouseRect));
+			_cWall++;
+		}
 	}
 }
 void Dev2Scene::Release()
@@ -88,7 +95,9 @@ void Dev2Scene::ResetButton()
 	{
 		GET_SINGLE(SceneManager)->GetCurrentScene()->DeSpawnActor(wall);
 	}
+	_rectWalls.clear();
 	_walls.clear();
+	_cWall = 0;
 }
 
 void Dev2Scene::SaveButton()
