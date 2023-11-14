@@ -106,5 +106,6 @@ void Dev2Scene::SaveButton()
 	GET_SINGLE(DataManager)->SaveCollisionData(_rectWalls);
 	_rectWalls.clear();
 	_walls.clear();
+	_cWall = 0;
 
 }
