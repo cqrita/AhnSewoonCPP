@@ -78,6 +78,26 @@ void DataManager::SaveCollisionData(vector<RECT> rectVec)
     
 }
 
+void DataManager::ClearCollisionData()
+{
+    char* errMsg = 0;
+    int rc;
+
+    string aa = "DELETE FROM TblCollisionDatas";
+    const char* sql = aa.c_str();
+    rc = sqlite3_exec(_db, sql, callback, 0, &errMsg);
+    if (rc != SQLITE_OK)
+    {
+        std::cerr << "SQL error: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+    }
+    else
+    {
+        std::cout << "[DataManager] Data cleared successfully" << std::endl;
+    }
+
+}
+
 vector<RECT> DataManager::GetCollisionData()
 {
     vector<RECT> rv;

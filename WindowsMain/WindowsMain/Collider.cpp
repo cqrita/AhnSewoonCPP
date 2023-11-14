@@ -19,6 +19,7 @@ void Collider::Release()
 bool Collider::CheckCollision(Collider* other)
 {
 	uint8 otherLayer = other->GetCollisionLayer();
+	cout << (int)other->GetCollisionFlag() << endl;
 	if (_collisionlayer & (1 << otherLayer))
 	{
 		uint8 myLayer=this->GetCollisionLayer();

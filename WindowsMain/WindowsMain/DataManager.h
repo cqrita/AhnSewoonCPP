@@ -12,6 +12,8 @@ public:
 	void Release();
 public:
 	void SaveCollisionData(vector<RECT> rectVec);
+	void ClearCollisionData();
+
 	vector<RECT>GetCollisionData();
 };
 
