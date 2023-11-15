@@ -1,6 +1,7 @@
 #pragma once
 #include "CommonStruct.h"
 #include <vector>
+#include "Vector2Int.h"
 //
 
 //Rect
@@ -29,6 +30,17 @@ namespace Rect
 
 		return rc;
 	}
+	inline void ChangeToNormalValue(RECT& rc)
+	{
+		if (rc.left > rc.right)
+		{
+			swap(rc.left, rc.right);
+		}
+		if (rc.top > rc.bottom)
+		{
+			swap(rc.top, rc.bottom);
+		}
+	}
 }
 namespace Circle
 {
@@ -47,6 +59,9 @@ namespace Draw
 	{
 		Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
 	}
+	void Rect(HDC hdc, RECT rc, Vector2Int cameraPos);
+	
+
 	inline void Rect(HDC hdc, CenterRect rc)
 	{
 		Rectangle(hdc,

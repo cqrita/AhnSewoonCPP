@@ -299,6 +299,7 @@ void Player::OnComponentBeginOverlap(class Collider* collider, class Collider* o
 	if (other->GetOwner()->GetName() == "Monster")
 	{
 		_onHit = true;
+		cout << "hit" << endl;
 	}
 
 }

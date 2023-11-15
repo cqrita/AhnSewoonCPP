@@ -1,111 +1,71 @@
 #include "stdafx.h"
 #include "Dev2Scene.h"
-#include "Button.h"
+#include "Wall.h"
+#include "Mario.h"
+#include "BoxCollider.h"
+#include "CameraComponent.h"
 #include "SpriteActor.h"
 #include "Texture.h"
-#include "Wall.h"
+#include "Sprite.h"
 void Dev2Scene::Init()
 {
 	{
-		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture("T_StartButton", "Buttons/Start.bmp", RGB(255, 0, 210));
-		GET_SINGLE(ResourceManager)->CreateSprite("S_StartButton_Default", texture, 0, 0, 200, 200);
-		GET_SINGLE(ResourceManager)->CreateSprite("S_StartButton_Hover", texture, 200, 0, 200, 200);
-		GET_SINGLE(ResourceManager)->CreateSprite("S_StartButton_Pressed", texture, 400, 0, 200, 200);
-		GET_SINGLE(ResourceManager)->CreateSprite("S_StartButton_Disabled", texture, 600, 0, 200, 200);
+		SpriteActor* background = new SpriteActor();
+		background->SetLayer(LayerType::Background);
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture("T_background", "Background/backround_supermario.bmp", RGB(255, 0, 255));
+		Sprite* sprite = GET_SINGLE(ResourceManager)->CreateSprite("S_background", texture);
+		background->SetSprite(sprite);
+		background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH * 3.5, 0, WIN_SIZE_WIDTH * 8, WIN_SIZE_HEIGHT));
+		SpawnActor(background);
 	}
 
-	Button* button = new Button();
-	button->SetRect(Rect::MakeCenterRect(WIN_SIZE_WIDTH/2-100, WIN_SIZE_HEIGHT/2, 100, 100));
-	button->AddOnClickDelegate(this, &Dev2Scene::SaveButton);
-	button->SetSprite(eButtonState::Default, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Default"));
-	button->SetSprite(eButtonState::Hover, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Hover"));
-	button->SetSprite(eButtonState::Pressed, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Pressed"));
-	button->SetSprite(eButtonState::Disabled, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Disabled"));
-	_UIs.push_back(button);
-
-	Button* button2 = new Button();
-	button2->SetRect(Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2 + 100, WIN_SIZE_HEIGHT / 2, 100, 100));
-	button2->AddOnClickDelegate(this, &Dev2Scene::ResetButton);
-	button2->SetSprite(eButtonState::Default, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Default"));
-	button2->SetSprite(eButtonState::Hover, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Hover"));
-	button2->SetSprite(eButtonState::Pressed, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Pressed"));
-	button2->SetSprite(eButtonState::Disabled, GET_SINGLE(ResourceManager)->GetSprite("S_StartButton_Disabled"));
-	_UIs.push_back(button2);
+	{
+		Mario* mario = new Mario();
+		mario->SetPlayerInfo(500, Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, 200, 200, 200));
+		{
+			BoxCollider* collider = new BoxCollider();
+			collider->SetCollision(Rect::MakeCenterRect(0,0,100,100));
+			collider->SetCollisionLayer(CollisionLayerType::CLT_OBJECT);
+			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_GROUND);
+			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
+			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_WALL);
+			mario->AddComponent(collider);
+		}
+		{
+			CameraComponent* camera = new CameraComponent();
+			mario->AddComponent(camera);
+		}
+		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(mario);
+	}
 
 	vector<RECT> walls = GET_SINGLE(DataManager)->GetCollisionData();
 	for (RECT rc : walls)
 	{
 		Wall* wall = new Wall();
+		rc.left -= WIN_SIZE_WIDTH/2;
+		rc.right -= WIN_SIZE_WIDTH/2;
+		rc.top -= WIN_SIZE_HEIGHT / 2;
+		rc.bottom -= WIN_SIZE_HEIGHT / 2;
+
+
 		wall->SetWallInfo(rc);
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(wall);
 	}
 
-
-	int _cWall = 0;
-	_mouseFlag = false;
-	Scene::Init();
-
+	Super::Init();
 }
 void Dev2Scene::Render(HDC hdc)
 {
-	Scene::Render(hdc);
-	
+	Super::Render(hdc);
 	char str[250];
 	sprintf_s(str, "DEV2SCENE");
 	TextOut(hdc, 0, WIN_SIZE_HEIGHT-50, str, strlen(str));
 }
 void Dev2Scene::Update()
 {
-	Scene::Update();
-	if (Input->GetKeyDown(VK_LBUTTON))
-	{
-		_mouseFlag = true;
-		_mouseRect = RECT{};
-		_mouseRect.left= _mousePos.x;
-		_mouseRect.top = _mousePos.y;
-		_mouseRect.right = _mousePos.x;
-		_mouseRect.bottom = _mousePos.y;
-		Wall* wall = new Wall();
-		wall->SetWallInfo(_mouseRect);
-		_walls.push_back(wall);
-		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(wall);
-	}
-	if (_mouseFlag == true&&_walls.size()!=0)
-	{
-		_mouseRect.right = _mousePos.x;
-		_mouseRect.bottom = _mousePos.y;
-		_walls[_cWall]->SetBody(CenterRect::FromRect(_mouseRect));
-		if (Input->GetKeyUp(VK_LBUTTON))
-		{
-			_mouseFlag = false;
-			_rectWalls.push_back(RECT(_mouseRect));
-			_cWall++;
-		}
-	}
+	Super::Update();
 }
 void Dev2Scene::Release()
 {
-	Scene::Release();
-
-}
-
-void Dev2Scene::ResetButton()
-{
-	for (Wall* wall : _walls)
-	{
-		GET_SINGLE(SceneManager)->GetCurrentScene()->DeSpawnActor(wall);
-	}
-	_rectWalls.clear();
-	_walls.clear();
-	_cWall = 0;
-}
-
-void Dev2Scene::SaveButton()
-{
-	
-	GET_SINGLE(DataManager)->SaveCollisionData(_rectWalls);
-	_rectWalls.clear();
-	_walls.clear();
-	_cWall = 0;
-
+	Super::Release();
 }

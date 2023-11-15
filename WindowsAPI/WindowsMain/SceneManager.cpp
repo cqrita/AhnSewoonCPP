@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Dev1Scene.h"
 #include "Dev2Scene.h"
+#include "MapToolScene.h"
 void SceneManager::Init()
 {
 
@@ -45,6 +46,10 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	case SceneType::Dev2Scene:
 		newScene = new Dev2Scene();
 		break;
+	case SceneType::MapToolScene:
+		newScene = new MapToolScene();
+		break;
+
 	default:
 		break;
 	}

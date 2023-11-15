@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Wall.h"
 #include "BoxCollider.h"
+#include "Scene.h"
 void Wall::Init()
 {
 	Super::Init();
@@ -9,9 +10,6 @@ void Wall::Init()
 
 void Wall::Render(HDC hdc)
 {
-#if _DEBUG
-	Draw::Rect(hdc, GetBody());
-#endif
 	Super::Render(hdc);
 }
 

@@ -66,4 +66,9 @@ namespace Collision
 	}
 }
 
-
+void Draw::Rect(HDC hdc, RECT rc, Vector2Int cameraPos)
+{
+	
+	Rectangle(hdc, rc.left - cameraPos.x + WIN_SIZE_WIDTH / 2, rc.top - cameraPos.y + WIN_SIZE_HEIGHT / 2, rc.right - cameraPos.x + WIN_SIZE_WIDTH / 2, rc.bottom - cameraPos.y + WIN_SIZE_HEIGHT / 2);
+	
+}

@@ -40,7 +40,6 @@ void Dev1Scene::Init()
 			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_GROUND);
 			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
 			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_WALL);
-
 			_player->AddComponent(collider);
 		}
 		{
