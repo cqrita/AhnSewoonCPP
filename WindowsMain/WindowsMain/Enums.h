@@ -28,7 +28,6 @@ namespace eCounter
 enum CollisionLayerType : uint8
 {
 	CLT_OBJECT,
-	CLT_GROUND,
 	CLT_WALL,
 };
 enum class ItemBoxType

@@ -42,12 +42,6 @@ void Dev2Scene::Init()
 	for (RECT rc : walls)
 	{
 		Wall* wall = new Wall();
-		rc.left -= WIN_SIZE_WIDTH/2;
-		rc.right -= WIN_SIZE_WIDTH/2;
-		rc.top -= WIN_SIZE_HEIGHT / 2;
-		rc.bottom -= WIN_SIZE_HEIGHT / 2;
-
-
 		wall->SetWallInfo(rc);
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(wall);
 	}

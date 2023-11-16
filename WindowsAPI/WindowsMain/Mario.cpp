@@ -280,6 +280,7 @@ void Mario::OnComponentBeginOverlap(Collider* collider, Collider* other)
 	{
 		_isJump = false;
 	}
+	_JumpAmount = 0;
 	cout << "hit" << endl;
 }
 

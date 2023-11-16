@@ -25,9 +25,10 @@ void Wall::Release()
 
 void Wall::SetWallInfo(RECT rc)
 {
-	SetBody(CenterRect::FromRect(rc));
+	CenterRect cr = CenterRect::FromRect(rc);
+	SetBody(cr);
 	BoxCollider* collider = new BoxCollider();
-	collider->SetCollision(CenterRect::FromRect(rc));
+	collider->SetCollision(Rect::MakeCenterRect(0,0,cr.width,cr.height));
 	collider->SetCollisionLayer(CollisionLayerType::CLT_WALL);
 	collider->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
 	AddComponent(collider);

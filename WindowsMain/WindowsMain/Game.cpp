@@ -24,7 +24,7 @@ void Game::Init()
 	GET_SINGLE(CollisionManager)->Init();
 	GET_SINGLE(ResourceManager)->Init();
 
-	GET_SINGLE(SceneManager)->ChangeScene(SceneType::MapToolScene);
+	GET_SINGLE(SceneManager)->ChangeScene(SceneType::Dev1Scene);
 
 }
 void Game::Update()

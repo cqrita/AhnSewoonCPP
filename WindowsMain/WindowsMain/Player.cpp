@@ -8,7 +8,6 @@ void Player::Init()
 {
 	Super::Init();
 	this->SetName("Player");
-	_missileStat = 1;
 	_IsAttack = false;
 	_onHit=false;
 	SetState(ePlayerState::Idle);
@@ -16,11 +15,13 @@ void Player::Init()
 void Player::Render(HDC hdc)
 {
 	Super::Render(hdc);
+	
 }
 void Player::Update()
 {
 	Super::Update();
 	UpdateInput();
+	UpdateGravity();
 	switch (_state)
 	{
 	case ePlayerState::Idle:
@@ -29,11 +30,8 @@ void Player::Update()
 	case ePlayerState::Move:
 		UpdateMove();
 		break;
-	case ePlayerState::Attack:
-		UpdateAttack();
-		break;
-	case ePlayerState::Hit:
-		UpdateHit();
+	case ePlayerState::JumpFall:
+		UpdateJumpFall();
 		break;
 	case ePlayerState::End:
 		Alert("Player State Error", "Current State End");
@@ -51,30 +49,23 @@ void Player::Release()
 void Player::Move(Vector2 direction)
 {
 	_body.x += direction.x * _speed * DeltaTime;
-	_body.y += direction.y * _speed * DeltaTime;
+	_body.y += direction.y * DeltaTime;
 }
-void Player::SetPlayerInfo(int speed,CenterRect body)
+void Player::SetPlayerInfo(float speed,CenterRect body)
 {
 	_speed = speed;
 	_body = body;
-	_moveFlipbook[DirToInt(ePlayerDirection::DOWN)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Move_Down");
-	_moveFlipbook[DirToInt(ePlayerDirection::UP)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Move_Up");
+	_gravity = -9.8;
 	_moveFlipbook[DirToInt(ePlayerDirection::RIGHT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Move_Right");
 	_moveFlipbook[DirToInt(ePlayerDirection::LEFT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Move_Left");
-	_idleFlipbook[DirToInt(ePlayerDirection::DOWN)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Idle_Down");
-	_idleFlipbook[DirToInt(ePlayerDirection::UP)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Idle_Up");
 	_idleFlipbook[DirToInt(ePlayerDirection::RIGHT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Idle_Right");
 	_idleFlipbook[DirToInt(ePlayerDirection::LEFT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Idle_Left");
-	_attackFlipbook[DirToInt(ePlayerDirection::DOWN)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Attack_Down");
-	_attackFlipbook[DirToInt(ePlayerDirection::UP)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Attack_Up");
 	_attackFlipbook[DirToInt(ePlayerDirection::RIGHT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Attack_Right");
 	_attackFlipbook[DirToInt(ePlayerDirection::LEFT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Attack_Left");
-	_hitFlipbook[DirToInt(ePlayerDirection::DOWN)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Hit_Down");
-	_hitFlipbook[DirToInt(ePlayerDirection::UP)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Hit_Up");
 	_hitFlipbook[DirToInt(ePlayerDirection::RIGHT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Hit_Right");
 	_hitFlipbook[DirToInt(ePlayerDirection::LEFT)] = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Hit_Left");
 
-	_spriteDir = ePlayerDirection::DOWN;
+	_spriteDir = ePlayerDirection::RIGHT;
 
 	SetFlipbook(_idleFlipbook[DirToInt(_spriteDir)]);
 }
@@ -92,10 +83,7 @@ void Player::SetState(ePlayerState state)
 	case ePlayerState::Move:
 		SetFlipbook(_moveFlipbook[DirToInt(_spriteDir)]);
 		break;
-	case ePlayerState::Attack:
-		SetFlipbook(_attackFlipbook[DirToInt(_spriteDir)]);
-		break;
-	case ePlayerState::Hit:
+	case ePlayerState::JumpFall:
 		SetFlipbook(_hitFlipbook[DirToInt(_spriteDir)]);
 		break;
 	case ePlayerState::End:
@@ -107,26 +95,21 @@ void Player::SetState(ePlayerState state)
 void Player::UpdateInput()
 {
 	_IsAttackFlag = false;
-	_direction = Vector2{ 0,0 };
-	if (GET_SINGLE(KeyManager)->GetKey('W') && CanChangeDirection())
-	{
-		_direction = _direction + Vector2{ 0,-1 };
-		_spriteDir = ePlayerDirection::UP;
-	}
-	if (GET_SINGLE(KeyManager)->GetKey('S') && CanChangeDirection())
-	{
-		_direction = _direction + Vector2{ 0,1 };
-		_spriteDir = ePlayerDirection::DOWN;
-	}
+	_velocity = Vector2{ 0,0 };
 	if (GET_SINGLE(KeyManager)->GetKey('A') && CanChangeDirection())
 	{
-		_direction = _direction + Vector2{ -1,0 };
+		_velocity = _velocity + Vector2{ -1,0 };
 		_spriteDir = ePlayerDirection::LEFT;
 	}
 	if (GET_SINGLE(KeyManager)->GetKey('D') && CanChangeDirection())
 	{
-		_direction = _direction + Vector2{ 1,0 };
+		_velocity = _velocity + Vector2{ 1,0 };
 		_spriteDir = ePlayerDirection::RIGHT;
+	}
+	if (GET_SINGLE(KeyManager)->GetKey('W')&& CanJump())
+	{
+		_velocity.y=-500;
+		SetState(ePlayerState::JumpFall);
 	}
 
 	if (GET_SINGLE(KeyManager)->GetKeyDown(VK_LBUTTON))
@@ -137,25 +120,20 @@ void Player::UpdateInput()
 
 void Player::UpdateMove()
 {
-	if (EPSILON < _direction.Length())
+	if (EPSILON < _velocity.Length())
 	{
-		_direction.Normalize();
 		SetFlipbook(_moveFlipbook[DirToInt(_spriteDir)]);
-		Move(_direction);
+		Move(_velocity);
 	}
 	ePlayerState newState = ePlayerState::Move;
 	uint32 currentOrder = 0;
 	
-	if (currentOrder <= 1 && false == (EPSILON < _direction.Length()))
+	if (currentOrder <= 1 && false == (EPSILON < abs(_velocity.x)))
 	{
 		newState = ePlayerState::Idle;
 		currentOrder = 1;
 	}
-	if (currentOrder <= 5 && _onHit)
-	{
-		newState = ePlayerState::Hit;
-		currentOrder = 5;
-	}
+
 	SetState(newState);
 }
 
@@ -163,116 +141,29 @@ void Player::UpdateIdle()
 {
 	ePlayerState newState = ePlayerState::Idle;
 	uint32 currentOrder = 0;
+	if (EPSILON < _velocity.Length())
+	{
+		Move(_velocity);
+	}
 
-	if (currentOrder <= 2 && EPSILON < _direction.Length())
+	if (currentOrder <= 2 && EPSILON < abs(_velocity.x))
 	{
 		newState = ePlayerState::Move;
 		currentOrder = 2;
 	}
-	if (currentOrder <= 3 && _IsAttackFlag)
-	{
-		newState = ePlayerState::Attack;
-		currentOrder = 3;
-	}
-	if (currentOrder <= 5 && _onHit)
-	{
-		newState = ePlayerState::Hit;
-		currentOrder = 5;
-	}
-
+	
 	this->SetState(newState);
 }
 
-void Player::UpdateAttack()
+void Player::UpdateJumpFall()
 {
-	if (_index==3 && _IsAttack==false)
-	{
-		for (int i = 0; i < _missileStat; i++)
-		{
-			Bullet* bullet = new Bullet();
-			Vector2 direction;
-			switch (_spriteDir)
-			{
-			case ePlayerDirection::UP:
-				direction = Vector2{ 0,-1 };
-				break;
-			case ePlayerDirection::RIGHT:
-				direction = Vector2{ 1,0 };
-				break;
-			case ePlayerDirection::DOWN:
-				direction = Vector2{ 0,1 };
-				break;
-			case ePlayerDirection::LEFT:
-				direction = Vector2{ -1,0 };
-				break;
-			case ePlayerDirection::END:
-				break;
-			default:
-				break;
-			}
-			float centerX = _body.x;
-			float maxWidth = 70 * (_missileStat - 1);
-			float missileX = centerX - maxWidth / 2 + 70 * i;
-			bullet->SetBulletInfo(direction, 300, Rect::MakeCenterRect(missileX, _body.y, 10, 10), L"../Resources/Power Ups/Power Up.png");
-			{
-				BoxCollider* collider = new BoxCollider();
-				collider->SetCollision(Rect::MakeCenterRect(0, 0, 20, 20));
-				bullet->AddComponent(collider);
-			}
-			GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(bullet);
-		}
-		_IsAttack = true;
-	}
-	if (_index == 0|| _index == 4)
-	{
-		_IsAttack = false;
-	}
-	ePlayerState newState = ePlayerState::Attack;
-	uint32 currentOrder = 0;
 
-	if (_flipbook->GetInfo().end == _index)
-	{
-		if (currentOrder <= 1)
-		{
-			newState = ePlayerState::Idle;
-			currentOrder = 1;
-		}
-
-		if (currentOrder <= 2 && EPSILON < _direction.Length())
-		{
-			newState = ePlayerState::Move;
-			currentOrder = 2;
-		}
-	}
-	if (currentOrder <= 5 && _onHit)
-	{
-		newState = ePlayerState::Hit;
-		currentOrder = 5;
-	}
-
-	this->SetState(newState);
 }
 
-void Player::UpdateHit()
-{
-	ePlayerState newState = ePlayerState::Hit;
-	uint32 currentOrder = 0;
-	if (_flipbook->GetInfo().end == _index)
-	{
-		if (currentOrder <= 1)
-		{
-			newState = ePlayerState::Idle;
-			currentOrder = 1;
-		}
 
-		if (currentOrder <= 2 && EPSILON < _direction.Length())
-		{
-			newState = ePlayerState::Move;
-			currentOrder = 2;
-		}
-	}
-	this->SetState(newState);
-	_onHit = false;
+void Player::UpdateGravity()
+{
+	_velocity.y -= _gravity * 10;
 }
 
 bool Player::CanChangeDirection()
@@ -285,23 +176,76 @@ bool Player::CanChangeDirection()
 	return false;
 }
 
+bool Player::CanJump()
+{
+	return false;
+}
+
+eWallDirection Player::AdjustPosition(class Collider* collider, class Collider* other)
+{
+	eWallDirection rv = eWallDirection::END;
+	BoxCollider* b1 = dynamic_cast<BoxCollider*>(collider);
+	BoxCollider* b2 = dynamic_cast<BoxCollider*>(other);
+
+	CenterRect body = this->GetBody();
+	Vector2 pos = body.Position();
+	if (b1 != nullptr && b2 != nullptr)
+	{
+		RECT r1 = b1->GetCollision().ToRect();
+		RECT r2 = b2->GetCollision().ToRect();
+		RECT intersect = {};
+		if (IntersectRect(&intersect, &r1, &r2))
+		{
+			int width = intersect.right - intersect.left;
+			int height = intersect.bottom - intersect.top;
+
+			if (width > height)
+			{
+				if (intersect.bottom == r1.bottom)
+				{
+					pos.y -= static_cast<float>(height);
+					rv = eWallDirection::UP;
+				}
+				else
+				{
+					pos.y += static_cast<float>(height);
+					rv = eWallDirection::DOWN;
+				}
+			}
+			else
+			{
+				if (intersect.right == r1.right)
+				{
+					pos.x -= static_cast<float>(width);
+					rv = eWallDirection::LEFT;
+				}
+				else
+				{
+					pos.x += static_cast<float>(width);
+					rv = eWallDirection::RIGHT;
+				}
+			}
+		}
+	}
+
+	this->_body.x = pos.x;
+	this->_body.y = pos.y;
+
+	return rv;
+}
+
 void Player::OnComponentBeginOverlap(class Collider* collider, class Collider* other)
 {
-	if (other->GetOwner()->GetName() == "ItemBox")
+	if (other->GetCollisionLayer()==CollisionLayerType::CLT_WALL)
 	{
-
-		other->Release();
-		GET_SINGLE(SceneManager)->GetCurrentScene()->DeSpawnActor(other->GetOwner());
-
-		_missileStat++;
-
-	}
-	if (other->GetOwner()->GetName() == "Monster")
-	{
-		_onHit = true;
+		eWallDirection dir= AdjustPosition(collider, other);
+		if (dir == eWallDirection::UP)
+		{
+			_velocity.y = 0;
+			SetState(ePlayerState::Idle);
+		}
 		cout << "hit" << endl;
 	}
-
 }
 void Player::OnComponentEndOverlap(class Collider* collider, class Collider* other)
 {

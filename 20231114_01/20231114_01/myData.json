@@ -1,4 +1,10 @@
 {
-  "project": "rapidjson",
-  "stars": 10
+  "difficulty":0,
+  "sound": 50,
+  "graphics": 2,
+  "customArrays": [
+    12,
+    23,
+    34
+  ]
 }

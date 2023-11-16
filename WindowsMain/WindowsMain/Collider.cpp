@@ -19,24 +19,24 @@ void Collider::Release()
 bool Collider::CheckCollision(Collider* other)
 {
 	uint8 otherLayer = other->GetCollisionLayer();
-	cout << (int)other->GetCollisionFlag() << endl;
-	if (_collisionlayer & (1 << otherLayer))
+	if (_collisionFlag & (1 << otherLayer))
 	{
-		uint8 myLayer=this->GetCollisionLayer();
+		uint8 myLayer = this->GetCollisionLayer();
 		if (other->GetCollisionFlag() & (1 << myLayer))
 		{
 			return true;
 		}
 	}
 	return false;
+
 }
 
 void Collider::AddCollisionFlagLayer(CollisionLayerType layer)
 {
-	_collisionFlag = _collisionFlag | (1 << layer);
+	_collisionFlag |= (1 << layer);
 }
 
 void Collider::RemoveCollisionFlagLayer(CollisionLayerType layer)
 {
-	_collisionFlag = _collisionFlag & ~(1 << layer);
+	_collisionFlag &= ~(1 << layer);
 }

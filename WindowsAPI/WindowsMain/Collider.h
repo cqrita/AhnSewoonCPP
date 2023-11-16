@@ -27,7 +27,7 @@ public:
 	ColliderType GetColliderType() { return _colliderType; }
 public:
 	CollisionLayerType GetCollisionLayer() { return _collisionlayer; }
-	void SetCollisionLayer(CollisionLayerType collisionlayer) {_collisionlayer = collisionlayer;}
+	void SetCollisionLayer(CollisionLayerType collisionLayer) { _collisionlayer = collisionLayer; }
 	uint32 GetCollisionFlag() { return _collisionFlag; }
 	void SetCollisionFlag(uint32 flag) { _collisionFlag = flag; }
 	void ResetCollisionFlag() { _collisionFlag = 0; }

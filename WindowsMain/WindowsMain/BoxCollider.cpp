@@ -73,7 +73,8 @@ BoxCollider::~BoxCollider()
 }
 CenterRect BoxCollider::GetCollision()
 {
-	CenterRect body = GetOwner()->GetBody();
+	CenterRect body = this->GetOwner()->GetBody();
 	CenterRect worldCollision = Rect::MakeCenterRect(body.x + _collision.x, body.y + _collision.y, _collision.width, _collision.height);
+
 	return worldCollision;
 }
