@@ -2,12 +2,8 @@
 #include "CommonStruct.h"
 #include <vector>
 #include "Vector2Int.h"
-//
-
-//Rect
 namespace Rect
 {
-	//x, y를 기준으로  width height를 만든다.
 	inline RECT MakeRect(int x, int y, int width, int height)
 	{
 		RECT rc;
@@ -19,7 +15,6 @@ namespace Rect
 		return rc;
 	}
 
-	//x, y를 센터라고 가정했을때  width height로 사각형을 만든다.
 	inline CenterRect MakeCenterRect(float x, float y, float width, float height)
 	{
 		CenterRect rc;

@@ -28,6 +28,7 @@ bool Collider::CheckCollision(Collider* other)
 		}
 	}
 	return false;
+
 }
 
 void Collider::AddCollisionFlagLayer(CollisionLayerType layer)

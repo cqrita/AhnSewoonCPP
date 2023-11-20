@@ -175,7 +175,6 @@
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="MaptoolPanel.cpp" />
     <ClCompile Include="MapToolScene.cpp" />
-    <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceBase.cpp" />
@@ -221,7 +220,6 @@
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="MaptoolPanel.h" />
     <ClInclude Include="MapToolScene.h" />
-    <ClInclude Include="Mario.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceBase.h" />

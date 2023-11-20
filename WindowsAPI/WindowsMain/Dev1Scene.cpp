@@ -22,22 +22,21 @@ void Dev1Scene::Init()
 	Super::Init();
 
 	SetPlayerResource();
-	Texture* texture=GET_SINGLE(ResourceManager)->LoadTexture("T_background", "background.jpg", RGB(255, 0, 255));
+	Texture* texture=GET_SINGLE(ResourceManager)->LoadTexture("T_background", "Background/backround_supermario.bmp", RGB(255, 0, 255));
 	Sprite* sprite=GET_SINGLE(ResourceManager)->CreateSprite("S_background", texture);
 
 	_background = new SpriteActor();
 	_background->SetLayer(LayerType::Background);
 	_background->SetSprite(sprite);
-	_background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, WIN_SIZE_WIDTH*4, WIN_SIZE_HEIGHT*4));
+	_background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH * 3.5, 0, WIN_SIZE_WIDTH * 8, WIN_SIZE_HEIGHT));
 	GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_background);
 	{
 		_player = new Player();
-		_player->SetPlayerInfo(500, Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 200, 200));
+		_player->SetPlayerInfo(500, Rect::MakeCenterRect(80, 80, 200, 200));
 		{
-			CircleCollider* collider = new CircleCollider();
-			collider->SetCollision(Circle::MakeCenterCircle(0, 0, 50));
+			BoxCollider* collider = new BoxCollider();
+			collider->SetCollision(Rect::MakeCenterRect(0, 0, 50,80));
 			collider->SetCollisionLayer(CollisionLayerType::CLT_OBJECT);
-			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_GROUND);
 			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
 			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_WALL);
 			_player->AddComponent(collider);
@@ -48,37 +47,12 @@ void Dev1Scene::Init()
 		}
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_player);
 	}
-	{
-		TrackingMonster* trackingMonster = new TrackingMonster();
-		trackingMonster->Init();
-		trackingMonster->SetTrackingMonsterInfo(PI/3.0f,50,Vector2(100,100), Vector2::Down());
-		{
-			CircleCollider* collider = new CircleCollider();
-			collider->SetCollision(Circle::MakeCenterCircle(0, 0, 50));
-			collider->SetCollisionLayer(CollisionLayerType::CLT_OBJECT);
-			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_GROUND);
-			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
-			collider->AddCollisionFlagLayer(CollisionLayerType::CLT_WALL);
-			trackingMonster->AddComponent(collider);
-		}
-		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(trackingMonster);
-		trackingMonster->SetTargetActor(_player);
-	}
-
 	vector<RECT> walls = GET_SINGLE(DataManager)->GetCollisionData();
 	for (RECT rc : walls)
 	{
 		Wall* wall = new Wall();
 		wall->SetWallInfo(rc);
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(wall);
-	}
-
-
-	{
-		TestPanel* testPanel = new TestPanel();
-		testPanel->SetRect(Rect::MakeCenterRect(WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT, 200, 200));
-		testPanel->Init();
-		_UIs.push_back(testPanel);
 	}
 }
 void Dev1Scene::Render(HDC hdc)
@@ -250,7 +224,7 @@ void Dev1Scene::SetPlayerResource()
 		info.start = 0;
 		info.end = 5;
 		info.line = 2;
-		info.loop = false;
+		info.loop = true;
 		info.size = { 200, 200 };
 		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Hit_Left", info);
 	}
@@ -295,7 +269,7 @@ void Dev1Scene::SetPlayerResource()
 		info.start = 0;
 		info.end = 5;
 		info.line = 2;
-		info.loop = false;
+		info.loop = true;
 		info.size = { 200, 200 };
 		GET_SINGLE(ResourceManager)->CreateFlipbook("FB_Character_Hit_Right", info);
 	}

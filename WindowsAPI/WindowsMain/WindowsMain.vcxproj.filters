@@ -15,6 +15,9 @@
     <Filter Include="소스 파일\01.Manager">
       <UniqueIdentifier>{afb6f501-ffd9-41d3-ad76-b23040619af4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\99.Utils">
+      <UniqueIdentifier>{32978200-5b95-4d6e-9a75-3d82d991e6f1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="소스 파일\02.Scene">
       <UniqueIdentifier>{48f98953-b8cb-4518-8de2-341bb2c4b9f1}</UniqueIdentifier>
     </Filter>
@@ -36,6 +39,9 @@
     <Filter Include="소스 파일\05.Resources">
       <UniqueIdentifier>{7900437b-9e49-4d17-b2f4-e116c59e3914}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\99.Utils\Types">
+      <UniqueIdentifier>{7f628358-8989-4f9d-816b-29134257b263}</UniqueIdentifier>
+    </Filter>
     <Filter Include="소스 파일\06.UI">
       <UniqueIdentifier>{2b95fa19-66f9-4cea-9288-0f426be58158}</UniqueIdentifier>
     </Filter>
@@ -44,12 +50,6 @@
     </Filter>
     <Filter Include="소스 파일\01.Manager\Game">
       <UniqueIdentifier>{ac8e6bfb-50fc-4759-880f-999ffc04569b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\99.Utils">
-      <UniqueIdentifier>{32978200-5b95-4d6e-9a75-3d82d991e6f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\99.Utils\Types">
-      <UniqueIdentifier>{7f628358-8989-4f9d-816b-29134257b263}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -175,9 +175,6 @@
     </ClCompile>
     <ClCompile Include="MaptoolPanel.cpp">
       <Filter>소스 파일\06.UI\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Mario.cpp">
-      <Filter>소스 파일\03.Object\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -309,9 +306,6 @@
     </ClInclude>
     <ClInclude Include="MaptoolPanel.h">
       <Filter>소스 파일\06.UI\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Mario.h">
-      <Filter>소스 파일\03.Object\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -80,11 +80,6 @@ void MapToolScene::UpdateInput()
 		Vector2Int camera= GetCameraPos();
 		SetCameraPos(camera + Vector2Int(1, 0));
 	}
-	if (GET_SINGLE(KeyManager)->GetKey(VK_LEFT))
-	{
-		Vector2Int camera = GetCameraPos();
-		SetCameraPos(camera + Vector2Int(-1, 0));
-	}
 }
 
 void MapToolScene::UpdateIdle()

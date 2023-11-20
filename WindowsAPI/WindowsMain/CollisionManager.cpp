@@ -14,7 +14,6 @@ void CollisionManager::Update()
 		for (int j = 0; j < _colliders.size(); j++)
 		{
 			Collider* c2 = _colliders[j];
-			//on collision check
 			if (c1->CheckCollision(c2))
 			{
 				if (false==c1->_collisionMap.contains(c2))

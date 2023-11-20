@@ -2,9 +2,15 @@
 #include "FlipbookActor.h"
 enum class ePlayerDirection :int
 {
-	UP,
 	RIGHT,
+	LEFT,
+	END
+};
+enum class eWallDirection :int
+{
+	UP,
 	DOWN,
+	RIGHT,
 	LEFT,
 	END
 };
@@ -12,10 +18,7 @@ enum class ePlayerState
 {
 	Idle,
 	Move,
-	Attack,
-	Hit,
-
-
+	JumpFall,
 	End
 };
 class Player : public FlipbookActor
@@ -23,18 +26,18 @@ class Player : public FlipbookActor
 public:
 	using Super = FlipbookActor;
 private:
-	int _speed;
-	int _missileStat;
-	bool _IsAttackFlag;
-	bool _IsAttack;
-	bool _onHit;
+	float _speed;
+	float _gravity;
+	Vector2 _velocity;
+	float _gravityV;
 	Flipbook* _idleFlipbook[4];
 	Flipbook* _moveFlipbook[4];
 	Flipbook* _attackFlipbook[4];
 	Flipbook* _hitFlipbook[4];
-	Vector2 _direction;
-	ePlayerDirection _spriteDir= ePlayerDirection::END;
-	ePlayerState _state = ePlayerState::Idle;
+	ePlayerDirection _spriteDir= ePlayerDirection::RIGHT;
+	ePlayerState _state = ePlayerState::JumpFall;
+	Collider* CheckFall;
+	RECT test;
 
 	int DirToInt(ePlayerDirection dir) { return static_cast<int>(dir); }
 public:
@@ -44,19 +47,23 @@ public:
 	virtual void Release() override;
 public:
 	void Move(Vector2 direction);
-	void SetPlayerInfo(int speed, CenterRect body);
+	void SetPlayerInfo(float speed, CenterRect body);
 	void SetState(ePlayerState state);
 	ePlayerState GetState() { return _state; }
 public:
 	void UpdateInput();
 	void UpdateMove();
 	void UpdateIdle();
-	void UpdateAttack();
-	void UpdateHit();
+	void UpdateJumpFall();
+	void UpdateGravity();
 	bool CanChangeDirection();
+	bool CanJump();
+	eWallDirection AdjustPosition(class Collider* collider, class Collider* other);
+	bool CheckWall(class Collider* collider, class Collider* other);
+
 public:
 	virtual void OnComponentBeginOverlap(class Collider* collider, class Collider* other) override;
 	virtual void OnComponentEndOverlap(class Collider* collider, class Collider* other) override;
-	
+
 };
 
