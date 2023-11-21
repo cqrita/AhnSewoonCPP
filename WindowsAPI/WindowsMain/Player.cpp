@@ -14,7 +14,7 @@ void Player::Init()
 void Player::Render(HDC hdc)
 {
 	Vector2Int CameraPos = CurrentScene->GetCameraPos();
-	Draw::Rect(hdc, test, CameraPos);
+	//Draw::Rect(hdc, test, CameraPos);
 	Super::Render(hdc);
 }
 void Player::Update()
@@ -294,6 +294,22 @@ void Player::OnComponentBeginOverlap(class Collider* collider, class Collider* o
 			_velocity.y = 0;
 			SetState(ePlayerState::Idle);
 		}
+	}
+	if (other->GetOwner()->GetName() == "ItemBox")
+	{
+		CenterRect cr = GetBody();
+		cr.height *= 1.5;
+		cr.width *= 1.5;
+		SetBody(cr);
+		BoxCollider* bc = dynamic_cast<BoxCollider*>(collider);
+		CenterRect boxRect = bc->GetCollision();
+		boxRect.height *= 1.5;
+		boxRect.width *= 1.5;
+		boxRect.x -= cr.x;
+		boxRect.y -= cr.y;
+
+		bc->SetCollision(boxRect);
+		GET_SINGLE(SceneManager)->GetCurrentScene()->DeSpawnActor(other->GetOwner());
 	}
 }
 void Player::OnComponentEndOverlap(class Collider* collider, class Collider* other)

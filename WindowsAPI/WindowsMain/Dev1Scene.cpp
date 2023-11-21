@@ -16,6 +16,7 @@
 #include "TestPanel.h"
 #include "CircleCollider.h"
 #include "Wall.h"
+#include "ItemBox.h"
 void Dev1Scene::Init()
 {
 
@@ -54,6 +55,16 @@ void Dev1Scene::Init()
 		wall->SetWallInfo(rc);
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(wall);
 	}
+	ItemBox* itemBox = new ItemBox();
+	itemBox->SetItemBoxInfo(Rect::MakeCenterRect(200, 30, 100, 100));
+	{
+		BoxCollider* collider = new BoxCollider();
+		collider->SetCollision(Rect::MakeCenterRect(0, 0, 50, 50));
+		collider->SetCollisionLayer(CollisionLayerType::CLT_OBJECT);
+		collider->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
+		itemBox->AddComponent(collider);
+	}
+	GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(itemBox);
 }
 void Dev1Scene::Render(HDC hdc)
 {
@@ -66,23 +77,6 @@ void Dev1Scene::Render(HDC hdc)
 void Dev1Scene::Update()
 {
 	Super::Update();
-
-	if(Input->GetKeyDown('Z'))
-	{
-		cout << "Z" << endl;
-	}
-	if (Input->GetKeyDown('Z'))
-	{
-		cout << "Z" << endl;
-	}
-	if (Input->GetKey('Z'))
-	{
-		cout << "Z" << endl;
-	}
-	if (Input->GetKeyUp('Z'))
-	{
-		cout << "Z" << endl;
-	}
 }
 void Dev1Scene::Release()
 {
