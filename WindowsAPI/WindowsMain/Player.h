@@ -35,7 +35,7 @@ private:
 	Flipbook* _attackFlipbook[4];
 	Flipbook* _hitFlipbook[4];
 	ePlayerDirection _spriteDir= ePlayerDirection::RIGHT;
-	ePlayerState _state = ePlayerState::JumpFall;
+	ePlayerState _state = ePlayerState::End;
 	Collider* CheckFall;
 	RECT test;
 

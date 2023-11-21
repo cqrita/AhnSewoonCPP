@@ -46,16 +46,17 @@ bool BoxCollider::CheckCollision(Collider* other)
 		{
 		case ColliderType::Circle:
 		{
-			BoxCollider* otherCollider = static_cast<BoxCollider*>(other);
-			CenterRect otherCollision = otherCollider->GetCollision();
-			return Collision::RectInRect(this->GetCollision(), otherCollision);
+			CircleCollider* otherCollider = static_cast<CircleCollider*>(other);
+			CenterCircle otherCollision = otherCollider->GetCollision();
+			return Collision::RectInCircle(this->GetCollision(), otherCollision);
 			break;
 		}
 		case ColliderType::Box:
 		{
-			CircleCollider* otherCollider = static_cast<CircleCollider*>(other);
-			CenterCircle otherCollision = otherCollider->GetCollision();
-			return Collision::RectInCircle(this->GetCollision(), otherCollision);
+			BoxCollider* otherCollider = static_cast<BoxCollider*>(other);
+			CenterRect otherCollision = otherCollider->GetCollision();
+			return Collision::RectInRect(this->GetCollision(), otherCollision);
+
 			break;
 		}
 		}
