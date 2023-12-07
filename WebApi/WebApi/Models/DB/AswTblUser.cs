@@ -10,4 +10,6 @@ public partial class AswTblUser
     public string Name { get; set; } = null!;
 
     public int Level { get; set; }
+
+    public virtual ICollection<AswTblScore> AswTblScores { get; set; } = new List<AswTblScore>();
 }

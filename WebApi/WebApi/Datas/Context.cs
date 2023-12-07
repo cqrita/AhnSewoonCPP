@@ -27,7 +27,6 @@ public partial class Context : DbContext
     public virtual DbSet<MjhTblUser> MjhTblUsers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySql("server=121.190.138.117;port=3306;database=SBS_STUDY;user=PAStudy;password=PAtmxjel22..", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.3.32-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,6 +41,8 @@ public partial class Context : DbContext
 
             entity.ToTable("ASW_TblScore");
 
+            entity.HasIndex(e => e.UserId, "FK_UserId");
+
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("ID");
@@ -49,6 +50,10 @@ public partial class Context : DbContext
             entity.Property(e => e.Value)
                 .HasDefaultValueSql("'1'")
                 .HasColumnType("int(11)");
+
+            entity.HasOne(d => d.User).WithMany(p => p.AswTblScores)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_UserId");
         });
 
         modelBuilder.Entity<AswTblUser>(entity =>
@@ -73,11 +78,18 @@ public partial class Context : DbContext
 
             entity.ToTable("BSY_TblScore");
 
+            entity.HasIndex(e => e.UserId, "UserId");
+
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.UserId).HasColumnType("int(11)");
             entity.Property(e => e.Value)
                 .HasDefaultValueSql("'1'")
                 .HasColumnType("int(11)");
+
+            entity.HasOne(d => d.User).WithMany(p => p.BsyTblScores)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("BSY_TblScore_ibfk_1");
         });
 
         modelBuilder.Entity<BsyTblUser>(entity =>

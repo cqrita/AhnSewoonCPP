@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Xml.Linq;
 using WebApi.Data;
 using WebApi.Models;
 using WebApi.Models.DB;
+using WebApi.Models.DTO;
 
 namespace WebApi.Controllers
 {
@@ -16,30 +20,104 @@ namespace WebApi.Controllers
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
-        private Context _context;
+
+        private readonly Context _context;
+
         public SBSStudyController(Context context)
         {
             _context = context;
         }
 
         //GET, POST, DELETE, PUT
-        [HttpGet("get")]
-        public async Task<List<AswTblUser>> Get()
+        //GET - READ
+        //POST - CREATE, (DELETE, UPDATE)
+        //DELETE - DELETE
+        //PUT - UPDATE
+        [HttpPost("InsertUser")]
+        public async Task<ResponseInsertUserDTO> InsertUser([FromBody] RequestInsertUserDTO dTO)
         {
-            var rv = await _context.AswTblUsers.ToListAsync();
-
+            ResponseInsertUserDTO responseInsertUserDTO = new ResponseInsertUserDTO();
+            var entity=_context.AswTblUsers.Add(new AswTblUser()
+            {
+                Level = 1,
+                Name = dTO.Name
+            });
+            responseInsertUserDTO.UserInfo = entity.Entity;
+            await _context.SaveChangesAsync();
+            return responseInsertUserDTO;
+        }
+        [HttpGet("GetUser")]
+        public async Task<AswTblUser> GetUser(String Name)
+        {
+            var users = await _context.AswTblUsers.ToListAsync();
+            var rv = (from user in users
+                     where user.Name == Name
+                     select user).FirstOrDefault();
+            return rv ?? new AswTblUser();
+        }
+        [HttpPost("InsertUserScore")]
+        public async Task<ResponseInserUserScoreDTO> InsertUserScore([FromBody] RequestInserUserScoreDTO dTO)
+        {
+            ResponseInserUserScoreDTO rv= new ResponseInserUserScoreDTO();
+            var list= await _context.AswTblUsers.ToListAsync();
+            var query = from user in list
+                        where user.Name == dTO.Name
+                        select user;
+            AswTblUser aswTblUser = query.First() ?? list.First();
+            var score=_context.AswTblScores.Add(new AswTblScore()
+            {
+                UserId= aswTblUser.Id,
+                Value= dTO.Score
+            });
+            await _context.SaveChangesAsync();
+            rv.User = aswTblUser;
+            rv.Score = score.Entity;
             return rv;
         }
-        [HttpGet("post")]
-        public async Task<int> InsertUser()
+        [HttpGet("GetRankInMyScore")]
+        public async Task<ResponseGetRankInMyScoreDTO> GetRankInMyScore([FromBody] RequestGetRankInMyScoreDTO dTO)
         {
-            _context.AswTblUsers.Add(new AswTblUser()
-            {
-                Id = 1,
-                Level = 1,
-                Name = "asd"
-            });
-            var rv=await _context.SaveChangesAsync();
+            ResponseGetRankInMyScoreDTO rv = new ResponseGetRankInMyScoreDTO();
+            var users = await _context.AswTblUsers.ToListAsync();
+            var query = from user in users
+                        where user.Name == dTO.Name
+                        select user;
+            AswTblUser aswTblUser = query.First() ?? users.First();
+            var list = await _context.AswTblScores.ToListAsync();
+            int rank=list.Where(score=>score.UserId == aswTblUser.Id).OrderByDescending(score => score.Value).ToList().FindIndex(score => score.Value == dTO.Score)+1;
+            var aswTblScore = list.Where(score => score.UserId == aswTblUser.Id).Where(score => score.Value == dTO.Score).First();
+
+            rv.Rank= rank;
+            rv.Score= aswTblScore;
+            return rv;
+        }
+        [HttpGet("GetGameCount")]
+        public async Task<ResponseGetGameCountDTO> GetGameCount([FromBody] RequestGetGameCountDTO dTO)
+        {
+            ResponseGetGameCountDTO rv = new ResponseGetGameCountDTO();
+
+            var users = await _context.AswTblUsers.ToListAsync();
+            var query = from user in users
+                        where user.Name == dTO.Name
+                        select user;
+            AswTblUser aswTblUser = query.First() ?? users.First();
+            var list = await _context.AswTblScores.ToListAsync();
+            rv.Count = list.Where(score => score.UserId == aswTblUser.Id).Count();
+            rv.User = aswTblUser;
+            return rv;
+        }
+        [HttpGet("GetRankInWorldScore")]
+        public async Task<ResponseGetRankInWorldScoreDTO> GetRankInWorldScore([FromBody] RequestGetRankInWorldScoreDTO dTO)
+        {
+            ResponseGetRankInWorldScoreDTO rv = new ResponseGetRankInWorldScoreDTO();
+            var users = await _context.AswTblUsers.ToListAsync();
+            var query = from user in users
+                        where user.Name == dTO.Name
+                        select user;
+            AswTblUser aswTblUser = query.First() ?? users.First();
+            var list = await _context.AswTblScores.ToListAsync();
+            var rank = list.Where(score => score.UserId == aswTblUser.Id).OrderByDescending(score => score.Value).First();
+            rv.Rank = list.OrderByDescending(score => score.Value).ToList().FindIndex(score => score.Id == rank.Id)+1;
             return rv;
         }
     }

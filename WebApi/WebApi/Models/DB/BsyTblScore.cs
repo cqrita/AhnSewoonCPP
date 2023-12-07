@@ -10,4 +10,6 @@ public partial class BsyTblScore
     public int UserId { get; set; }
 
     public int Value { get; set; }
+
+    public virtual BsyTblUser User { get; set; } = null!;
 }

@@ -10,4 +10,6 @@ public partial class BsyTblUser
     public string Name { get; set; } = null!;
 
     public int Level { get; set; }
+
+    public virtual ICollection<BsyTblScore> BsyTblScores { get; set; } = new List<BsyTblScore>();
 }
