@@ -34,7 +34,7 @@ namespace Collision
 		RECT tmp;
 		RECT r1 = rect1.ToRect();
 		RECT r2 = rect2.ToRect();
-		return IntersectRect(&tmp, &r1, &r2);
+		return ::IntersectRect(&tmp, &r1, &r2);
 
 		POINT pt1 = { static_cast<int>(rect2.x - rect2.width / 2), static_cast<int>(rect2.y - rect2.height / 2) };
 		POINT pt2 = { static_cast<int>(rect2.x + rect2.width / 2), static_cast<int>(rect2.y - rect2.height / 2) };
@@ -54,6 +54,29 @@ namespace Collision
 			return true;
 		}
 		else if (PtInRect(rect1, pt4))
+		{
+			return true;
+		}
+
+		POINT pt5 = { static_cast<int>(rect1.x - rect1.width / 2), static_cast<int>(rect1.y - rect1.height / 2) };
+		POINT pt6 = { static_cast<int>(rect1.x + rect1.width / 2), static_cast<int>(rect1.y - rect1.height / 2) };
+		POINT pt7 = { static_cast<int>(rect1.x - rect1.width / 2), static_cast<int>(rect1.y + rect1.height / 2) };
+		POINT pt8 = { static_cast<int>(rect1.x + rect1.width / 2), static_cast<int>(rect1.y + rect1.height / 2) };
+
+
+		if (PtInRect(rect2, pt5))
+		{
+			return true;
+		}
+		else if (PtInRect(rect2, pt6))
+		{
+			return true;
+		}
+		else if (PtInRect(rect2, pt7))
+		{
+			return true;
+		}
+		else if (PtInRect(rect2, pt8))
 		{
 			return true;
 		}

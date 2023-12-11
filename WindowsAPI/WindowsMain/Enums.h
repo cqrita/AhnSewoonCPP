@@ -30,3 +30,9 @@ enum CollisionLayerType : uint8
 	CLT_OBJECT,
 	CLT_WALL,
 };
+enum class ItemBoxType
+{
+	HPItemBox,
+	MissileItemBox,
+	None
+};

@@ -16,7 +16,7 @@ void Wall::Render(HDC hdc)
 	Vector2Int CameraPos = CurrentScene->GetCameraPos();
 
 #if _DEBUG
-	//Draw::Rect(hdc, GetBody().ToRect(), CameraPos);
+	Draw::Rect(hdc, GetBody().ToRect(), CameraPos);
 #endif
 }
 

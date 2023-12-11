@@ -1,11 +1,5 @@
 #pragma once
 #include "FlipbookActor.h"
-enum class ePlayerDirection :int
-{
-	RIGHT,
-	LEFT,
-	END
-};
 enum class eWallDirection :int
 {
 	UP,
@@ -13,13 +7,6 @@ enum class eWallDirection :int
 	RIGHT,
 	LEFT,
 	END
-};
-enum class ePlayerState
-{
-	Idle,
-	Move,
-	JumpFall,
-	End
 };
 class Player : public FlipbookActor
 {
@@ -29,17 +16,9 @@ private:
 	float _speed;
 	float _gravity;
 	Vector2 _velocity;
-	float _gravityV;
-	Flipbook* _idleFlipbook[4];
-	Flipbook* _moveFlipbook[4];
-	Flipbook* _attackFlipbook[4];
-	Flipbook* _hitFlipbook[4];
-	ePlayerDirection _spriteDir= ePlayerDirection::RIGHT;
-	ePlayerState _state = ePlayerState::End;
-	Collider* CheckFall;
-	RECT test;
+	Flipbook* _moveFlipbook;
+	Flipbook* _hitFlipbook;
 
-	int DirToInt(ePlayerDirection dir) { return static_cast<int>(dir); }
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;
@@ -48,18 +27,10 @@ public:
 public:
 	void Move(Vector2 direction);
 	void SetPlayerInfo(float speed, CenterRect body);
-	void SetState(ePlayerState state);
-	ePlayerState GetState() { return _state; }
 public:
-	void UpdateInput();
-	void UpdateMove();
-	void UpdateIdle();
-	void UpdateJumpFall();
 	void UpdateGravity();
-	bool CanChangeDirection();
-	bool CanJump();
+	void UpdateInput();
 	eWallDirection AdjustPosition(class Collider* collider, class Collider* other);
-	bool CheckWall(class Collider* collider, class Collider* other);
 
 public:
 	virtual void OnComponentBeginOverlap(class Collider* collider, class Collider* other) override;

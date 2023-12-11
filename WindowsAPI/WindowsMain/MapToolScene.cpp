@@ -10,10 +10,10 @@ void MapToolScene::Init()
 	{
 		SpriteActor* background = new SpriteActor();
 		background->SetLayer(LayerType::Background);
-		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture("T_background", "Background/backround_supermario.bmp", RGB(255, 0, 255));
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture("T_background", "background.jpg", RGB(255, 0, 255));
 		Sprite* sprite = GET_SINGLE(ResourceManager)->CreateSprite("S_background", texture);
 		background->SetSprite(sprite);
-		background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH*3.5, 0, WIN_SIZE_WIDTH*8, WIN_SIZE_HEIGHT));
+		background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH*1.5, 0, WIN_SIZE_WIDTH*4, WIN_SIZE_HEIGHT));
 		SpawnActor(background);
 	}
 	{
@@ -79,6 +79,11 @@ void MapToolScene::UpdateInput()
 	{
 		Vector2Int camera= GetCameraPos();
 		SetCameraPos(camera + Vector2Int(1, 0));
+	}
+	if (GET_SINGLE(KeyManager)->GetKey(VK_LEFT))
+	{
+		Vector2Int camera = GetCameraPos();
+		SetCameraPos(camera + Vector2Int(-1, 0));
 	}
 }
 

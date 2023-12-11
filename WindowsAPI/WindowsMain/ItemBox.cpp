@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "ItemBox.h"
-#include "Texture.h"
-#include "Sprite.h"
 void ItemBox::Init()
 {
 	Super::Init();
@@ -20,14 +18,21 @@ void ItemBox::Release()
 	Super::Release();
 }
 
-void ItemBox::SetItemBoxInfo(CenterRect body)
+void ItemBox::SetItemBoxInfo(ItemBoxType itemBoxType, CenterRect body)
 {
-	Texture* texture=GET_SINGLE(ResourceManager)->LoadTexture("T_ItemBox", "Power Ups/Power Up.png");
-	Sprite* sprite = GET_SINGLE(ResourceManager)->CreateSprite("S_ItemBox",texture);
-	SetSprite(sprite);
-	SetBody(body);
+	_itemBoxType = itemBoxType;
+	switch (_itemBoxType)
+	{
+	case ItemBoxType::HPItemBox:
+		SetSprite(L"../Resources/Items/hp_item_box.png", body);
+		break;
+	case ItemBoxType::MissileItemBox:
+		SetSprite(L"../Resources/Items/missile_item_box.png", body);
+		break;
+	case ItemBoxType::None:
+		break;
+	}
 }
-
 
 void ItemBox::OnComponentBeginOverlap(class Collider* collider, class Collider* other)
 {
