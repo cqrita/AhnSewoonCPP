@@ -124,10 +124,6 @@ void Player::OnComponentBeginOverlap(class Collider* collider, class Collider* o
 	if (other->GetCollisionLayer()==CollisionLayerType::CLT_WALL)
 	{
 		eWallDirection dir= AdjustPosition(collider, other);
-		if (dir == eWallDirection::LEFT)
-		{
-			cout << "hit" << endl;
-		}
 	}
 }
 void Player::OnComponentEndOverlap(class Collider* collider, class Collider* other)

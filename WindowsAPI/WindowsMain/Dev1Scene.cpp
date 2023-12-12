@@ -28,9 +28,9 @@ void Dev1Scene::Init()
 	_background = new SpriteActor();
 	_background->SetLayer(LayerType::Background);
 	_background->SetSprite(sprite);
-	_background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH * 1.5, 0, WIN_SIZE_WIDTH * 4, WIN_SIZE_HEIGHT));
+	_background->SetBody(Rect::MakeCenterRect(WIN_SIZE_WIDTH * 1.5, 0, WIN_SIZE_WIDTH * 5, WIN_SIZE_HEIGHT));
 	GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_background);
-	_speed = 500;
+	_speed = 1000;
 	{
 		_player = new Player();
 		_player->SetPlayerInfo(_speed, Rect::MakeCenterRect(-350, -200, 200, 200));
@@ -71,9 +71,10 @@ void Dev1Scene::Render(HDC hdc)
 void Dev1Scene::Update()
 {
 	Super::Update();
-	Vector2Int camera = GetCameraPos();
-	camera.x = clamp<float>(camera.x, -100, WIN_SIZE_WIDTH * 3);
-	SetCameraPos(camera + Vector2Int(_speed*DeltaTime*0.55, 0));
+	Vector2 camera = GetCameraPos();
+	camera.x += _speed/1000;
+	camera.x = clamp<float>(camera.x, -100, WIN_SIZE_WIDTH * 4);
+	SetCameraPos(camera);
 	_score += DeltaTime;
 	if (_player->GetBody().x >= WIN_SIZE_WIDTH * 3)
 	{
