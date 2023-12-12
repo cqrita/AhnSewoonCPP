@@ -10,7 +10,6 @@ namespace WebApi.Models.DTO
     public class ResponseGetRankInMyScoreDTO
     {
         public int Rank { get; set; }
-        public AswTblScore Score { get; set; }
     }
 
 }

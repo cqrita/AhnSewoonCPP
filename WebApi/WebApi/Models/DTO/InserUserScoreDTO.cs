@@ -12,8 +12,7 @@ namespace WebApi.Models.DTO
     }
     public class ResponseInserUserScoreDTO
     {
-        public AswTblUser User { get; set; }
-        public AswTblScore Score {  get; set; }      
+        public int ScoreId {  get; set; }      
                            
     }
 

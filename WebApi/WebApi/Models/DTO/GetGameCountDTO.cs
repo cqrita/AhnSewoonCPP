@@ -8,6 +8,6 @@ namespace WebApi.Models.DTO
     }
     public class ResponseGetGameCountDTO
     {
-        public AswTblUser User { get; set; }
         public int Count { get; set; }
+    }
 }

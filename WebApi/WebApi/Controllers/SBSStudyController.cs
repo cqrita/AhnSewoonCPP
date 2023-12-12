@@ -70,12 +70,11 @@ namespace WebApi.Controllers
                 Value= dTO.Score
             });
             await _context.SaveChangesAsync();
-            rv.User = aswTblUser;
-            rv.Score = score.Entity;
+            rv.ScoreId = score.Entity.Id;
             return rv;
         }
         [HttpGet("GetRankInMyScore")]
-        public async Task<ResponseGetRankInMyScoreDTO> GetRankInMyScore([FromBody] RequestGetRankInMyScoreDTO dTO)
+        public async Task<ResponseGetRankInMyScoreDTO> GetRankInMyScore([FromQuery] RequestGetRankInMyScoreDTO dTO)
         {
             ResponseGetRankInMyScoreDTO rv = new ResponseGetRankInMyScoreDTO();
             var users = await _context.AswTblUsers.ToListAsync();
@@ -85,14 +84,12 @@ namespace WebApi.Controllers
             AswTblUser aswTblUser = query.First() ?? users.First();
             var list = await _context.AswTblScores.ToListAsync();
             int rank=list.Where(score=>score.UserId == aswTblUser.Id).OrderByDescending(score => score.Value).ToList().FindIndex(score => score.Value == dTO.Score)+1;
-            var aswTblScore = list.Where(score => score.UserId == aswTblUser.Id).Where(score => score.Value == dTO.Score).First();
 
             rv.Rank= rank;
-            rv.Score= aswTblScore;
             return rv;
         }
         [HttpGet("GetGameCount")]
-        public async Task<ResponseGetGameCountDTO> GetGameCount([FromBody] RequestGetGameCountDTO dTO)
+        public async Task<ResponseGetGameCountDTO> GetGameCount([FromQuery] RequestGetGameCountDTO dTO)
         {
             ResponseGetGameCountDTO rv = new ResponseGetGameCountDTO();
 
@@ -103,11 +100,10 @@ namespace WebApi.Controllers
             AswTblUser aswTblUser = query.First() ?? users.First();
             var list = await _context.AswTblScores.ToListAsync();
             rv.Count = list.Where(score => score.UserId == aswTblUser.Id).Count();
-            rv.User = aswTblUser;
             return rv;
         }
         [HttpGet("GetRankInWorldScore")]
-        public async Task<ResponseGetRankInWorldScoreDTO> GetRankInWorldScore([FromBody] RequestGetRankInWorldScoreDTO dTO)
+        public async Task<ResponseGetRankInWorldScoreDTO> GetRankInWorldScore([FromQuery] RequestGetRankInWorldScoreDTO dTO)
         {
             ResponseGetRankInWorldScoreDTO rv = new ResponseGetRankInWorldScoreDTO();
             var users = await _context.AswTblUsers.ToListAsync();
@@ -116,8 +112,14 @@ namespace WebApi.Controllers
                         select user;
             AswTblUser aswTblUser = query.First() ?? users.First();
             var list = await _context.AswTblScores.ToListAsync();
-            var rank = list.Where(score => score.UserId == aswTblUser.Id).OrderByDescending(score => score.Value).First();
-            rv.Rank = list.OrderByDescending(score => score.Value).ToList().FindIndex(score => score.Id == rank.Id)+1;
+            var scoreQuery = list.GroupBy(score => score.UserId);
+            List<AswTblScore> scoreList= new List<AswTblScore>();
+            foreach ( var score in scoreQuery ) 
+            {
+                AswTblScore aswTblScore = score.OrderByDescending(s=>s.Value).FirstOrDefault()??new AswTblScore();
+                scoreList.Add(aswTblScore);
+            }
+            rv.Rank = scoreList.OrderByDescending(score => score.Value).ToList().FindIndex(s=>s.UserId== aswTblUser.Id)+1;
             return rv;
         }
     }
