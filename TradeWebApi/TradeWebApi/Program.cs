@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using WebApi.Data;
 
 namespace TradeWebApi
 {
@@ -16,13 +17,16 @@ namespace TradeWebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
+            
+            //var connectionString1 = builder.Configuration["ConnectionStrings:TradeDB"];
             var connectionString = builder.Configuration.GetConnectionString("TradeDB");
-            /*builder.Services.AddDbContext<Context>(options => options.UseMySql(
-                    connectionString,
-                    ServerVersion.AutoDetect(connectionString)
-                ));
-            */
+            builder.Services.AddDbContext<Context>(options => options.UseMySql(
+                connectionString, 
+                ServerVersion.AutoDetect(connectionString)));
+            
+
+            var app = builder.Build();
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

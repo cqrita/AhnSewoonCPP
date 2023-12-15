@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34316.72
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeWebApi", "TradeWebApi\TradeWebApi.csproj", "{506410BE-EC4B-4614-8B27-38F92226B422}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeWebApi", "TradeWebApi\TradeWebApi.csproj", "{F3968514-E9BD-44D8-949E-443E032FFEFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{506410BE-EC4B-4614-8B27-38F92226B422}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{506410BE-EC4B-4614-8B27-38F92226B422}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{506410BE-EC4B-4614-8B27-38F92226B422}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{506410BE-EC4B-4614-8B27-38F92226B422}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3968514-E9BD-44D8-949E-443E032FFEFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3968514-E9BD-44D8-949E-443E032FFEFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3968514-E9BD-44D8-949E-443E032FFEFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3968514-E9BD-44D8-949E-443E032FFEFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {59B20190-DF52-47AC-9EB8-D31C78DDFE91}
+		SolutionGuid = {301C6BB8-4D26-4961-82C4-CA3AD46ECA5A}
 	EndGlobalSection
 EndGlobal
