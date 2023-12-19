@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json;
+using System.Dynamic;
 using TradeWebApi.Models;
 using TradeWebApi.Models.DB;
 using TradeWebApi.Models.DTO;
+using TradeWebApi.Utility;
 using WebApi.Data;
 
 namespace TradeWebApi.Controllers
@@ -165,7 +168,96 @@ namespace TradeWebApi.Controllers
 
             return rv;
         }
-        
+        [HttpGet("GetMonsters")]
+        public async Task<CommonResult<ResponseGetMonsterDTO>> GetMonsters(RequestGetMonsterDTO DTO)
+        {
+            CommonResult<ResponseGetMonsterDTO> rv = new CommonResult<ResponseGetMonsterDTO>();
+            var List = (from monster in _context.AswTblTradeMonsters
+                        where DTO.MaxPrice >= monster.Price
+                        where DTO.MinLevel<=monster.LevelStat
+                        where DTO.MaxLevel>=monster.LevelStat
+                        where DTO.RebirthStat == monster.RebirthStat
+                        select monster).AsEnumerable();
+            var Property = DTO.PropertyStat == "ALL" ? List : List.Where(m => m.PropertyStat == DTO.PropertyStat);
+            var Rare = DTO.RareStat == "ALL" ? Property : Property.Where(m => m.RareStat == DTO.RareStat);
+            var Type = DTO.TypeStat == "ALL" ? Rare : Rare.Where(m => m.TypeStat == DTO.TypeStat);
+            var Monster = DTO.MonsterId == 0 ? Type.ToList() : Type.Where(m => m.MonsterId == DTO.MonsterId).ToList();
+            rv.Data = new ResponseGetMonsterDTO();
+            rv.Data.Monsters = new List<ResponseGetMonsterDTOElement>();
+
+            foreach (var item in Monster) 
+            {
+                ResponseGetMonsterDTOElement data = new ResponseGetMonsterDTOElement();
+                data.MonsterId = item.MonsterId;
+                data.AttackStat = item.AttackStat;
+                data.RareStat = item.RareStat;
+                data.RebirthStat = item.RebirthStat;
+                data.TypeStat = item.TypeStat;
+                data.SpeedStat = item.SpeedStat;
+                data.PropertyStat = item.PropertyStat;
+                data.DefenceStat = item.DefenceStat;
+                data.HealthStat = item.HealthStat;
+                data.LevelStat = item.LevelStat;
+                data.Price = item.Price;
+                data.UpdateDate = item.UpdateDate;
+                data.CreateDate = item.CreateDate;
+                data.DeleteDate = item.DeleteDate;
+                data.AvailableDate = item.AvailableDate;
+                data.Id = item.Id;
+                rv.Data.Monsters.Add(data);
+            }
+            rv.IsSuccess = true;
+            rv.StatusCode = (int)CommonStatusCode.Ok;
+            return rv;
+        }
+
+        [HttpGet("GetMonstersV2")]
+        public async Task<CommonResult<ResponseGetMonsterDTO>> GetMonstersV2()
+        {
+            CommonResult<ResponseGetMonsterDTO> rv = new CommonResult<ResponseGetMonsterDTO>();
+
+            string? filter = HttpContext.Request.Query["filter"];
+            var monsters = (from monster in _context.AswTblTradeMonsters
+                            select new ResponseGetMonsterDTOElement()
+                            {
+                                AttackStat = monster.AttackStat,
+                                AvailableDate = monster.AvailableDate,
+                                CreateDate = monster.CreateDate,
+                                DeleteDate = monster.DeleteDate,
+                                DefenceStat = monster.DefenceStat,
+                                HealthStat = monster.HealthStat,
+                                LevelStat = monster.LevelStat,
+                                Id = monster.Id,
+                                MonsterId = monster.MonsterId,
+                                OwnerUserId = monster.OwnerUserId,
+                                Price = monster.Price,
+                                PropertyStat = monster.PropertyStat,
+                                RareStat = monster.RareStat,
+                                RebirthStat = monster.RebirthStat,
+                                SpeedStat = monster.SpeedStat,
+                                TypeStat = monster.TypeStat,
+                                UpdateDate = monster.UpdateDate
+                            }).AsQueryable();
+           var filterResult = new RootFilter();
+
+            if (!string.IsNullOrEmpty(filter))
+            {
+                filterResult = JsonConvert.DeserializeObject<RootFilter>(filter);
+            }
+            else
+            {
+                filterResult = new RootFilter();
+            }
+            if(monsters!=null)
+            {
+                monsters = CompositeFilter<ResponseGetMonsterDTOElement>.ApplyFilter(monsters, filterResult);
+            }
+            rv.IsSuccess = true;
+            rv.StatusCode = (int)CommonStatusCode.Ok;
+            rv.Data = new ResponseGetMonsterDTO();
+            rv.Data.Monsters = monsters.ToList();
+            return rv;            
+        }
 
     }
 }
