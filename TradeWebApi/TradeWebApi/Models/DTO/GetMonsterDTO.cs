@@ -14,6 +14,12 @@ namespace TradeWebApi.Models.DTO
         public int? RebirthStat { get; set; }
     }
 
+    public class RequestGetMonsterV2DTO
+    {
+        public int PageSize { get; set; }
+        public int PageNo { get; set; }
+    }
+
     public class ResponseGetMonsterDTOElement
     {
         public long Id { get; set; }

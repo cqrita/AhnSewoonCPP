@@ -39,10 +39,9 @@ namespace TradeWebApi.Controllers
         public async Task<CommonResult<ResponseBuyMonsterDTO>> BuyMonster([FromBody] RequestBuyMonsterDTO DTO )
         {
             CommonResult<ResponseBuyMonsterDTO> rv = new CommonResult<ResponseBuyMonsterDTO>();
-            var Monster = (from monster in _context.AswTblTradeMonsters
+            var Monster = await (from monster in _context.AswTblTradeMonsters
                         where DTO.Id == monster.Id
-                        select monster).FirstOrDefaultAsync().Result;
-
+                        select monster).FirstOrDefaultAsync();
             if(Monster==null)
             {
                 rv.Data = null;
@@ -147,6 +146,14 @@ namespace TradeWebApi.Controllers
         public async Task<CommonResult<ResponseSellMonsterDTO>> SellMonster([FromBody] RequestSellMonsterDTO DTO)
         {
             CommonResult<ResponseSellMonsterDTO> rv = new CommonResult<ResponseSellMonsterDTO>();
+            var nowTime = DateTime.Now;
+            var count = await _context.AswTblTradeMonsters.Where(m => m.DeleteDate == null).Where(m => nowTime < m.AvailableDate).Where(m=>m.OwnerUserId == DTO.OwnerUserId).CountAsync();
+            if(count>=3)
+            {
+                rv.IsSuccess = false;
+                rv.StatusCode = (int)CommonStatusCode.SellLimitExceeded;
+                return rv;
+            }
             _context.AswTblTradeMonsters.Add(new AswTblTradeMonster()
             {
                 OwnerUserId=DTO.OwnerUserId,
@@ -169,7 +176,7 @@ namespace TradeWebApi.Controllers
             return rv;
         }
         [HttpGet("GetMonsters")]
-        public async Task<CommonResult<ResponseGetMonsterDTO>> GetMonsters(RequestGetMonsterDTO DTO)
+        public async Task<CommonResult<ResponseGetMonsterDTO>> GetMonsters([FromQuery] RequestGetMonsterDTO DTO)
         {
             CommonResult<ResponseGetMonsterDTO> rv = new CommonResult<ResponseGetMonsterDTO>();
             var List = (from monster in _context.AswTblTradeMonsters
@@ -212,11 +219,11 @@ namespace TradeWebApi.Controllers
         }
 
         [HttpGet("GetMonstersV2")]
-        public async Task<CommonResult<ResponseGetMonsterDTO>> GetMonstersV2()
+        public async Task<CommonResult<ResponseGetMonsterDTO>> GetMonstersV2([FromQuery] RequestGetMonsterV2DTO DTO)
         {
             CommonResult<ResponseGetMonsterDTO> rv = new CommonResult<ResponseGetMonsterDTO>();
 
-            string? filter = HttpContext.Request.Query["filter"];
+
             var monsters = (from monster in _context.AswTblTradeMonsters
                             select new ResponseGetMonsterDTOElement()
                             {
@@ -238,7 +245,11 @@ namespace TradeWebApi.Controllers
                                 TypeStat = monster.TypeStat,
                                 UpdateDate = monster.UpdateDate
                             }).AsQueryable();
-           var filterResult = new RootFilter();
+            string? filter = HttpContext.Request.Query["filter"];
+            var filterResult = new RootFilter();
+            monsters = monsters.Where(m => m.DeleteDate == null);
+            var nowTime= DateTime.Now;
+            monsters = monsters.Where(m => nowTime < m.AvailableDate);
 
             if (!string.IsNullOrEmpty(filter))
             {
@@ -248,15 +259,127 @@ namespace TradeWebApi.Controllers
             {
                 filterResult = new RootFilter();
             }
-            if(monsters!=null)
+            if(filterResult!= null)
             {
                 monsters = CompositeFilter<ResponseGetMonsterDTOElement>.ApplyFilter(monsters, filterResult);
             }
+            monsters=monsters.Skip(DTO.PageSize*DTO.PageSize).Take(DTO.PageSize);
             rv.IsSuccess = true;
             rv.StatusCode = (int)CommonStatusCode.Ok;
-            rv.Data = new ResponseGetMonsterDTO();
-            rv.Data.Monsters = monsters.ToList();
+            rv.Data = new ResponseGetMonsterDTO()
+            {
+                Monsters = monsters.ToList()
+            };
             return rv;            
+        }
+        [HttpPost("SendMail")]
+        public async Task<CommonResult<ResponseSendMailDTO>> SendMail([FromBody] RequestSendMailDTO DTO)
+        {
+            //add ASWTblMail to ASWTblMails
+            //send response
+            CommonResult<ResponseSendMailDTO> rv = new CommonResult<ResponseSendMailDTO>();
+            var mail =await _context.AswTblMails.AddAsync(new AswTblMail()
+            {
+                FromUserId = DTO.FromUserId,
+                UserId = DTO.UserId,
+                ItemCount = DTO.ItemCount,
+                ItemId = DTO.ItemId
+            });
+
+            rv.IsSuccess = Convert.ToBoolean(await _context.SaveChangesAsync());
+            rv.StatusCode = (int)CommonStatusCode.Ok;
+            rv.Data = new ResponseSendMailDTO()
+            {
+                Id = mail.Entity.Id
+            };
+            return rv;
+        }
+        [HttpGet("GetMail")]
+        public async Task<CommonResult<ResponseGetMailDTO>> GetMail([FromQuery] RequestGetMailDTO DTO)
+        {
+            //get ASWTblMails
+            //validation delete date
+            //filter
+            //orderby
+            //paging
+            //send response
+            CommonResult<ResponseGetMailDTO> rv = new CommonResult<ResponseGetMailDTO>();
+            var record = (from mail in _context.AswTblMails
+                            select new ResponseGetMailDTOElement()
+                            {
+                                CreateDate=mail.CreateDate,
+                                DeleteDate=mail.DeleteDate,
+                                ItemId=mail.ItemId,
+                                ItemCount=mail.ItemCount,
+                                FromUserId=mail.FromUserId,
+                                Id=mail.Id,
+                                UserId = mail.UserId
+                            }).AsQueryable();
+            string? filter = HttpContext.Request.Query["filter"];
+            var filterResult = new RootFilter();
+            record = record.Where(m => m.DeleteDate == null);
+            if (!string.IsNullOrEmpty(filter))
+            {
+                filterResult = JsonConvert.DeserializeObject<RootFilter>(filter);
+            }
+            else
+            {
+                filterResult = new RootFilter();
+            }
+            if (filterResult != null)
+            {
+                record = CompositeFilter<ResponseGetMailDTOElement>.ApplyFilter(record, filterResult);
+            }
+            record = record.OrderByDescending(m => m.CreateDate);
+            record = record.Skip(DTO.PageSize * DTO.PageSize).Take(DTO.PageSize);
+            rv.IsSuccess = true;
+            rv.StatusCode = (int)CommonStatusCode.Ok;
+            rv.Data = new ResponseGetMailDTO()
+            {
+                Mail = await record.ToListAsync()
+            };
+            return rv;
+        }
+        [HttpPost("ReceiveMail")]
+        public async Task<CommonResult<ResponseReceiveMailDTO>> ReceieveMail([FromQuery] RequestReceiveMailDTO DTO)
+        {
+            //get ASWTblMails where id=dto id
+            //validation delete date
+            //update date
+            //send response
+            
+            CommonResult<ResponseReceiveMailDTO> rv = new CommonResult<ResponseReceiveMailDTO>();
+            var Mail = await (from mail in _context.AswTblMails
+                           where DTO.Id == mail.Id
+                           select mail).FirstOrDefaultAsync();
+            if(Mail==null)
+            {
+                rv.Data = null;
+                rv.IsSuccess = false;
+                rv.Messsage = "NotFoundEntity";
+                rv.StatusCode = (int)CommonStatusCode.NotFoundEntity;
+                return rv;
+            }
+            if(Mail.DeleteDate!=null)
+            {
+                rv.Data = null;
+                rv.IsSuccess = false;
+                rv.Messsage = "MailAlreadyReceived";
+                rv.StatusCode = (int)CommonStatusCode.Unprocessable;
+                return rv;
+            }
+            Mail.DeleteDate=DateTime.Now;
+            _context.Update(Mail);
+            await _context.SaveChangesAsync();
+            rv.IsSuccess = true;
+            rv.StatusCode = (int)CommonStatusCode.Ok;
+            rv.Data = new ResponseReceiveMailDTO()
+            {
+                ItemCount=Mail.ItemCount,
+                ItemId=Mail.ItemId
+            };
+
+            return rv;
         }
 
     }

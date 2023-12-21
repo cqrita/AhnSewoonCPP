@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using TradeWebApi.Services;
 using WebApi.Data;
 
 namespace TradeWebApi
@@ -17,6 +18,7 @@ namespace TradeWebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddScoped<MailService, MailService>();
             
             //var connectionString1 = builder.Configuration["ConnectionStrings:TradeDB"];
             var connectionString = builder.Configuration.GetConnectionString("TradeDB");

@@ -11,6 +11,7 @@
     {
         Ok=0,
         NotFoundEntity=1,
-        Unprocessable= 2
+        Unprocessable= 2,
+        SellLimitExceeded=3
     }
 }
