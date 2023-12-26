@@ -18,8 +18,9 @@ namespace TradeWebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddScoped<MailService, MailService>();
-            
+            builder.Services.AddScoped<IMailService, MailService>();
+            builder.Services.AddScoped<IMonsterService, MonsterService>();
+
             //var connectionString1 = builder.Configuration["ConnectionStrings:TradeDB"];
             var connectionString = builder.Configuration.GetConnectionString("TradeDB");
             builder.Services.AddDbContext<Context>(options => options.UseMySql(
