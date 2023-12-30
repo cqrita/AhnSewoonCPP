@@ -3,17 +3,14 @@
 #include "Bullet.h"
 #include "Scene.h"
 #include "BoxCollider.h"
-#include "Flipbook.h"
+#include "Sprite.h"
+#include "Texture.h"
 void Player::Init()
 {
 	Super::Init();
 	this->SetName("Player");
-	_gravity = -9.8;
-	_moveFlipbook = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Move_Right");
-	_hitFlipbook = GET_SINGLE(ResourceManager)->GetFlipbook("FB_Character_Hit_Right");
-
-	SetFlipbook(_moveFlipbook);
-
+	SetSprite(_moveSprite[int(ePlayerDirection::NORMAL)]);
+	_velocity = Vector2{ 0,0 };
 }
 void Player::Render(HDC hdc)
 {
@@ -24,7 +21,8 @@ void Player::Update()
 {
 	Super::Update();
 	UpdateInput();
-	UpdateGravity();	
+	UpdateGravity();
+	UpdateJumpFall();
 	Move(_velocity);
 }
 void Player::Release()
@@ -34,96 +32,66 @@ void Player::Release()
 }
 void Player::Move(Vector2 direction)
 {
-	_body.x += direction.x * _speed * DeltaTime;
 	_body.y += direction.y * DeltaTime;
 }
-void Player::SetPlayerInfo(float speed,CenterRect body)
+void Player::SetPlayerInfo(CenterRect body)
 {
-	_speed = speed;
 	_body = body;
+	_gravity = -9.8;
+
+
+	Texture* upTexture = GET_SINGLE(ResourceManager)->LoadTexture("T_playerUp", "image/bird/bird_Up_0.bmp", RGB(255, 0, 255));
+	Sprite* upSprite = GET_SINGLE(ResourceManager)->CreateSprite("S_playerUp", upTexture);
+	_moveSprite[int(ePlayerDirection::UP)]= upSprite;
+
+	Texture* downTexture = GET_SINGLE(ResourceManager)->LoadTexture("T_playerDown", "image/bird/bird_Down_0.bmp", RGB(255, 0, 255));
+	Sprite* downSprite = GET_SINGLE(ResourceManager)->CreateSprite("S_playerDown", downTexture);
+	_moveSprite[int(ePlayerDirection::DOWN)]=downSprite;
+
+	Texture* normalTexture = GET_SINGLE(ResourceManager)->LoadTexture("T_playerNormal", "image/bird/bird_Normal_0.bmp", RGB(255, 0, 255));
+	Sprite* normalSprite = GET_SINGLE(ResourceManager)->CreateSprite("S_playerNormal", normalTexture);
+	_moveSprite[int(ePlayerDirection::NORMAL)]=normalSprite;
+
+	SetSprite(_moveSprite[int(ePlayerDirection::NORMAL)]);
 }
 
 void Player::UpdateInput()
 {
-	_velocity = Vector2{ 0,0 };
-	if (GET_SINGLE(KeyManager)->GetKey(VK_SPACE))
+	if (GET_SINGLE(KeyManager)->GetKeyDown(VK_SPACE))
 	{
-		_velocity.y=-1200;
-		SetFlipbook(_hitFlipbook);
+		_velocity = _velocity + Vector2{ 0,-100 };
 	}
-	if (_flipbook->GetInfo().end-1 <= _index&&_flipbook==_hitFlipbook)
-	{
-		_index = 0;
-		SetFlipbook(_moveFlipbook);
-	}
-	_velocity.x=0.5;
 }
+
+
+void Player::UpdateJumpFall()
+{
+	if (_velocity.y > 10)
+	{
+		SetSprite(_moveSprite[int(ePlayerDirection::DOWN)]);
+	}
+	else if (_velocity.y < -10)
+	{
+		SetSprite(_moveSprite[int(ePlayerDirection::UP)]);
+	}
+	else
+	{
+		SetSprite(_moveSprite[int(ePlayerDirection::NORMAL)]);
+	}
+}
+
 
 void Player::UpdateGravity()
 {
-	_velocity.y -= _gravity * 50;
+	_velocity.y -= _gravity*0.3;
 }
 
-
-
-eWallDirection Player::AdjustPosition(class Collider* collider, class Collider* other)
-{
-	eWallDirection rv = eWallDirection::END;
-	BoxCollider* b1 = dynamic_cast<BoxCollider*>(collider);
-	BoxCollider* b2 = dynamic_cast<BoxCollider*>(other);
-
-	CenterRect body = this->GetBody();
-	Vector2 pos = body.Position();
-	if (b1 != nullptr && b2 != nullptr)
-	{
-		RECT r1 = b1->GetCollision().ToRect();
-		RECT r2 = b2->GetCollision().ToRect();
-		RECT intersect = {};
-		if (IntersectRect(&intersect, &r1, &r2))
-		{
-			int width = intersect.right - intersect.left;
-			int height = intersect.bottom - intersect.top;
-
-			if (width > height)
-			{
-				if (intersect.bottom == r1.bottom)
-				{
-					pos.y -= static_cast<float>(height+10);
-					rv = eWallDirection::UP;
-				}
-				else
-				{
-					pos.y += static_cast<float>(height+10);
-					rv = eWallDirection::DOWN;
-				}
-			}
-			else
-			{
-				if (intersect.right == r1.right)
-				{
-					pos.x -= static_cast<float>(width+10);
-					rv = eWallDirection::LEFT;
-				}
-				else
-				{
-					pos.x += static_cast<float>(width+10);
-					rv = eWallDirection::RIGHT;
-				}
-			}
-		}
-	}
-
-	this->_body.x = pos.x;
-	this->_body.y = pos.y;
-
-	return rv;
-}
 
 void Player::OnComponentBeginOverlap(class Collider* collider, class Collider* other)
 {
 	if (other->GetCollisionLayer()==CollisionLayerType::CLT_WALL)
 	{
-		eWallDirection dir= AdjustPosition(collider, other);
+		Alert("GAME END", "GAME END");
 	}
 }
 void Player::OnComponentEndOverlap(class Collider* collider, class Collider* other)

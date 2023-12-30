@@ -43,7 +43,7 @@ using namespace std;
 #define WIN_NAME "SBS_ACADEMY"
 #define WIN_START_X 500
 #define WIN_START_Y 100
-#define WIN_SIZE_WIDTH 800
+#define WIN_SIZE_WIDTH 600
 #define WIN_SIZE_HEIGHT 800
 #define WIN_STYLE WS_OVERLAPPEDWINDOW
 

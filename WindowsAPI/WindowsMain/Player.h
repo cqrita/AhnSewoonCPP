@@ -1,5 +1,5 @@
 #pragma once
-#include "FlipbookActor.h"
+#include "SpriteActor.h"
 enum class eWallDirection :int
 {
 	UP,
@@ -8,17 +8,21 @@ enum class eWallDirection :int
 	LEFT,
 	END
 };
-class Player : public FlipbookActor
+enum class ePlayerDirection :int
+{
+	UP,
+	NORMAL,
+	DOWN,
+	END
+};
+class Player : public SpriteActor
 {
 public:
-	using Super = FlipbookActor;
+	using Super = SpriteActor;
 private:
-	float _speed;
 	float _gravity;
 	Vector2 _velocity;
-	Flipbook* _moveFlipbook;
-	Flipbook* _hitFlipbook;
-
+	Sprite* _moveSprite[3];
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;
@@ -26,15 +30,14 @@ public:
 	virtual void Release() override;
 public:
 	void Move(Vector2 direction);
-	void SetPlayerInfo(float speed, CenterRect body);
+	void SetPlayerInfo(CenterRect body);
 public:
-	void UpdateGravity();
 	void UpdateInput();
-	eWallDirection AdjustPosition(class Collider* collider, class Collider* other);
+	void UpdateJumpFall();
+	void UpdateGravity();
 
 public:
 	virtual void OnComponentBeginOverlap(class Collider* collider, class Collider* other) override;
 	virtual void OnComponentEndOverlap(class Collider* collider, class Collider* other) override;
-
 };
 

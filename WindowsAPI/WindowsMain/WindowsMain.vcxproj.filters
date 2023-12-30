@@ -176,6 +176,9 @@
     <ClCompile Include="MaptoolPanel.cpp">
       <Filter>소스 파일\06.UI\Game</Filter>
     </ClCompile>
+    <ClCompile Include="BackgroundActor.cpp">
+      <Filter>소스 파일\03.Object\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -306,6 +309,9 @@
     </ClInclude>
     <ClInclude Include="MaptoolPanel.h">
       <Filter>소스 파일\06.UI\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundActor.h">
+      <Filter>소스 파일\03.Object\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

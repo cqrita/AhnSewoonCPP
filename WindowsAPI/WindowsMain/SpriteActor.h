@@ -6,6 +6,7 @@ protected:
 	class Sprite* _sprite = nullptr;
 public:
 	void SetSprite(Sprite* sprite) { _sprite = sprite; }
+	const class Sprite* GetSprite() { return _sprite;}
 public:
 	using Super = Actor;
 public:

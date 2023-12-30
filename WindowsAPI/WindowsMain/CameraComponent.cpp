@@ -18,9 +18,9 @@ void CameraComponent::Init()
 	Actor* owner = this->GetOwner();
 	if (owner)
 	{
-		cameraPos = Vector2(owner->GetBody().x+300, owner->GetBody().y);
-		cameraPos.x = clamp<float>(cameraPos.x, 0, WIN_SIZE_WIDTH * 3);
-		cameraPos.y = clamp<float>(cameraPos.y, 0, 0);
+		cameraPos = Vector2(owner->GetBody().x, owner->GetBody().y);
+		cameraPos.x = clamp<float>(cameraPos.x, 0, WIN_SIZE_WIDTH * 7);
+		cameraPos.y = clamp<float>(cameraPos.y, -WIN_SIZE_HEIGHT / 2, 0);
 	}
 }
 
@@ -35,11 +35,13 @@ void CameraComponent::Update()
 	Actor* owner = this->GetOwner();
 	if (owner)
 	{
-		Vector2 newCameraPos = Vector2(owner->GetBody().x+300, owner->GetBody().y);
-		newCameraPos.x = clamp<float>(newCameraPos.x, 0, WIN_SIZE_WIDTH * 3);
-		newCameraPos.y = clamp<float>(newCameraPos.y, 0, 0);
-		cout << newCameraPos.y << endl;
-		CurrentScene->SetCameraPos(newCameraPos);
+		Vector2 newCameraPos = Vector2(owner->GetBody().x, owner->GetBody().y);
+
+		cameraPos = Vector2::Lerp(cameraPos, newCameraPos, DeltaTime * 2);
+		cameraPos.x = clamp<float>(cameraPos.x, 0, WIN_SIZE_WIDTH * 7);
+		cameraPos.y = clamp<float>(cameraPos.y, -WIN_SIZE_HEIGHT / 2, 0);
+
+		CurrentScene->SetCameraPos(cameraPos);
 	}
 }
 

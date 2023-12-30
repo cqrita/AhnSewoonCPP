@@ -25,8 +25,8 @@ void SpriteActor::Render(HDC hdc)
 	bf.SourceConstantAlpha = _sprite->GetTransparent();
 	Vector2Int CameraPos = CurrentScene->GetCameraPos();
 	CameraPos -= Vector2Int(WIN_SIZE_WIDTH/2, WIN_SIZE_HEIGHT / 2);
-	AlphaBlend(hdc, (int)(_body.x - _body.width/2)-CameraPos.x, (int)(_body.y - _body.height/2) - CameraPos.y,
-		(int)(_body.width), (int)(_body.height), _sprite->GetDC(), _sprite->GetPos().x, _sprite->GetPos().y, size.x, size.y, bf);
+	TransparentBlt(hdc, (int)(_body.x - _body.width/2)-CameraPos.x, (int)(_body.y - _body.height/2) - CameraPos.y,
+		(int)(_body.width), (int)(_body.height), _sprite->GetDC(), _sprite->GetPos().x, _sprite->GetPos().y, size.x, size.y, _sprite->GetTransparent());
 }
 
 void SpriteActor::Update()

@@ -6,10 +6,9 @@ public:
 	using Super = Scene;
 private:
 	class Player* _player = nullptr;
+	class ItemBox* _itemBox = nullptr;
+
 	class SpriteActor* _background = nullptr;
-	float _speed;
-	float _score;
-	int _level;
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;
