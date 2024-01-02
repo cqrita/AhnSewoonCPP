@@ -3,6 +3,7 @@
 #include "BackgroundActor.h"
 #include "Player.h"
 #include "BoxCollider.h"
+#include "PipeActor.h"
 #include <string>
 void Dev2Scene::Init()
 {
@@ -13,8 +14,14 @@ void Dev2Scene::Init()
 	GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_background);
 	_player = new Player();
 	_player->SetPlayerInfo(Rect::MakeCenterRect(-WIN_SIZE_WIDTH/4-100, 0, 50, 50),-9.8,250);
-
 	GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_player);
+
+	_pipe = new PipeActor();
+	_pipe->SetSpeed(300);
+	_pipe->SetSize(Vector2(1200, WIN_SIZE_HEIGHT));
+	_pipe->SetWidth(140); 
+	GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_pipe);
+
 }
 void Dev2Scene::Render(HDC hdc)
 {

@@ -182,6 +182,9 @@
     <ClCompile Include="MenuScene.cpp">
       <Filter>소스 파일\02.Scene\Game</Filter>
     </ClCompile>
+    <ClCompile Include="PipeActor.cpp">
+      <Filter>소스 파일\03.Object\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -318,6 +321,9 @@
     </ClInclude>
     <ClInclude Include="MenuScene.h">
       <Filter>소스 파일\02.Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="PipeActor.h">
+      <Filter>소스 파일\03.Object\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
