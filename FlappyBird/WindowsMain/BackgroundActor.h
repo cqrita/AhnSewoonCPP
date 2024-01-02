@@ -9,7 +9,10 @@ public:
 	Vector2 _size= Vector2(WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT);
 private:
 	class SpriteActor* _background[8];
-	class SpriteActor* _bottom[8];
+	class Wall* _bottom[8];
+	class Wall* _up[16];
+	class Wall* _down[16];
+
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;

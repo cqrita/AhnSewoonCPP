@@ -6,7 +6,6 @@ void Wall::Init()
 {
 	Super::Init();
 	this->SetName("Wall");
-
 }
 
 void Wall::Render(HDC hdc)
@@ -16,7 +15,7 @@ void Wall::Render(HDC hdc)
 	Vector2Int CameraPos = CurrentScene->GetCameraPos();
 
 #if _DEBUG
-	Draw::Rect(hdc, GetBody().ToRect(), CameraPos);
+	//Draw::Rect(hdc, GetBody().ToRect(), CameraPos);
 #endif
 }
 
@@ -32,13 +31,10 @@ void Wall::Release()
 
 }
 
-void Wall::SetWallInfo(RECT rc)
+void Wall::SetWallInfo()
 {
-	CenterRect cr = CenterRect::FromRect(rc);
-	this->SetBody(cr);
-
 	BoxCollider* collider = new BoxCollider();
-	collider->SetCollision(Rect::MakeCenterRect(0, 0, cr.width, cr.height));
+	collider->SetCollision(Rect::MakeCenterRect(0, 0, _body.width, _body.height));
 	collider->SetCollisionLayer(CollisionLayerType::CLT_WALL);
 	this->AddComponent(collider);
 }

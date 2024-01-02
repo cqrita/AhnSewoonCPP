@@ -14,7 +14,7 @@ class Button : public UI
 protected:
 	class Sprite* _currentSprite = nullptr;
 	class Sprite* _sprites[static_cast<int>(eButtonState::End)] {};
-	eButtonState _state = eButtonState::Default;
+	eButtonState _state = eButtonState::End;
 	function<void()> _onClick=nullptr;
 public:
 	void SetSprite(eButtonState state, class Sprite* sprite)

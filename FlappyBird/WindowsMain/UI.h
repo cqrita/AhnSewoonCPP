@@ -2,8 +2,7 @@
 class UI
 {
 protected:
-	Vector2 _pos = {};
-	Vector2Int _size = {};
+	CenterRect _body;
 public:
 	UI();
 	virtual ~UI();

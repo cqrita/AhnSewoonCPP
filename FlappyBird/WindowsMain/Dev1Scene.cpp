@@ -32,7 +32,7 @@ void Dev1Scene::Init()
 	GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_background);
 	{
 		_player = new Player();
-		_player->SetPlayerInfo(500, Rect::MakeCenterRect(80, 80, 200, 200));
+		_player->SetPlayerInfo(Rect::MakeCenterRect(80, 80, 200, 200),1,1);
 		{
 			BoxCollider* collider = new BoxCollider();
 			collider->SetCollision(Rect::MakeCenterRect(0, 0, 50,80));
@@ -51,7 +51,7 @@ void Dev1Scene::Init()
 	for (RECT rc : walls)
 	{
 		Wall* wall = new Wall();
-		wall->SetWallInfo(rc);
+		wall->SetWallInfo();
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(wall);
 	}
 }

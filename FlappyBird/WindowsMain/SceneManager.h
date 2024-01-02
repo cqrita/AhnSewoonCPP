@@ -11,6 +11,7 @@ public:
 public:
 	void ChangeScene(SceneType sceneType);
 	class Scene* GetCurrentScene() { return _scene; }
+	SceneType GetCurrentSceneType() { return _sceneType; }
 private:
 	class Scene* _scene= nullptr;
 	SceneType _sceneType = SceneType::None;

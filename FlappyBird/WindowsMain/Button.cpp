@@ -5,6 +5,7 @@ void Button::SetState(eButtonState state)
 {
 	if (_state == state) return;
 	_state = state;
+	if (_sprites[static_cast<int>(_state)] == nullptr) return;
 	_currentSprite = _sprites[static_cast<int>(_state)];
 }
 
@@ -22,7 +23,7 @@ void Button::Init()
 {
 	Super::Init();
 
-	SetState(eButtonState::End);
+	SetState(eButtonState::Default);
 }
 
 void Button::Render(HDC hdc)
@@ -40,9 +41,11 @@ void Button::Render(HDC hdc)
 	bf.BlendFlags = 0;
 
 	bf.BlendOp = AC_SRC_OVER;
+
 	bf.SourceConstantAlpha = _currentSprite->GetTransparent();
-	TransparentBlt(hdc, (int)(_pos.x - _size.x / 2), (int)(_pos.y - _size.y / 2),
-		(int)(_size.x), (int)(_size.y), _currentSprite->GetDC(), _currentSprite->GetPos().x, _currentSprite->GetPos().y, size.x, size.y, _currentSprite->GetTransparent());
+	TransparentBlt(hdc, (int)(_body.x - _body.width / 2), (int)(_body.y - _body.height / 2) ,
+		(int)(_body.width), (int)(_body.height), _currentSprite->GetDC(), _currentSprite->GetPos().x, _currentSprite->GetPos().y, size.x, size.y, _currentSprite->GetTransparent());
+
 
 }
 

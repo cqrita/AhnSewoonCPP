@@ -4,6 +4,7 @@
 #include "Dev1Scene.h"
 #include "Dev2Scene.h"
 #include "MapToolScene.h"
+#include "MenuScene.h"
 void SceneManager::Init()
 {
 
@@ -48,6 +49,9 @@ void SceneManager::ChangeScene(SceneType sceneType)
 		break;
 	case SceneType::MapToolScene:
 		newScene = new MapToolScene();
+		break;
+	case SceneType::MenuScene:
+		newScene = new MenuScene();
 		break;
 
 	default:

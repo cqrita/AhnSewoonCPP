@@ -6,6 +6,7 @@ enum class SceneType
 	Dev1Scene,
 	Dev2Scene,
 	MapToolScene,
+	MenuScene
 };
 
 enum class ColliderType

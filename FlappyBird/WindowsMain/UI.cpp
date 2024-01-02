@@ -33,15 +33,12 @@ void UI::Release()
 
 CenterRect UI::GetRect()
 {
-	return CenterRect{_pos.x,_pos.y,static_cast<float>(_size.x),static_cast<float>(_size.y) };
+	return _body;
 }
 
 void UI::SetRect(CenterRect Rect)
 {
-	_pos.x = Rect.x;
-	_pos.y = Rect.y;
-	_size.x = static_cast<int>(Rect.width);
-	_size.y = static_cast<int>(Rect.height);
+	_body = Rect;
 }
 
 bool UI::IsInMouse()
