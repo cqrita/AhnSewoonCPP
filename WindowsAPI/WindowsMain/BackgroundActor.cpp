@@ -42,14 +42,14 @@ void BackgroundActor::Init()
 		_up[i] = new Wall();
 		_up[i]->SetLayer(LayerType::Background);
 		_up[i]->SetSprite(obstacleUpSprite);
-		_up[i]->SetBody(Rect::MakeCenterRect((_size.x / 4) * i+100, -_size.y / 2 - randNum-140, 100, _size.y));
+		_up[i]->SetBody(Rect::MakeCenterRect((_size.x / 4) * i+300, -_size.y / 2 - randNum-140, 100, _size.y));
 		_up[i]->SetWallInfo();
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_up[i]);
 
 		_down[i] = new Wall();
 		_down[i]->SetLayer(LayerType::Background);
 		_down[i]->SetSprite(obstacleDownSprite);
-		_down[i]->SetBody(Rect::MakeCenterRect((_size.x / 4) * i+100, _size.y / 2- randNum+140, 100, _size.y));
+		_down[i]->SetBody(Rect::MakeCenterRect((_size.x / 4) * i+300, _size.y / 2- randNum+140, 100, _size.y));
 		_down[i]->SetWallInfo();
 		GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_down[i]);
 
@@ -106,18 +106,19 @@ void BackgroundActor::Update()
 
 	for (int i = 0; i < 16; i++)
 	{
+		int randNum = rand() % (int)(_size.y / 4);
 		{
 			CenterRect body = _up[i]->GetBody();
 			if (_up[i]->GetBody().x < -_size.x)
 			{
-				_up[i]->SetBody(Rect::MakeCenterRect(body.x + (_size.x*4), body.y, body.width, body.height));
+				_up[i]->SetBody(Rect::MakeCenterRect(body.x + (_size.x*4), -_size.y / 2 - randNum - 140, body.width, body.height));
 			}
 		}
 		{
 			CenterRect body = _down[i]->GetBody();
 			if (_down[i]->GetBody().x < -_size.x)
 			{
-				_down[i]->SetBody(Rect::MakeCenterRect(body.x + (_size.x*4), body.y, body.width, body.height));
+				_down[i]->SetBody(Rect::MakeCenterRect(body.x + (_size.x*4), _size.y / 2 - randNum + 140, body.width, body.height));
 			}
 		}
 	}

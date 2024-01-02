@@ -38,7 +38,7 @@ void Player::SetPlayerInfo(CenterRect body)
 {
 	_body = body;
 	_gravity = -9.8;
-
+	_score = 0;
 
 	Texture* upTexture = GET_SINGLE(ResourceManager)->LoadTexture("T_playerUp", "image/bird/bird_Up_0.bmp", RGB(255, 0, 255));
 	Sprite* upSprite = GET_SINGLE(ResourceManager)->CreateSprite("S_playerUp", upTexture);
@@ -53,13 +53,30 @@ void Player::SetPlayerInfo(CenterRect body)
 	_moveSprite[int(ePlayerDirection::NORMAL)]=normalSprite;
 
 	SetSprite(_moveSprite[int(ePlayerDirection::NORMAL)]);
+
+	{
+		_collider = new BoxCollider();
+		_collider->SetCollision(Rect::MakeCenterRect(0, 0, 50, 50));
+		_collider->SetCollisionLayer(CollisionLayerType::CLT_OBJECT);
+		_collider->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
+		_collider->AddCollisionFlagLayer(CollisionLayerType::CLT_WALL);
+		this->AddComponent(_collider);
+	}
+	{
+		_scoreBox = new BoxCollider();
+		_scoreBox->SetCollision(Rect::MakeCenterRect(0, -WIN_SIZE_HEIGHT/2, 2, WIN_SIZE_HEIGHT));
+		_scoreBox->SetCollisionLayer(CollisionLayerType::CLT_OBJECT);
+		_scoreBox->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
+		_scoreBox->AddCollisionFlagLayer(CollisionLayerType::CLT_WALL);
+		this->AddComponent(_scoreBox);
+	}
 }
 
 void Player::UpdateInput()
 {
 	if (GET_SINGLE(KeyManager)->GetKeyDown(VK_SPACE))
 	{
-		_velocity = _velocity + Vector2{ 0,-100 };
+		_velocity = _velocity + Vector2{ 0,-250 };
 	}
 }
 
@@ -83,7 +100,7 @@ void Player::UpdateJumpFall()
 
 void Player::UpdateGravity()
 {
-	_velocity.y -= _gravity*0.3;
+	_velocity.y -= _gravity*0.35;
 }
 
 
@@ -91,7 +108,14 @@ void Player::OnComponentBeginOverlap(class Collider* collider, class Collider* o
 {
 	if (other->GetCollisionLayer()==CollisionLayerType::CLT_WALL)
 	{
-		Alert("GAME END", "GAME END");
+		if (collider==_scoreBox)
+		{
+			_score++;
+		}
+		if (collider==_collider)
+		{
+			Alert(("SCORE : " + to_string(_score)).c_str(), "GAME END");
+		}
 	}
 }
 void Player::OnComponentEndOverlap(class Collider* collider, class Collider* other)

@@ -22,6 +22,9 @@ public:
 private:
 	float _gravity;
 	Vector2 _velocity;
+	class BoxCollider* _scoreBox;
+	class BoxCollider* _collider;
+	int _score;
 	Sprite* _moveSprite[3];
 public:
 	virtual void Init() override;
@@ -35,7 +38,7 @@ public:
 	void UpdateInput();
 	void UpdateJumpFall();
 	void UpdateGravity();
-
+	int GetScore() { return _score; }
 public:
 	virtual void OnComponentBeginOverlap(class Collider* collider, class Collider* other) override;
 	virtual void OnComponentEndOverlap(class Collider* collider, class Collider* other) override;
