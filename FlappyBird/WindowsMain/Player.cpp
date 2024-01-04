@@ -3,6 +3,7 @@
 #include "Bullet.h"
 #include "Scene.h"
 #include "BoxCollider.h"
+#include "CircleCollider.h"
 #include "Texture.h"
 #include "Flipbook.h"
 void Player::Init()
@@ -84,8 +85,8 @@ void Player::SetPlayerInfo(CenterRect body,double gravity, float jump)
 	SetFlipbook(_moveFlipbook[int(ePlayerDirection::NORMAL)]);
 
 	{
-		_collider = new BoxCollider();
-		_collider->SetCollision(Rect::MakeCenterRect(0, 0, 50, 50));
+		_collider = new CircleCollider();
+		_collider->SetCollision(Circle::MakeCenterCircle(0, 0, 15));
 		_collider->SetCollisionLayer(CollisionLayerType::CLT_OBJECT);
 		_collider->AddCollisionFlagLayer(CollisionLayerType::CLT_OBJECT);
 		_collider->AddCollisionFlagLayer(CollisionLayerType::CLT_WALL);

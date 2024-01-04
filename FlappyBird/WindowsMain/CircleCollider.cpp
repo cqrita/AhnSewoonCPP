@@ -27,7 +27,7 @@ void CircleCollider::Render(HDC hdc)
 	worldRect.x -= static_cast<float>(CameraPos.x);
 	worldRect.y -= static_cast<float>(CameraPos.y);
 
-	Draw::Circle(hdc, worldRect);
+	//Draw::Circle(hdc, worldRect);
 	SelectBrush(hdc, oldBrush);
 	DeleteBrush(emptyBrush);
 }

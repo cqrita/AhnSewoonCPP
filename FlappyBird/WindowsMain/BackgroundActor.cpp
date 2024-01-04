@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "Texture.h"
 #include "Scene.h"
+#include "PipeActor.h"
 void BackgroundActor::Init()
 {
 	Super::Init();
@@ -14,83 +15,88 @@ void BackgroundActor::Init()
 	Texture* bottomTexture = GET_SINGLE(ResourceManager)->LoadTexture("T_bottom", "image/bottom.bmp", RGB(255, 0, 255));
 	Sprite* bottomSprite = GET_SINGLE(ResourceManager)->CreateSprite("S_bottom", bottomTexture);
 
-
 	for (int i = 0; i < 8; i++)
 	{
-		_background[i] = new SpriteActor();
-		_background[i]->SetLayer(LayerType::Background);
-		_background[i]->SetSprite(backgroundSprite);
-		_background[i]->SetBody(Rect::MakeCenterRect(-_size.x / 4 + (_size.x / 4) * i, 0, _size.x / 2, _size.y));
-		_background[i]->Init();
+		BackgroundLayer* backgroundLayer = new BackgroundLayer();
+		backgroundLayer->Sky = new SpriteActor();;
+		backgroundLayer->Sky->SetLayer(LayerType::Background);
+		backgroundLayer->Sky->SetSprite(backgroundSprite);
+		backgroundLayer->Sky->SetBody(Rect::MakeCenterRect(-_size.x / 4 + (_size.x / 4) * i, 0, _size.x / 2, _size.y));
+		backgroundLayer->Sky->Init();
 
-		_bottom[i] = new Wall();
-		_bottom[i]->SetLayer(LayerType::Background);
-		_bottom[i]->SetSprite(bottomSprite);
-		_bottom[i]->SetBody(Rect::MakeCenterRect(-_size.x / 4 + (_size.x / 4) * i, _size.y / 2, _size.x / 2, _size.y / 2));
-		_bottom[i]->SetWallInfo();
-		_bottom[i]->Init();
+		backgroundLayer->Ground = new Wall();
+		backgroundLayer->Ground->SetLayer(LayerType::Background);
+		backgroundLayer->Ground->SetSprite(bottomSprite);
+		backgroundLayer->Ground->SetBody(Rect::MakeCenterRect(-_size.x / 4 + (_size.x / 4) * i, _size.y / 2, _size.x / 2, _size.y / 2));
+		backgroundLayer->Ground->SetWallInfo();
+		backgroundLayer->Ground->Init();
+		_backgroundLayer.push_back(backgroundLayer);
 	}
+	_pipe = new PipeActor();
+	_pipe->SetSpeed(300);
+	_pipe->SetSize(Vector2(1200, WIN_SIZE_HEIGHT));
+	_pipe->SetWidth(140);
+	_pipe->Init();
 }
 
 void BackgroundActor::Render(HDC hdc)
 {
 	Super::Render(hdc);
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < _backgroundLayer.size(); i++)
 	{
-		_background[i]->Render(hdc);
-		_bottom[i]->Render(hdc);
+		_backgroundLayer[i]->Sky->Render(hdc);
+	}
+	_pipe->Render(hdc);
+	for (int i = 0; i < _backgroundLayer.size(); i++)
+	{
+		_backgroundLayer[i]->Ground->Render(hdc);
 	}
 }
 
 void BackgroundActor::Update()
 {
 	Super::Update();
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < _backgroundLayer.size(); i++)
 	{
-		_background[i]->Update();
-		_bottom[i]->Update();
+		_backgroundLayer[i]->Sky->Update();
+		_backgroundLayer[i]->Ground->Update();
 	}
 
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < _backgroundLayer.size(); i++)
 	{
-		CenterRect body = _background[i]->GetBody();
-		_background[i]->SetBody(Rect::MakeCenterRect(body.x - _speed * DeltaTime, body.y, body.width, body.height));
+		CenterRect skyBody = _backgroundLayer[i]->Sky->GetBody();
+		_backgroundLayer[i]->Sky->SetBody(Rect::MakeCenterRect(skyBody.x - _speed * DeltaTime, skyBody.y, skyBody.width, skyBody.height));
+		CenterRect GroundBody = _backgroundLayer[i]->Ground->GetBody();
+		_backgroundLayer[i]->Ground->SetBody(Rect::MakeCenterRect(GroundBody.x - _speed * DeltaTime, GroundBody.y, GroundBody.width, GroundBody.height));
 	}
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < _backgroundLayer.size(); i++)
 	{
-		CenterRect body = _background[i]->GetBody();
-		if (_background[i]->GetBody().x < -_size.x)
+		CenterRect skyBody = _backgroundLayer[i]->Sky->GetBody();
+		CenterRect GroundBody = _backgroundLayer[i]->Ground->GetBody();
+
+		if (_backgroundLayer[i]->Sky->GetBody().x < -_size.x)
 		{
-			_background[i]->SetBody(Rect::MakeCenterRect(body.x + (_size.x * 2) - 0.5, body.y, body.width, body.height));
+			_backgroundLayer[i]->Sky->SetBody(Rect::MakeCenterRect(skyBody.x + (_size.x * 2) - 0.5, skyBody.y, skyBody.width, skyBody.height));
+			_backgroundLayer[i]->Ground->SetBody(Rect::MakeCenterRect(GroundBody.x + (_size.x * 2) - 0.5, GroundBody.y, GroundBody.width, GroundBody.height));
 		}
 	}
-
-	for (int i = 0; i < 8; i++)
-	{
-		CenterRect body = _bottom[i]->GetBody();
-		_bottom[i]->SetBody(Rect::MakeCenterRect(body.x - _speed * DeltaTime, body.y, body.width, body.height));
-	}
-	for (int i = 0; i < 8; i++)
-	{
-		CenterRect body = _bottom[i]->GetBody();
-		if (_bottom[i]->GetBody().x < -_size.x)
-		{
-			_bottom[i]->SetBody(Rect::MakeCenterRect(body.x + (_size.x * 2) - 0.5, body.y, body.width, body.height));
-		}
-
-	}
-
+	_pipe->Update();
 }
 
 void BackgroundActor::Release()
 {
 	Super::Release();
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < _backgroundLayer.size(); i++)
 	{
-		_background[i]->Release();
-		_bottom[i]->Release();
+		_backgroundLayer[i]->Sky->Release();
+		_backgroundLayer[i]->Ground->Release();
+		delete _backgroundLayer[i]->Sky;
+		delete _backgroundLayer[i]->Ground;
+		delete _backgroundLayer[i];
 	}
+	_pipe->Release();
+	delete _pipe;
 }
 
 void BackgroundActor::SetSpeed(int speed)

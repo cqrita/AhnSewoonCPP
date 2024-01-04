@@ -7,7 +7,6 @@ public:
 public:
 	class BackgroundActor* _background = nullptr;
 	class Player* _player = nullptr;
-	class PipeActor* _pipe = nullptr;
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;

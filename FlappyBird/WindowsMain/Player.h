@@ -24,9 +24,9 @@ private:
 	float _jump;
 	Vector2 _velocity;
 	class BoxCollider* _scoreBox;
-	class BoxCollider* _collider;
+	class CircleCollider* _collider;
 	int _score;
-	Flipbook* _moveFlipbook[3];
+	class Flipbook* _moveFlipbook[3];
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;

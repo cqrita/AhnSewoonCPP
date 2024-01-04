@@ -16,12 +16,7 @@ void Dev2Scene::Init()
 	_player->SetPlayerInfo(Rect::MakeCenterRect(-WIN_SIZE_WIDTH/4-100, 0, 50, 50),-9.8,250);
 	GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_player);
 
-	_pipe = new PipeActor();
-	_pipe->SetSpeed(300);
-	_pipe->SetSize(Vector2(1200, WIN_SIZE_HEIGHT));
-	_pipe->SetWidth(140); 
-	GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(_pipe);
-
+ 
 }
 void Dev2Scene::Render(HDC hdc)
 {

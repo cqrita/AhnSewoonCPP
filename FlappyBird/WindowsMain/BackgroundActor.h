@@ -1,5 +1,10 @@
 #pragma once
 #include "Actor.h"
+struct BackgroundLayer
+{
+	class SpriteActor* Sky;
+	class Wall* Ground;
+};
 class BackgroundActor :public Actor
 {
 public:
@@ -10,9 +15,9 @@ public:
 private:
 	class SpriteActor* _background[8];
 	class Wall* _bottom[8];
-	class Wall* _up[16];
-	class Wall* _down[16];
+	class PipeActor* _pipe = nullptr;
 
+	vector<BackgroundLayer*> _backgroundLayer;
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;
